@@ -6,6 +6,9 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Splash screen for the MDISCIS program.
  * @author Dave Lee.
@@ -18,6 +21,8 @@ public class SplashScreen extends JFrame {
 	private static final long serialVersionUID = 1199055213432005930L;
 	
 	private static final String FONT_NAME = "Arial";
+	
+	private static final Logger LOG = LoggerFactory.getLogger(SplashScreen.class);
 	
     private JLabel thePresentsLabel;
     private JLabel theTitleLabel;
@@ -118,12 +123,14 @@ public class SplashScreen extends JFrame {
         Dimension screenDim = tools.getScreenSize();
         Dimension displayDim = getPreferredSize();
         this.setLocation ( (int) (screenDim.width/2)-(displayDim.width/2), (int) (screenDim.height/2)-(displayDim.height/2));
-        
-        //Display the front screen to the user.
+
+    }
+    
+    public void displayScreen() {
+    	//Display the front screen to the user.
         this.pack ();
         this.setVisible (true);
         this.setSize ( getPreferredSize() );
-        
     }
     
     public MouseListener createMouseListener() {
@@ -132,16 +139,16 @@ public class SplashScreen extends JFrame {
                 dispose();
             }
             public void mousePressed(MouseEvent e) {
-            	throw new UnsupportedOperationException();
+            	LOG.info("Mouse entered - no action");
             }
             public void mouseReleased(MouseEvent e) {
-            	throw new UnsupportedOperationException();
+            	LOG.info("Mouse entered - no action");
             }
             public void mouseEntered(MouseEvent e) {
-            	throw new UnsupportedOperationException();
+            	LOG.info("Mouse entered - no action");
             }
             public void mouseExited(MouseEvent e) {
-            	throw new UnsupportedOperationException();
+            	LOG.info("Mouse entered - no action");
             }
         };
     }

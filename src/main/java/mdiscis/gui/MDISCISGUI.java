@@ -281,7 +281,8 @@ public class MDISCISGUI extends JFrame {
         menuItem = new JMenuItem("Contents");
         menuItem.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new HelpScreen();
+                HelpScreen screen = new HelpScreen();
+                screen.displayScreen();
             }
         });
         helpMenu.add(menuItem);
@@ -289,7 +290,8 @@ public class MDISCISGUI extends JFrame {
         menuItem = new JMenuItem("About");
         menuItem.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new SplashScreen(true);
+                SplashScreen screen = new SplashScreen(true);
+                screen.displayScreen();
             }
         });
         helpMenu.add(menuItem);
@@ -534,6 +536,7 @@ public class MDISCISGUI extends JFrame {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
             //Show splash screen.
             SplashScreen ss = new SplashScreen(false);
+            ss.displayScreen();
             Thread.sleep(1500);
             ss.dispose();
         } catch ( Exception e ) {

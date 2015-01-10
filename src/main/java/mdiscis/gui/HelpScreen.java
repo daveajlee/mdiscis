@@ -184,15 +184,17 @@ public class HelpScreen extends JFrame {
          //Add the panel to the container.
         c.add ( dialogPanel );
         
-        //Display the dialog box to the user.
-        this.setVisible (true);
-        this.setSize ( new Dimension(700,450) );
-        
         // Set the window's bounds, centering the window
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (screen.width - this.getWidth()) / 2;
         int y = (screen.height - this.getHeight()) / 2;
         setBounds(x, y, this.getWidth(), this.getHeight());
+    }
+    
+    public void displayScreen ( ) {
+    	//Display the dialog box to the user.
+        this.setVisible (true);
+        this.setSize ( new Dimension(700,450) );
     }
     
     public void initialiseContent ( ) {
