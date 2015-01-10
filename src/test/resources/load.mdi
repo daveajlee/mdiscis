@@ -1,0 +1,6 @@
+<discstore>
+	<disc number="1">
+		<track id="1" subject="Subject" speaker="Speaker" talkTitle="Title" recorded="false" date="10/01/2015"/>
+		<track id="2" subject="Subject" speaker="Speaker" talkTitle="Title" recorded="false" date="10/01/2015"/>
+	</disc>
+</discstore>

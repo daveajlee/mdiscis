@@ -329,7 +329,7 @@ public class MDISCISGUI extends JFrame {
                 //Create an edit button.
                 theEditTrackButtons[i] = new JButton("Edit");
                 theEditTrackButtons[i].addActionListener( new ActionListener() {
-                    private String theTrackNumber = theDiscStore.getTrackNumber((Integer) theDiscBox.getSelectedItem(), theTrackNum);
+                    private int theTrackNumber = theDiscStore.getTrackNumber((Integer) theDiscBox.getSelectedItem(), theTrackNum);
                     public void actionPerformed ( ActionEvent e ) {
                         editTrack((Integer) theDiscBox.getSelectedItem(), theTrackNumber);
                     }
@@ -339,7 +339,7 @@ public class MDISCISGUI extends JFrame {
                 //Create a delete button.
                 theDeleteTrackButtons[i] = new JButton("Delete");
                 theDeleteTrackButtons[i].addActionListener( new ActionListener() {
-                    private String theTrackNumber = theDiscStore.getTrackNumber((Integer) theDiscBox.getSelectedItem(), theTrackNum);
+                    private int theTrackNumber = theDiscStore.getTrackNumber((Integer) theDiscBox.getSelectedItem(), theTrackNum);
                     public void actionPerformed ( ActionEvent e ) {
                         performDeleteTrack(theTrackNumber);
                     }
@@ -353,7 +353,7 @@ public class MDISCISGUI extends JFrame {
         return contentsPanel;
     }
     
-    public void performDeleteTrack ( final String trackNumber ) {
+    public void performDeleteTrack ( final int trackNumber ) {
     	int confirm = JOptionPane.showConfirmDialog(MDISCISGUI.this, "Are you sure that you wish to delete track " + trackNumber + " from disc " + (Integer) theDiscBox.getSelectedItem() + "?", "Please confirm delete operation!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if ( confirm == JOptionPane.YES_OPTION ) {
             if ( theDiscStore.removeTrack((Integer) theDiscBox.getSelectedItem(), trackNumber) ) {
@@ -439,9 +439,9 @@ public class MDISCISGUI extends JFrame {
     /**
      * Private method to edit track.
      * @param discNumber a <code>int</code> with the disc number.
-     * @param trackNumber a <code>String</code> with the track number.
+     * @param trackNumber a <code>int</code> with the track number.
      */
-    private void editTrack(int discNumber, String trackNumber) {
+    private void editTrack(int discNumber, int trackNumber) {
         //Get the track to be edited.
         Track myTrack = theDiscStore.getDisc(discNumber).getTrackByNumber(trackNumber);
         //Check that it is not null.

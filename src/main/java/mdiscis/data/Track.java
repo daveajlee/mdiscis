@@ -1,35 +1,25 @@
 package mdiscis.data;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * This class represents a track in the MDISCIS program.
  * @author Dave Lee
  */
 public class Track {
 	
-    private String trackId;
+    private int trackId;
     private Talk talk;
     
-    private static final Logger LOG = LoggerFactory.getLogger(Track.class);
-	
     /**
-     * Create a new track.
-     * @param trackId a <code>String</code> with the track ID.
-     * @param talk a <code>Talk</code> object with the talk details.
+     * Default constructor.
      */
-    public Track (final String trackId, final Talk talk){
-        this.trackId = trackId;
-        LOG.info("Track " + this.trackId + " has been recorded? " + talk.isRecorded());
-        this.talk = talk;
+    public Track() { 	
     }
 
     /**
      * Get the track id.
-     * @return a <code>String</code> with the track id.
+     * @return an <code>int</code> with the track id.
      */
-    public String getTrackId(){
+    public int getTrackId(){
         return trackId;
     }
 
@@ -48,8 +38,24 @@ public class Track {
     public String getTrackInfo ( ) {
         return trackId + ": " + talk.getTalkInformation();
     }
+    
+    /**
+     * Set the track id.
+     * @param trackId a <code>int</code> with the track id.
+     */
+    public void setTrackId(int trackId) {
+		this.trackId = trackId;
+	}
 
     /**
+     * Set the talk.
+     * @param talk a <code>Talk</code> with the talk information.
+     */
+	public void setTalk(Talk talk) {
+		this.talk = talk;
+	}
+
+	/**
      * Return a string representation of this track including the associated talk.
      * @return a <code>String</code> with the string representation of this track.
      */

@@ -21,25 +21,28 @@ public class Disc {
      * @param discNumber a <code>int</code> with the disc number.
      */
     public Disc ( int discNumber ) {
-	theTracks = new LinkedList<Track>();
+    	theTracks = new LinkedList<Track>();
         theDiscNumber = discNumber;
     }
 
     /**
      * Add a track to this disc.
-     * @param trackId a <code>String</code> with track id.
+     * @param trackId a <code>int</code> with track id.
      * @param talk a <code>Talk</code> object with the talk details.
      */
-    public boolean addTrack (String trackId, Talk talk) {
-	//Check for duplicate tracks.
+    public boolean addTrack (int trackId, Talk talk) {
+    	//Check for duplicate tracks.
         for ( int i = 0; i < theTracks.size(); i++ ) {
-            if ( theTracks.get(i).getTrackId().equalsIgnoreCase(trackId) ) {
+            if ( theTracks.get(i).getTrackId() == trackId ) {
                 LOG.info("Duplicate number!!!");
                 return false;
             }
         }
         //If not, add!!!!
-        if ( theTracks.add(new Track(trackId, talk)) ) {
+        Track track = new Track();
+        track.setTrackId(trackId);
+        track.setTalk(talk);
+        if ( theTracks.add(track) ) {
             Collections.sort(theTracks, new SortedTracks());
             return true;
         }
@@ -57,8 +60,7 @@ public class Disc {
         int diff = endTrack - startTrack + 1;
         int intTrack = startTrack;
         for ( int i = 0; i < diff; i++ ) {
-            String track = this.formatTrackNo(intTrack);
-            if ( !addTrack(track,talk) ) {
+            if ( !addTrack(intTrack,talk) ) {
                 return false;
             }
             intTrack++;
@@ -72,11 +74,11 @@ public class Disc {
      */
     public String[] getAllTracks () {
         String[] allTracks = new String[theTracks.size()];
-	for ( int i = 0; i < theTracks.size(); i++ ) {
+        for ( int i = 0; i < theTracks.size(); i++ ) {
             allTracks[i] = theTracks.get(i).toString();
-	} 
-	java.util.Arrays.sort(allTracks);
-	return allTracks;	
+        } 
+        java.util.Arrays.sort(allTracks);
+        return allTracks;	
     }
 
     /**
@@ -92,7 +94,7 @@ public class Disc {
      * Clear the discs.
      */
     public void clearDisc() {
-	theTracks = new LinkedList<Track>();
+    	theTracks = new LinkedList<Track>();
     }
 
     /**
@@ -100,7 +102,7 @@ public class Disc {
      * @return a <code>int</code> with the number of tracks.
      */
     public int getNumTracks() {
-	return theTracks.size();
+    	return theTracks.size();
     }
 
     /**
@@ -121,29 +123,13 @@ public class Disc {
     }
 
     /**
-     * Format track number as a String i.e. with leading 0 if appropriate.
-     * @param num a <code>int</code> with the track number.
-     * @return a <code>String</code> with the formatted track number.
-     */
-    private String formatTrackNo(int num) {
-        String track = "";
-        if ( num > 0 && num < 10 ) {
-            track = "" + num;
-            track = "0" + track;
-        } else {
-            track = "" + num;
-        }
-        return track;
-    }
-
-    /**
      * Get the track object which has the same id as the supplied id.
-     * @param trackId a <code>String</code> with the track id.
+     * @param trackId a <code>int</code> with the track id.
      * @return a <code>Track</code> object representing the track with this id.
      */
-    public Track getTrackByNumber ( String trackId ) {
+    public Track getTrackByNumber ( int trackId ) {
         for ( int i = 0; i < theTracks.size(); i++ ) {
-            if ( theTracks.get(i).getTrackId().equalsIgnoreCase(trackId) ) {
+            if ( theTracks.get(i).getTrackId() == trackId ) {
                 return theTracks.get(i);
             }
         }
@@ -152,13 +138,12 @@ public class Disc {
 
     /**
      * Remove the track with the specified track number.
-     * @param trackNumber a <code>String</code> with the trackId.
+     * @param trackNumber a <code>int</code> with the trackId.
      * @return a <code>boolean</code> which is true iff the track was deleted successfully.
      */
-    public boolean removeTrack ( String trackNumber ) {
-        String trackNo = formatTrackNo(Integer.parseInt(trackNumber));
+    public boolean removeTrack ( int trackNumber ) {
         for ( int i = 0; i < theTracks.size(); i++ ) {
-            if ( theTracks.get(i).getTrackId().equalsIgnoreCase(trackNo) ) {
+            if ( theTracks.get(i).getTrackId() == trackNumber ) {
                 theTracks.remove(theTracks.get(i));
                 return true;
             }

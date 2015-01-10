@@ -1,5 +1,6 @@
 package mdiscis.data;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import javax.xml.parsers.*;
@@ -145,17 +146,17 @@ public class DiscStore {
      * @param pos a <code>int</code> with the position.
      * @return a <code>int</code> with the track number.
      */
-    public String getTrackNumber ( int discNumber, int pos ) {
+    public int getTrackNumber ( int discNumber, int pos ) {
         return getDisc(discNumber).getTrack(pos).getTrackId();
     }
 
     /**
      * Remove the track with the specified track number.
      * @param discNumber a <code>int</code> with the disc number.
-     * @param trackNumber a <code>String</code> with the track number.
+     * @param trackNumber a <code>int</code> with the track number.
      * @return a <code>boolean</code> which is true iff the track has been deleted successfully.
      */
-    public boolean removeTrack ( int discNumber, String trackNumber ) {
+    public boolean removeTrack ( int discNumber, int trackNumber ) {
         return getDisc(discNumber).removeTrack(trackNumber);
     }
 
@@ -249,7 +250,7 @@ public class DiscStore {
                 //Create element for this track.
                 Element track = doc.createElement("track");
                 //Now set attributes for this track.
-                track.setAttribute("id", myTrack.getTrackId());
+                track.setAttribute("id", "" + myTrack.getTrackId());
                 track.setAttribute("subject", myTrack.getTalk().getSubject());
                 track.setAttribute("speaker", myTrack.getTalk().getSpeaker());
                 track.setAttribute("talkTitle", myTrack.getTalk().getTitle());
@@ -289,11 +290,16 @@ public class DiscStore {
                     Element trackElement = (Element) trackNodes.item(j);
                     //Create calendar element.
                     String[] shortDate = trackElement.getAttribute("date").split("/");
-                    Calendar cal = new GregorianCalendar(Integer.parseInt(shortDate[2]), Integer.parseInt(shortDate[1])-1, Integer.parseInt(shortDate[0]));
+                    LocalDate date = LocalDate.of(Integer.parseInt(shortDate[2]), Integer.parseInt(shortDate[1]), Integer.parseInt(shortDate[0]));
                     //Then call add track method.
                     boolean wasRecorded = "true".equalsIgnoreCase(trackElement.getAttribute("recorded"));
-                    Talk talk = new Talk(trackElement.getAttribute("subject"), trackElement.getAttribute("speaker"), trackElement.getAttribute("talkTitle"), cal, wasRecorded);
-                    myDisc.addTrack(trackElement.getAttribute("id"), talk);
+                    Talk talk = new Talk();
+                    talk.setSubject(trackElement.getAttribute("subject"));
+                    talk.setSpeaker(trackElement.getAttribute("speaker"));
+                    talk.setTitle(trackElement.getAttribute("talkTitle"));
+                    talk.setDate(date);
+                    talk.setRecorded(wasRecorded);
+                    myDisc.addTrack(Integer.parseInt(trackElement.getAttribute("id")), talk);
                 }
                 //Add disc to list.
                 theDiscs.add(myDisc);

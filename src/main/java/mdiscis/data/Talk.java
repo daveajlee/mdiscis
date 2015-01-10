@@ -1,6 +1,7 @@
 package mdiscis.data;
 
-import java.util.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * This class represents a talk in the MDISCIS program.
@@ -11,34 +12,13 @@ public class Talk {
     private String subject;
     private String speaker;
     private String title;
-    private Calendar date;
+    private LocalDate date;
     private boolean recorded;
 	
     /**
-     * Default constructor - create a blank talk.
+     * Constructor - create a blank talk.
      */ 
     public Talk() {
-    	subject = "";
-    	speaker = "";
-    	title = "";
-    	date = null;
-    	recorded = false;
-    }
-
-    /**
-     * Construct a new Talk object.
-     * @param subject a <code>String</code> with the subject name.
-     * @param speaker a <code>String</code> with the speaker.
-     * @param title a <code>String</code> with the title.
-     * @param date a <code>Calendar</code> with the date.
-     * @param recorded a <code>boolean</code> which is true iff the track has been recorded to PC.
-     */
-    public Talk(final String subject, final String speaker, final String title, final Calendar date, final boolean recorded) {
-    	this.subject = subject;
-    	this.speaker = speaker;
-    	this.title = title;
-    	this.date = date;
-    	this.recorded = recorded;
     }
 
     /**
@@ -67,9 +47,9 @@ public class Talk {
 
     /**
      * Get the date.
-     * @return a <code>Calendar</code> object with the date.
+     * @return a <code>LocalDate</code> object with the date.
      */
-    public Calendar getDate ( ) {
+    public LocalDate getDate ( ) {
         return date;
     }
 
@@ -88,8 +68,40 @@ public class Talk {
     public void setRecorded(final boolean recorded){
         this.recorded = recorded;
     }
+    
+    /**
+     * Set subject to a new subject value.
+     * @param subject a <code>String</code> with the new subject.
+     */
+    public void setSubject(final String subject) {
+		this.subject = subject;
+	}
 
     /**
+     * Set speaker to a new speaker value.
+     * @param speaker a <code>String</code> with the new speaker.
+     */
+	public void setSpeaker(String speaker) {
+		this.speaker = speaker;
+	}
+
+	/**
+     * Set title to a new title value.
+     * @param title a <code>String</code> with the new title.
+     */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	/**
+     * Set date to a new date value.
+     * @param date a <code>LocalDate</code> with the new date.
+     */
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	/**
      * Get talk information in the form date: talk title by speaker.
      * @return a <code>String</code> with the talk information.
      */
@@ -102,7 +114,7 @@ public class Talk {
      * @return a <code>String</code> with the date.
      */
     public String getShortDate ( ) {
-        return date.get(Calendar.DAY_OF_MONTH) + "/" + (date.get(Calendar.MONTH)+1) + "/" + date.get(Calendar.YEAR);
+        return date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear();
     }
 
     /**
@@ -110,7 +122,7 @@ public class Talk {
      * @return a <code>String</code> with a string representation of this talk.
      */
     public String toString() {
-        return subject + " " + speaker + " " + title + " " + date.toString() + " " + recorded;
+        return subject + " " + speaker + " " + title + " " + date.format(DateTimeFormatter.ISO_LOCAL_DATE) + " " + recorded;
     }
         
 }
