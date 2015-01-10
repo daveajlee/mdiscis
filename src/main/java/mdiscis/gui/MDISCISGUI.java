@@ -42,6 +42,10 @@ public class MDISCISGUI extends JFrame {
 
     //Change here number of tracks to display on screen.
     private static final int NUM_DISPLAY_TRACKS = 10;
+    
+    private static final String TRACK = "Track ";
+    private static final String DISC = "Disc ";
+    private static final String FONT_NAME = "Arial";
 
     //This is the page of tracks that we are showing.
     private int thePage = 1;
@@ -173,13 +177,13 @@ public class MDISCISGUI extends JFrame {
     	//Create disc control panel.
         JPanel discControlPanel = new JPanel(new GridBagLayout());
         theDiscLabel = new JLabel("Disc: ");
-        theDiscLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        theDiscLabel.setFont(new Font(FONT_NAME, Font.BOLD, 14));
         theDiscModel = new DefaultComboBoxModel<Integer>();
         for ( int i = 0; i < theDiscStore.getNumDiscs(); i++ ) {
             theDiscModel.addElement(theDiscStore.getDiscNumber(i));
         }
         theDiscBox = new JComboBox<Integer>(theDiscModel);
-        theDiscBox.setFont(new Font("Arial", Font.PLAIN, 14));
+        theDiscBox.setFont(new Font(FONT_NAME, Font.PLAIN, 14));
         theDiscBox.addItemListener( new ItemListener() {
             public void itemStateChanged ( ItemEvent e ) {
                 thePage = 1;
@@ -318,8 +322,8 @@ public class MDISCISGUI extends JFrame {
             theTrackNum = ((thePage-1)*NUM_DISPLAY_TRACKS) + i;
             if ( theDiscStore.getNumDiscs() > 0 && theTrackNum < theDiscStore.getDisc((Integer) theDiscBox.getSelectedItem()).getNumTracks() ) {
                 //Create a label which will hold the track info.
-                JLabel trackLabel = new JLabel("Track " + theDiscStore.getTrackInformation((Integer) theDiscBox.getSelectedItem(), theTrackNum));
-                trackLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+                JLabel trackLabel = new JLabel(TRACK + theDiscStore.getTrackInformation((Integer) theDiscBox.getSelectedItem(), theTrackNum));
+                trackLabel.setFont(new Font(FONT_NAME, Font.ITALIC, 12));
                 thisPanel.add(trackLabel);
                 thisPanel.add(Box.createRigidArea(new Dimension(20, 0)));
                 //Create an edit button.
@@ -337,15 +341,7 @@ public class MDISCISGUI extends JFrame {
                 theDeleteTrackButtons[i].addActionListener( new ActionListener() {
                     private String theTrackNumber = theDiscStore.getTrackNumber((Integer) theDiscBox.getSelectedItem(), theTrackNum);
                     public void actionPerformed ( ActionEvent e ) {
-                        int confirm = JOptionPane.showConfirmDialog(MDISCISGUI.this, "Are you sure that you wish to delete track " + theTrackNumber + " from disc " + (Integer) theDiscBox.getSelectedItem() + "?", "Please confirm delete operation!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                        if ( confirm == JOptionPane.YES_OPTION ) {
-                            if ( theDiscStore.removeTrack((Integer) theDiscBox.getSelectedItem(), theTrackNumber) ) {
-                                updateStatus("Track " + theTrackNumber + " was removed successfully! ");
-                                refreshDisplay();
-                            } else {
-                                updateStatus("Track " + theTrackNumber + " could not be removed!");
-                            }
-                        }
+                        performDeleteTrack(theTrackNumber);
                     }
                 });
                 thisPanel.add(theDeleteTrackButtons[i]);
@@ -355,6 +351,18 @@ public class MDISCISGUI extends JFrame {
         }
         //Return contents panel.
         return contentsPanel;
+    }
+    
+    public void performDeleteTrack ( final String trackNumber ) {
+    	int confirm = JOptionPane.showConfirmDialog(MDISCISGUI.this, "Are you sure that you wish to delete track " + trackNumber + " from disc " + (Integer) theDiscBox.getSelectedItem() + "?", "Please confirm delete operation!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if ( confirm == JOptionPane.YES_OPTION ) {
+            if ( theDiscStore.removeTrack((Integer) theDiscBox.getSelectedItem(), trackNumber) ) {
+                updateStatus(TRACK + trackNumber + " was removed successfully! ");
+                refreshDisplay();
+            } else {
+                updateStatus(TRACK + trackNumber + " could not be removed!");
+            }
+        }
     }
 
     /**
@@ -382,7 +390,7 @@ public class MDISCISGUI extends JFrame {
     private void addAnotherDisc() {
         int nextDiscNumber = theDiscStore.addDisc();
         theDiscModel.addElement(nextDiscNumber);
-        theStatusBar.setText("Disc " + nextDiscNumber + " has been successfully added!");
+        theStatusBar.setText(DISC + nextDiscNumber + " has been successfully added!");
         if ( theDiscStore.getNumDiscs() == 1 ) {
             theClearDiscButton.setEnabled(true);
             theDeleteDiscButton.setEnabled(true);
@@ -398,7 +406,7 @@ public class MDISCISGUI extends JFrame {
         int confirm = JOptionPane.showConfirmDialog(this, "Are you sure that you wish to delete the index of disc " + discNumber + "?", "Please confirm clear operation!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if ( confirm == JOptionPane.YES_OPTION ) {
             theDiscStore.clearDisc(discNumber);
-            theStatusBar.setText("Disc " + discNumber + " has been successfully cleared!");
+            theStatusBar.setText(DISC + discNumber + " has been successfully cleared!");
         }
     }
 
@@ -411,7 +419,7 @@ public class MDISCISGUI extends JFrame {
         if ( confirm == JOptionPane.YES_OPTION ) {
             theDiscStore.deleteDisc(discNumber);
             theDiscModel.removeElement(discNumber);
-            theStatusBar.setText("Disc " + discNumber + " has been successfully deleted!");
+            theStatusBar.setText(DISC + discNumber + " has been successfully deleted!");
         }
         if ( theDiscStore.getNumDiscs() == 0 ) {
             theClearDiscButton.setEnabled(false);

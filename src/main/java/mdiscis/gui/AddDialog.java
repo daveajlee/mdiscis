@@ -25,6 +25,8 @@ public class AddDialog extends JDialog {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(DiscStore.class);
 	
+	private static final String EDIT_TALK = "Edit Talk";
+	
 	private JComboBox<Integer> theDiscBox;
     private JSpinner theStartTrackSpinner;
     private JSpinner theEndTrackSpinner;
@@ -204,7 +206,7 @@ public class AddDialog extends JDialog {
             return;
         }
         //Before we add it - delete the old one if it is edit!
-        if ( "Edit Talk".equalsIgnoreCase(AddDialog.this.getTitle()) ) {
+        if ( EDIT_TALK.equalsIgnoreCase(AddDialog.this.getTitle()) ) {
             theDiscStore.removeTrack(Integer.parseInt(theDiscBox.getSelectedItem().toString()), theStartTrackSpinner.getValue().toString());
         }
         boolean added = false;
@@ -228,9 +230,9 @@ public class AddDialog extends JDialog {
     }
     
     public void updateStatus ( final boolean added ) {
-    	if ( "Edit Talk".equalsIgnoreCase(AddDialog.this.getTitle()) && added ) {
+    	if ( EDIT_TALK.equalsIgnoreCase(AddDialog.this.getTitle()) && added ) {
         	theGUI.updateStatus("Track " + theDiscBox.getSelectedItem().toString() + " of disc " + theStartTrackSpinner.getValue().toString() + " has been edited successfully!");
-        } else if ( "Edit Talk".equalsIgnoreCase(AddDialog.this.getTitle()) && !added ) {
+        } else if ( EDIT_TALK.equalsIgnoreCase(AddDialog.this.getTitle()) && !added ) {
         	theGUI.updateStatus("Track " + theDiscBox.getSelectedItem().toString() + " of disc " + theStartTrackSpinner.getValue().toString() + " could not be edited!");
         } else if ( added ) {
         	theGUI.updateStatus("Added successfully.\n");

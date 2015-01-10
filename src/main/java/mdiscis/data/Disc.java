@@ -71,7 +71,7 @@ public class Disc {
      * @return a <code>String</code> array with all tracks.
      */
     public String[] getAllTracks () {
-        String allTracks[] = new String[theTracks.size()];
+        String[] allTracks = new String[theTracks.size()];
 	for ( int i = 0; i < theTracks.size(); i++ ) {
             allTracks[i] = theTracks.get(i).toString();
 	} 

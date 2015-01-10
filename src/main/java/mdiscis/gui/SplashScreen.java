@@ -17,6 +17,8 @@ public class SplashScreen extends JFrame {
 	 */
 	private static final long serialVersionUID = 1199055213432005930L;
 	
+	private static final String FONT_NAME = "Arial";
+	
     private JLabel thePresentsLabel;
     private JLabel theTitleLabel;
     private JLabel theLoadingLabel;
@@ -62,7 +64,7 @@ public class SplashScreen extends JFrame {
         JPanel presentsPanel = new JPanel();
         presentsPanel.setBackground(Color.WHITE);
         thePresentsLabel = new JLabel("Presents");
-        thePresentsLabel.setFont(new Font("Arial", Font.ITALIC, 16));
+        thePresentsLabel.setFont(new Font(FONT_NAME, Font.ITALIC, 16));
         presentsPanel.add(thePresentsLabel);
         centrePanel.add(presentsPanel);
         
@@ -78,7 +80,7 @@ public class SplashScreen extends JFrame {
         JPanel titlePanel = new JPanel();
         titlePanel.setBackground(Color.WHITE);
         theTitleLabel = new JLabel("MDISCIS - Minidisc Indexing Software");
-        theTitleLabel.setFont(new Font("Arial", Font.BOLD, 25));
+        theTitleLabel.setFont(new Font(FONT_NAME, Font.BOLD, 25));
         titlePanel.add(theTitleLabel);
         centrePanel.add(titlePanel);
         
@@ -90,7 +92,7 @@ public class SplashScreen extends JFrame {
         } else { 
         	theLoadingLabel = new JLabel("Loading... Please Wait!"); 
         }
-        theLoadingLabel.setFont(new Font("Arial", Font.ITALIC, 15));
+        theLoadingLabel.setFont(new Font(FONT_NAME, Font.ITALIC, 15));
         loadingPanel.add(theLoadingLabel);
         centrePanel.add(loadingPanel);
         
@@ -98,7 +100,7 @@ public class SplashScreen extends JFrame {
         JPanel copyrightPanel = new JPanel();
         copyrightPanel.setBackground(Color.WHITE);
         theCopyrightLabel = new JLabel("Copyright 2003-2009 David A J Lee. All rights reserved.");
-        theCopyrightLabel.setFont(new Font("Arial", Font.PLAIN, 10));
+        theCopyrightLabel.setFont(new Font(FONT_NAME, Font.PLAIN, 10));
         copyrightPanel.add(theCopyrightLabel);
         centrePanel.add(copyrightPanel);
         

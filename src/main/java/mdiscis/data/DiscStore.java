@@ -74,7 +74,8 @@ public class DiscStore {
                 return theDiscs.get(i);
             }
         }
-        return null; //Null if not found.
+        //Null if not found.
+        return null; 
     }
 
     /**
@@ -164,8 +165,8 @@ public class DiscStore {
      * @return a <code>boolean</code> which is true iff the file was loaded successfully.
      */
     public boolean loadFile ( File file ) {
-        //Load XML document using XML classes.
-        Document document; //This is the important variable - the DOM!
+        //Load XML document using XML classes. This is the important variable - the DOM!
+        Document document; 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -290,10 +291,7 @@ public class DiscStore {
                     String[] shortDate = trackElement.getAttribute("date").split("/");
                     Calendar cal = new GregorianCalendar(Integer.parseInt(shortDate[2]), Integer.parseInt(shortDate[1])-1, Integer.parseInt(shortDate[0]));
                     //Then call add track method.
-                    boolean wasRecorded = false;
-                    if ( "true".equalsIgnoreCase(trackElement.getAttribute("recorded"))) {
-                        wasRecorded = true;
-                    }
+                    boolean wasRecorded = "true".equalsIgnoreCase(trackElement.getAttribute("recorded"));
                     Talk talk = new Talk(trackElement.getAttribute("subject"), trackElement.getAttribute("speaker"), trackElement.getAttribute("talkTitle"), cal, wasRecorded);
                     myDisc.addTrack(trackElement.getAttribute("id"), talk);
                 }
