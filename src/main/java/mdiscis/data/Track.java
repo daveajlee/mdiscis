@@ -1,7 +1,5 @@
 package mdiscis.data;
 
-import java.util.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,16 +17,12 @@ public class Track {
     /**
      * Create a new track.
      * @param trackId a <code>String</code> with the track ID.
-     * @param subject a <code>String</code> with the subject.
-     * @param speaker a <code>String</code> with the speaker.
-     * @param talkTitle a <code>String</code> with the talk title.
-     * @param date a <code>Calendar</code> with the date.
-     * @param recorded a <code>boolean</code> which is true iff the track has been recorded to PC.
+     * @param talk a <code>Talk</code> object with the talk details.
      */
-    public Track (final String trackId, final String subject, final String speaker, final String talkTitle, final Calendar date, final boolean recorded){
+    public Track (final String trackId, final Talk talk){
         this.trackId = trackId;
-        LOG.info("Track " + this.trackId + " has been recorded? " + recorded);
-        talk = new Talk(subject,speaker,talkTitle,date, recorded);
+        LOG.info("Track " + this.trackId + " has been recorded? " + talk.isRecorded());
+        this.talk = talk;
     }
 
     /**
@@ -40,51 +34,11 @@ public class Track {
     }
 
     /**
-     * Get the subject.
-     * @return a <code>String</code> with the subject name.
+     * Get the talk.
+     * @return a <code>Talk</code> object with the talk details.
      */
-    public String getSubject() {
-        return talk.getSubject();
-    }
-
-    /**
-     * Get the speaker.
-     * @return a <code>String</code> with the speaker.
-     */
-    public String getSpeaker ( ) {
-        return talk.getSpeaker();
-    }
-
-    /**
-     * Get the talk title.
-     * @return a <code>String</code> with the talk title.
-     */
-    public String getTalkTitle ( ) {
-        return talk.getTitle();
-    }
-
-    /**
-     * Get the date.
-     * @return a <code>Calendar</code> object with the date.
-     */
-    public Calendar getDate ( ) {
-        return talk.getDate();
-    }
-
-    /**
-     * Check whether this talk recorded on this track has been recorded.
-     * @return a <code>boolean</code> which is true iff the talk has been recorded.
-     */
-    public boolean hasBeenRecorded ( ) {
-        return talk.isRecorded();
-    }
-
-    /**
-     * Get the date in format: dd/mm/yyyy.
-     * @return a <code>String</code> with the date.
-     */
-    public String getShortDate ( ) {
-        return talk.getShortDate();
+    public Talk getTalk() {
+    	return talk;
     }
 
     /**

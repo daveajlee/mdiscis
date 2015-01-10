@@ -85,14 +85,10 @@ public class AddDialog extends JDialog {
      * @param discStore a <code>DiscStore</code> representing the current store.
      * @param discNumber a <code>int</code> with the disc number.
      * @param trackNumber a <code>String</code> with the track number.
-     * @param subject a <code>String</code> with the subject.
-     * @param speaker a <code>String</code> with the speaker.
-     * @param talkTitle a <code>String</code> with the talk title.
-     * @param date a <code>Calendar</code> with the date.
-     * @param isRecorded a <code>boolean</code> which is true iff the talk has been recorded.
+     * @param talk a <code>Talk</code> Object with the talk details.
      * @param gui a <code>MinidiscGUI</code> representing the parent window.
      */
-    public AddDialog(JFrame parent, String title, DiscStore discStore, int discNumber, String trackNumber, String subject, String speaker, String talkTitle, Calendar date, boolean isRecorded, MDISCISGUI gui){
+    public AddDialog(JFrame parent, String title, DiscStore discStore, int discNumber, String trackNumber, Talk talk, MDISCISGUI gui){
         super(parent,title,true);
 
         //Initialise variables.
@@ -106,20 +102,18 @@ public class AddDialog extends JDialog {
         theStartTrackSpinner = new JSpinner(new SpinnerNumberModel(trackInt,trackInt,trackInt,0));
         theEndTrackSpinner = new JSpinner(new SpinnerNumberModel(trackInt,trackInt,trackInt,0));
         theEndTrackSpinner.setVisible(false);
-        theSubjectField = new JTextField(subject, 30);
-        theSpeakerField = new JTextField(speaker, 30);
-        theTalkTitleField = new JTextField(talkTitle,30);
+        theSubjectField = new JTextField(talk.getSubject(), 30);
+        theSpeakerField = new JTextField(talk.getSpeaker(), 30);
+        theTalkTitleField = new JTextField(talk.getTitle(),30);
         //Initialise day, month and year to supplied date.
-        theDayDateSpinner = new JSpinner(new SpinnerNumberModel(date.get(Calendar.DAY_OF_MONTH),1,31,1));
-        theMonthDateSpinner = new JSpinner(new SpinnerNumberModel(date.get(Calendar.MONTH) + 1,1,12,1));
-        theYearDateSpinner = new JSpinner(new SpinnerNumberModel(date.get(Calendar.YEAR),2003,2023,1));
+        theDayDateSpinner = new JSpinner(new SpinnerNumberModel(talk.getDate().get(Calendar.DAY_OF_MONTH),1,31,1));
+        theMonthDateSpinner = new JSpinner(new SpinnerNumberModel(talk.getDate().get(Calendar.MONTH) + 1,1,12,1));
+        theYearDateSpinner = new JSpinner(new SpinnerNumberModel(talk.getDate().get(Calendar.YEAR),2003,2023,1));
         JSpinner.NumberEditor yearDisplayer = new JSpinner.NumberEditor(theYearDateSpinner,"0000");
         theYearDateSpinner.setEditor(yearDisplayer);
 
         theTalkRecordedOption = new JCheckBox();
-        if ( isRecorded ) {
-            theTalkRecordedOption.setSelected(true);
-        }
+        theTalkRecordedOption.setSelected(talk.isRecorded());
 
         //Create interface.
         createInterface();
@@ -177,47 +171,7 @@ public class AddDialog extends JDialog {
         this.getRootPane().setDefaultButton(okButton);
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent e) {
-                //Check if the end track is before the start track - if it is show error message and do nothing.
-                if ( Integer.parseInt(theEndTrackSpinner.getValue().toString()) < Integer.parseInt(theStartTrackSpinner.getValue().toString())) {
-                    JOptionPane.showMessageDialog(AddDialog.this, "End Track value was less than the Start Track value which is not possible. Please choose another End Track value!", "ERROR: End Track is before Start Track", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                //Before we add it - delete the old one if it is edit!
-                if ( "Edit Talk".equalsIgnoreCase(AddDialog.this.getTitle()) ) {
-                    theDiscStore.removeTrack(Integer.parseInt(theDiscBox.getSelectedItem().toString()), theStartTrackSpinner.getValue().toString());
-                }
-                boolean added = false;
-                try {
-                    int discNum = Integer.parseInt(theDiscBox.getSelectedItem().toString());
-                    int startTrack = Integer.parseInt(theStartTrackSpinner.getValue().toString());
-                    int endTrack = Integer.parseInt(theEndTrackSpinner.getValue().toString());
-                    String subject = theSubjectField.getText();
-                    String speaker = theSpeakerField.getText();
-                    String talkTitle = theTalkTitleField.getText();
-                    Calendar date = getDate(theDayDateSpinner.getValue().toString() + "/" + theMonthDateSpinner.getValue().toString() + "/" + theYearDateSpinner.getValue().toString());
-                    boolean recorded = false;
-                    if ( theTalkRecordedOption.isSelected() ) { 
-                    	recorded = true; 
-                    }
-                    added = theDiscStore.addTracks(discNum, startTrack, endTrack, subject, speaker, talkTitle, date, recorded);
-                } catch ( Exception ex ) { 
-                	LOG.error("Parsing error whilst adding tracks", ex);
-                }
-                if (added) {
-                    if ( "Edit Talk".equalsIgnoreCase(AddDialog.this.getTitle()) ) {
-                        theGUI.updateStatus("Track " + theDiscBox.getSelectedItem().toString() + " of disc " + theStartTrackSpinner.getValue().toString() + " has been edited successfully!");
-                    } else {
-                        theGUI.updateStatus("Added successfully.\n");
-                    }
-                    theGUI.refreshDisplay();
-                } else {
-                    if ( "Edit Talk".equalsIgnoreCase(AddDialog.this.getTitle()) ) {
-                        theGUI.updateStatus("Track " + theDiscBox.getSelectedItem().toString() + " of disc " + theStartTrackSpinner.getValue().toString() + " could not be edited!");
-                    } else {
-                        theGUI.updateStatus("Not added - Maybe a duplicate track id was used?\n");
-                    }
-                }
-                dispose();
+                processOkButton();
             }
         });
 
@@ -241,6 +195,48 @@ public class AddDialog extends JDialog {
         this.pack ();
         this.setVisible (true);
         this.setSize ( new Dimension(550,500) );
+    }
+    
+    public void processOkButton ( ) {
+    	//Check if the end track is before the start track - if it is show error message and do nothing.
+        if ( Integer.parseInt(theEndTrackSpinner.getValue().toString()) < Integer.parseInt(theStartTrackSpinner.getValue().toString())) {
+            JOptionPane.showMessageDialog(AddDialog.this, "End Track value was less than the Start Track value which is not possible. Please choose another End Track value!", "ERROR: End Track is before Start Track", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        //Before we add it - delete the old one if it is edit!
+        if ( "Edit Talk".equalsIgnoreCase(AddDialog.this.getTitle()) ) {
+            theDiscStore.removeTrack(Integer.parseInt(theDiscBox.getSelectedItem().toString()), theStartTrackSpinner.getValue().toString());
+        }
+        boolean added = false;
+        try {
+            int discNum = Integer.parseInt(theDiscBox.getSelectedItem().toString());
+            int startTrack = Integer.parseInt(theStartTrackSpinner.getValue().toString());
+            int endTrack = Integer.parseInt(theEndTrackSpinner.getValue().toString());
+            String subject = theSubjectField.getText();
+            String speaker = theSpeakerField.getText();
+            String talkTitle = theTalkTitleField.getText();
+            Calendar date = getDate(theDayDateSpinner.getValue().toString() + "/" + theMonthDateSpinner.getValue().toString() + "/" + theYearDateSpinner.getValue().toString());
+            boolean recorded = theTalkRecordedOption.isSelected();
+            Talk talk = new Talk(subject, speaker, talkTitle, date, recorded);
+            added = theDiscStore.addTracks(discNum, startTrack, endTrack, talk);
+        } catch ( Exception ex ) { 
+        	LOG.error("Parsing error whilst adding tracks", ex);
+        }
+        updateStatus(added);
+        theGUI.refreshDisplay();
+        dispose();
+    }
+    
+    public void updateStatus ( final boolean added ) {
+    	if ( "Edit Talk".equalsIgnoreCase(AddDialog.this.getTitle()) && added ) {
+        	theGUI.updateStatus("Track " + theDiscBox.getSelectedItem().toString() + " of disc " + theStartTrackSpinner.getValue().toString() + " has been edited successfully!");
+        } else if ( "Edit Talk".equalsIgnoreCase(AddDialog.this.getTitle()) && !added ) {
+        	theGUI.updateStatus("Track " + theDiscBox.getSelectedItem().toString() + " of disc " + theStartTrackSpinner.getValue().toString() + " could not be edited!");
+        } else if ( added ) {
+        	theGUI.updateStatus("Added successfully.\n");
+        } else {
+        	theGUI.updateStatus("Not added - Maybe a duplicate track id was used?\n");
+        }
     }
 
     /**

@@ -106,57 +106,9 @@ public class SplashScreen extends JFrame {
         
         //Mouse listeners if this is the about screen.
         if ( isAboutScreen ) {
-            this.getContentPane().addMouseListener ( new MouseListener () {
-                public void mouseClicked(MouseEvent e) {
-                    dispose();
-                }
-                public void mousePressed(MouseEvent e) {
-                	throw new UnsupportedOperationException();
-                }
-                public void mouseReleased(MouseEvent e) {
-                	throw new UnsupportedOperationException();
-                }
-                public void mouseEntered(MouseEvent e) {
-                	throw new UnsupportedOperationException();
-                }
-                public void mouseExited(MouseEvent e) {
-                	throw new UnsupportedOperationException();
-                }
-            });
-            websitePanel.addMouseListener ( new MouseListener () {
-                public void mouseClicked(MouseEvent e) {
-                    dispose();
-                }
-                public void mousePressed(MouseEvent e) {
-                	throw new UnsupportedOperationException();
-                }
-                public void mouseReleased(MouseEvent e) {
-                	throw new UnsupportedOperationException();
-                }
-                public void mouseEntered(MouseEvent e) {
-                	throw new UnsupportedOperationException();
-                }
-                public void mouseExited(MouseEvent e) {
-                	throw new UnsupportedOperationException();
-                }
-            });
-            logoPanel.addMouseListener ( new MouseListener () {
-                public void mouseClicked(MouseEvent e) {
-                    dispose();
-                }
-                public void mousePressed(MouseEvent e) {
-                	throw new UnsupportedOperationException();
-                }
-                public void mouseReleased(MouseEvent e) {
-                	throw new UnsupportedOperationException();
-                }
-                public void mouseEntered(MouseEvent e) {
-                	throw new UnsupportedOperationException();
-                }
-                public void mouseExited(MouseEvent e) {
-                	throw new UnsupportedOperationException();
-                }
-            });
+            this.getContentPane().addMouseListener (createMouseListener());
+            websitePanel.addMouseListener (createMouseListener());
+            logoPanel.addMouseListener (createMouseListener());
         }
         
         //Position the screen at the center of the screen.
@@ -170,6 +122,26 @@ public class SplashScreen extends JFrame {
         this.setVisible (true);
         this.setSize ( getPreferredSize() );
         
+    }
+    
+    public MouseListener createMouseListener() {
+    	return new MouseListener () {
+            public void mouseClicked(MouseEvent e) {
+                dispose();
+            }
+            public void mousePressed(MouseEvent e) {
+            	throw new UnsupportedOperationException();
+            }
+            public void mouseReleased(MouseEvent e) {
+            	throw new UnsupportedOperationException();
+            }
+            public void mouseEntered(MouseEvent e) {
+            	throw new UnsupportedOperationException();
+            }
+            public void mouseExited(MouseEvent e) {
+            	throw new UnsupportedOperationException();
+            }
+        };
     }
     
 }

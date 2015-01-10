@@ -70,7 +70,7 @@ public class MDISCISGUI extends JFrame {
      */
     private void createInterface ( ) {
         this.setTitle("MDISCIS - MiniDISC Indexing Software");
-	this.setResizable(false);
+        this.setResizable(false);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         //Call the Exit method in the UserInterface class if the user hits exit.
@@ -84,14 +84,93 @@ public class MDISCISGUI extends JFrame {
         Image img = Toolkit.getDefaultToolkit().getImage(SplashScreen.class.getResource("/mdiscislogo.png"));
         setIconImage(img);
 
-	Container c = getContentPane();
+        Container c = getContentPane();
         theDialogPanel = new JPanel(new BorderLayout());
 
         //Create centre panel.
         JPanel centrePanel = new JPanel(new BorderLayout());
         centrePanel.setBackground(Color.WHITE);
 
-        //Create disc control panel.
+        //Now add discControlPanel to centrePanel.
+        theDialogPanel.add(createDiscControlPanel(), BorderLayout.NORTH);
+
+        //Finally, drawContentsPanel and add to dialogPanel.
+        theContentsPanel = drawContentsPanel();
+        theDialogPanel.add(theContentsPanel, BorderLayout.CENTER);
+
+        //Create south panel.
+        JPanel southPanel = new JPanel(new BorderLayout());
+        //Now create previous and next tracks button and add tracks button - these should be greyed out as necessary.
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        //Create previous track button.
+        thePreviousTracksButton = new JButton("< Previous Track(s)");
+        thePreviousTracksButton.setEnabled(thePage != 1); 
+        thePreviousTracksButton.addActionListener( new ActionListener() {
+            public void actionPerformed ( ActionEvent e ) {
+                thePage -= 1;
+                theContentsPanel = drawContentsPanel();
+                theDialogPanel.remove(theDialogPanel.getComponent(1));
+                theDialogPanel.add(theContentsPanel, 1);
+                theDialogPanel.revalidate();
+                theDialogPanel.repaint();
+                thePreviousTracksButton.setEnabled(thePage != 1); 
+                theNextTracksButton.setEnabled(theDiscStore.getDisc((Integer) theDiscBox.getSelectedItem()).getNumTracks() > (thePage*NUM_DISPLAY_TRACKS ) ); 
+            }
+        });
+        buttonPanel.add(thePreviousTracksButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(5,0)));
+        //Create next track button.
+        theNextTracksButton = new JButton("Next Track(s) >");
+        theNextTracksButton.setEnabled(theDiscStore.getNumDiscs() > 0 && theDiscStore.getDisc((Integer) theDiscBox.getSelectedItem()).getNumTracks() > (thePage*NUM_DISPLAY_TRACKS ));
+        theNextTracksButton.addActionListener( new ActionListener() {
+            public void actionPerformed ( ActionEvent e ) {
+                thePage += 1;
+                theContentsPanel = drawContentsPanel();
+                theDialogPanel.remove(theDialogPanel.getComponent(1));
+                theDialogPanel.add(theContentsPanel, 1);
+                theDialogPanel.revalidate();
+                theDialogPanel.repaint();
+                thePreviousTracksButton.setEnabled(thePage != 1);  
+                theNextTracksButton.setEnabled(theDiscStore.getDisc((Integer) theDiscBox.getSelectedItem()).getNumTracks() > (thePage*NUM_DISPLAY_TRACKS )); 
+            }
+        });
+        buttonPanel.add(theNextTracksButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(20,0)));
+        //Create add track button.
+        theAddTracksButton = new JButton("Add Track(s)");
+        theAddTracksButton.setEnabled(theDiscStore.getNumDiscs() > 0);
+        theAddTracksButton.addActionListener( new ActionListener() {
+            public void actionPerformed ( ActionEvent e ) {
+                addTracks();
+            }
+        });
+        buttonPanel.add(theAddTracksButton);
+        //Add button panel to south panel.
+        southPanel.add(buttonPanel, BorderLayout.NORTH);
+        //Add statusBar to south panel.
+        theStatusBar = new JLabel("Ready");
+        southPanel.add(theStatusBar, BorderLayout.SOUTH);
+        theDialogPanel.add(southPanel,BorderLayout.SOUTH);
+
+        //Add dialog panel to c.
+        c.add(theDialogPanel, BorderLayout.CENTER);
+
+        initialiseMenu();
+
+        //Position the screen at the center of the screen.
+        Toolkit tools = Toolkit.getDefaultToolkit();
+        Dimension screenDim = tools.getScreenSize();
+        Dimension displayDim = new Dimension(750,600);
+        this.setLocation ( (int) (screenDim.width/2)-(displayDim.width/2), (int) (screenDim.height/2)-(displayDim.height/2));
+
+        //Display the front screen to the user.
+        this.pack ();
+        this.setVisible (true);
+        this.setSize ( new Dimension(750,600) );
+    }
+    
+    public JPanel createDiscControlPanel ( ) {
+    	//Create disc control panel.
         JPanel discControlPanel = new JPanel(new GridBagLayout());
         theDiscLabel = new JLabel("Disc: ");
         theDiscLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -109,11 +188,7 @@ public class MDISCISGUI extends JFrame {
                 theDialogPanel.add(theContentsPanel, 1);
                 theDialogPanel.revalidate();
                 theDialogPanel.repaint();
-                if ( theDiscStore.getNumDiscs() == 0 || theDiscStore.getDisc((Integer) theDiscBox.getSelectedItem()).getNumTracks() <= (thePage*NUM_DISPLAY_TRACKS ) ) { 
-                	theNextTracksButton.setEnabled(false); 
-                } else { 
-                	theNextTracksButton.setEnabled(true);
-                }
+                theNextTracksButton.setEnabled(theDiscStore.getNumDiscs() > 0 && theDiscStore.getDisc((Integer) theDiscBox.getSelectedItem()).getNumTracks() > (thePage*NUM_DISPLAY_TRACKS )); 
             }
         });
         //Add label and box + then spacer.
@@ -121,10 +196,8 @@ public class MDISCISGUI extends JFrame {
         discControlPanel.add(theDiscBox);
         discControlPanel.add(Box.createRigidArea(new Dimension(10,0)));
         //Now add a clear disc button.
-        theClearDiscButton = new JButton("Clear Disc");
-        if ( theDiscStore.getNumDiscs() == 0 ) { 
-        	theClearDiscButton.setEnabled(false); 
-        }
+        theClearDiscButton = new JButton("Clear Disc"); 
+        theClearDiscButton.setEnabled(theDiscStore.getNumDiscs() > 0); 
         theClearDiscButton.addActionListener(new ActionListener() {
             public void actionPerformed ( ActionEvent e ) {
                 clearDisc();
@@ -134,9 +207,7 @@ public class MDISCISGUI extends JFrame {
         discControlPanel.add(Box.createRigidArea(new Dimension(5,0)));
         //Now create the delete disc button.
         theDeleteDiscButton = new JButton("Delete Disc");
-        if ( theDiscStore.getNumDiscs() == 0 ) { 
-        	theDeleteDiscButton.setEnabled(false); 
-        }
+        theDeleteDiscButton.setEnabled(theDiscStore.getNumDiscs() > 0); 
         theDeleteDiscButton.addActionListener(new ActionListener() {
             public void actionPerformed ( ActionEvent e ) {
                 deleteDisc();
@@ -153,98 +224,11 @@ public class MDISCISGUI extends JFrame {
         });
         discControlPanel.add(theAddDiscButton);
         discControlPanel.add(Box.createRigidArea(new Dimension(0,10)));
-
-        //Now add discControlPanel to centrePanel.
-        theDialogPanel.add(discControlPanel, BorderLayout.NORTH);
-
-        //Finally, drawContentsPanel and add to dialogPanel.
-        theContentsPanel = drawContentsPanel();
-        theDialogPanel.add(theContentsPanel, BorderLayout.CENTER);
-
-        //Create south panel.
-        JPanel southPanel = new JPanel(new BorderLayout());
-        //Now create previous and next tracks button and add tracks button - these should be greyed out as necessary.
-        JPanel buttonPanel = new JPanel(new GridBagLayout());
-        //Create previous track button.
-        thePreviousTracksButton = new JButton("< Previous Track(s)");
-        if ( thePage == 1 ) { 
-        	thePreviousTracksButton.setEnabled(false); 
-        } else { 
-        	thePreviousTracksButton.setEnabled(true); 
-        }
-        thePreviousTracksButton.addActionListener( new ActionListener() {
-            public void actionPerformed ( ActionEvent e ) {
-                thePage -= 1;
-                theContentsPanel = drawContentsPanel();
-                theDialogPanel.remove(theDialogPanel.getComponent(1));
-                theDialogPanel.add(theContentsPanel, 1);
-                theDialogPanel.revalidate();
-                theDialogPanel.repaint();
-                if ( thePage == 1 ) { 
-                	thePreviousTracksButton.setEnabled(false); 
-                } else { 
-                	thePreviousTracksButton.setEnabled(true);
-                }
-                if ( theDiscStore.getDisc((Integer) theDiscBox.getSelectedItem()).getNumTracks() <= (thePage*NUM_DISPLAY_TRACKS ) ) { 
-                	theNextTracksButton.setEnabled(false); 
-                } else { 
-                	theNextTracksButton.setEnabled(true);
-                }
-            }
-        });
-        buttonPanel.add(thePreviousTracksButton);
-        buttonPanel.add(Box.createRigidArea(new Dimension(5,0)));
-        //Create next track button.
-        theNextTracksButton = new JButton("Next Track(s) >");
-        if ( theDiscStore.getNumDiscs() == 0 || theDiscStore.getDisc((Integer) theDiscBox.getSelectedItem()).getNumTracks() <= (thePage*NUM_DISPLAY_TRACKS ) ) { 
-        	theNextTracksButton.setEnabled(false);
-        } else { 
-        	theNextTracksButton.setEnabled(true); 
-        }
-        theNextTracksButton.addActionListener( new ActionListener() {
-            public void actionPerformed ( ActionEvent e ) {
-                thePage += 1;
-                theContentsPanel = drawContentsPanel();
-                theDialogPanel.remove(theDialogPanel.getComponent(1));
-                theDialogPanel.add(theContentsPanel, 1);
-                theDialogPanel.revalidate();
-                theDialogPanel.repaint();
-                if ( thePage == 1 ) { 
-                	thePreviousTracksButton.setEnabled(false); 
-                } else {
-                	thePreviousTracksButton.setEnabled(true); 
-                }
-                if ( theDiscStore.getDisc((Integer) theDiscBox.getSelectedItem()).getNumTracks() <= (thePage*NUM_DISPLAY_TRACKS ) ) { 
-                	theNextTracksButton.setEnabled(false); 
-                } else {
-                	theNextTracksButton.setEnabled(true); 
-                }
-            }
-        });
-        buttonPanel.add(theNextTracksButton);
-        buttonPanel.add(Box.createRigidArea(new Dimension(20,0)));
-        //Create add track button.
-        theAddTracksButton = new JButton("Add Track(s)");
-        if ( theDiscStore.getNumDiscs() == 0 ) { 
-        	theAddTracksButton.setEnabled(false);
-        }
-        theAddTracksButton.addActionListener( new ActionListener() {
-            public void actionPerformed ( ActionEvent e ) {
-                addTracks();
-            }
-        });
-        buttonPanel.add(theAddTracksButton);
-        //Add button panel to south panel.
-        southPanel.add(buttonPanel, BorderLayout.NORTH);
-        //Add statusBar to south panel.
-        theStatusBar = new JLabel("Ready");
-        southPanel.add(theStatusBar, BorderLayout.SOUTH);
-        theDialogPanel.add(southPanel,BorderLayout.SOUTH);
-
-        //Add dialog panel to c.
-        c.add(theDialogPanel, BorderLayout.CENTER);
-
-        JMenuBar menuBar = new JMenuBar();
+        return discControlPanel;
+    }
+    
+    public void initialiseMenu ( ) {
+    	JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
 
         JMenu fileMenu = new JMenu("File");
@@ -305,17 +289,6 @@ public class MDISCISGUI extends JFrame {
             }
         });
         helpMenu.add(menuItem);
-
-	//Position the screen at the center of the screen.
-        Toolkit tools = Toolkit.getDefaultToolkit();
-        Dimension screenDim = tools.getScreenSize();
-        Dimension displayDim = new Dimension(750,600);
-        this.setLocation ( (int) (screenDim.width/2)-(displayDim.width/2), (int) (screenDim.height/2)-(displayDim.height/2));
-
-        //Display the front screen to the user.
-        this.pack ();
-        this.setVisible (true);
-        this.setSize ( new Dimension(750,600) );
     }
     
     public void exit() {
@@ -469,7 +442,7 @@ public class MDISCISGUI extends JFrame {
             return;
         }
         //Construct edit dialog.
-        new AddDialog(this, "Edit Talk", theDiscStore, discNumber, trackNumber, myTrack.getSubject(), myTrack.getSpeaker(), myTrack.getTalkTitle(), myTrack.getDate(), myTrack.hasBeenRecorded(), this);
+        new AddDialog(this, "Edit Talk", theDiscStore, discNumber, trackNumber, myTrack.getTalk(), this);
     }
 
     /**

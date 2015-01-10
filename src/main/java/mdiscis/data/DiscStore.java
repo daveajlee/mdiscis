@@ -56,15 +56,11 @@ public class DiscStore {
      * @param discNumber a <code>int</code> with the disc number.
      * @param startTrack a <code>int</code> with the start track.
      * @param endTrack a <code>int</code> with the end track.
-     * @param subject a <code>String</code> with the subject.
-     * @param speaker a <code>String</code> with the speaker.
-     * @param talkTitle a <code>String</code> with the talk title.
-     * @param date a <code>Calendar</code> with the date.
-     * @param recorded a <code>boolean</code> which is true iff the track has been recorded to PC.
+     * @param talk a <code>Talk</code> with the talk details.
      * @return a <code>boolean</code> which is true iff the tracks are added successfully.
      */
-    public boolean addTracks (int discNumber, int startTrack, int endTrack, String subject, String speaker, String talkTitle, Calendar date, boolean recorded) {
-        return getDisc(discNumber).addTracks(startTrack, endTrack, subject, speaker, talkTitle, date, recorded);
+    public boolean addTracks (int discNumber, int startTrack, int endTrack, Talk talk) {
+        return getDisc(discNumber).addTracks(startTrack, endTrack, talk);
     }
     
     /**
@@ -253,11 +249,11 @@ public class DiscStore {
                 Element track = doc.createElement("track");
                 //Now set attributes for this track.
                 track.setAttribute("id", myTrack.getTrackId());
-                track.setAttribute("subject", myTrack.getSubject());
-                track.setAttribute("speaker", myTrack.getSpeaker());
-                track.setAttribute("talkTitle", myTrack.getTalkTitle());
-                track.setAttribute("recorded", "" + myTrack.hasBeenRecorded());
-                track.setAttribute("date", myTrack.getShortDate());
+                track.setAttribute("subject", myTrack.getTalk().getSubject());
+                track.setAttribute("speaker", myTrack.getTalk().getSpeaker());
+                track.setAttribute("talkTitle", myTrack.getTalk().getTitle());
+                track.setAttribute("recorded", "" + myTrack.getTalk().isRecorded());
+                track.setAttribute("date", myTrack.getTalk().getShortDate());
                 //Append this track to its parent disc element.
                 disc.appendChild(track);
             }
@@ -298,7 +294,8 @@ public class DiscStore {
                     if ( "true".equalsIgnoreCase(trackElement.getAttribute("recorded"))) {
                         wasRecorded = true;
                     }
-                    myDisc.addTrack(trackElement.getAttribute("id"), trackElement.getAttribute("subject"), trackElement.getAttribute("speaker"), trackElement.getAttribute("talkTitle"), cal, wasRecorded);
+                    Talk talk = new Talk(trackElement.getAttribute("subject"), trackElement.getAttribute("speaker"), trackElement.getAttribute("talkTitle"), cal, wasRecorded);
+                    myDisc.addTrack(trackElement.getAttribute("id"), talk);
                 }
                 //Add disc to list.
                 theDiscs.add(myDisc);

@@ -28,13 +28,9 @@ public class Disc {
     /**
      * Add a track to this disc.
      * @param trackId a <code>String</code> with track id.
-     * @param subject a <code>String</code> with the subject.
-     * @param speaker a <code>String</code> with the speaker.
-     * @param talkTitle a <code>String</code> with the talk title.
-     * @param date a <code>Calendar</code> with the date.
-     * @param recorded a <code>boolean</code> which is true iff the track has been recorded to PC.
+     * @param talk a <code>Talk</code> object with the talk details.
      */
-    public boolean addTrack (String trackId, String subject, String speaker, String talkTitle, Calendar date, boolean recorded) {
+    public boolean addTrack (String trackId, Talk talk) {
 	//Check for duplicate tracks.
         for ( int i = 0; i < theTracks.size(); i++ ) {
             if ( theTracks.get(i).getTrackId().equalsIgnoreCase(trackId) ) {
@@ -43,7 +39,7 @@ public class Disc {
             }
         }
         //If not, add!!!!
-        if ( theTracks.add(new Track(trackId, subject, speaker, talkTitle, date, recorded)) ) {
+        if ( theTracks.add(new Track(trackId, talk)) ) {
             Collections.sort(theTracks, new SortedTracks());
             return true;
         }
@@ -54,19 +50,15 @@ public class Disc {
      * Add multiple tracks to this disc.
      * @param startTrack a <code>int</code> with the start track.
      * @param endTrack a <code>int</code> with the end track.
-     * @param subject a <code>String</code> with the subject.
-     * @param speaker a <code>String</code> with the speaker.
-     * @param talkTitle a <code>String</code> with the talk title.
-     * @param date a <code>Calendar</code> with the date.
-     * @param recorded a <code>boolean</code> which is true iff the track has been recorded to PC.
+     * @param talk a <code>Talk</code> object with the talk details.
      * @return a <code>boolean</code> which is true iff the tracks are added successfully.
      */
-    public boolean addTracks (int startTrack, int endTrack, String subject, String speaker, String talkTitle, Calendar date, boolean recorded) {
+    public boolean addTracks (int startTrack, int endTrack, Talk talk) {
         int diff = endTrack - startTrack + 1;
         int intTrack = startTrack;
         for ( int i = 0; i < diff; i++ ) {
             String track = this.formatTrackNo(intTrack);
-            if ( !addTrack(track,subject,speaker,talkTitle,date, recorded) ) {
+            if ( !addTrack(track,talk) ) {
                 return false;
             }
             intTrack++;

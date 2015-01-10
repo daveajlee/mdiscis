@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.*;
 //Import java io packages.
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+
 
 //Import java swing packages.
 import javax.swing.*;
@@ -34,6 +37,8 @@ public class HelpScreen extends JFrame {
     private DefaultListModel<String> theTopicsModel;
     private JEditorPane theDisplayPane;
     
+    private Map<String, String> contentUrls;
+    
     /**
      * Default constructor for HelpScreen which creates the help screen interface and displays it to the user.
      */
@@ -49,6 +54,8 @@ public class HelpScreen extends JFrame {
                 dispose();
             }
         });
+        
+        initialiseContent();
         
         //Initialise GUI with title and close attributes.
         this.setTitle ( "MDISCIS Help" );
@@ -186,35 +193,26 @@ public class HelpScreen extends JFrame {
         int x = (screen.width - this.getWidth()) / 2;
         int y = (screen.height - this.getHeight()) / 2;
         setBounds(x, y, this.getWidth(), this.getHeight());
-        
+    }
+    
+    public void initialiseContent ( ) {
+    	contentUrls = new HashMap<String, String>();
+    	contentUrls.put("Welcome", "/intro.html");
+    	contentUrls.put("Main Screen", "/mainscreen.html");
+    	contentUrls.put("New Disc Store", "/newdiscstore.html");
+    	contentUrls.put("Load Disc Store", "/loaddiscstore.html");
+    	contentUrls.put("Save Disc Store", "/savediscstore.html");
+    	contentUrls.put("Add Disc", "/adddisc.html");
+    	contentUrls.put("Clear Disc", "/cleardisc.html");
+    	contentUrls.put("Delete Disc", "/deletedisc.html");
+    	contentUrls.put("Add Track(s)", "/addtracks.html");
+    	contentUrls.put("Edit Track", "/edittrack.html");
+    	contentUrls.put("Delete Track", "/deletetrack.html");
     }
     
     public void loadContent(final String selectedItem) {
     	try {
-            //If statements to display correct content.
-            if ( "Welcome".equalsIgnoreCase(selectedItem) ) {
-                theDisplayPane.setPage(HelpScreen.class.getResource("/intro.html"));
-            } else if ( "Main Screen".equalsIgnoreCase(selectedItem) ) {
-                theDisplayPane.setPage(HelpScreen.class.getResource("/mainscreen.html"));
-            } else if ( "New Disc Store".equalsIgnoreCase(selectedItem) ) {
-                theDisplayPane.setPage(HelpScreen.class.getResource("/newdiscstore.html"));
-            } else if ( "Load Disc Store".equalsIgnoreCase(selectedItem) ) {
-                theDisplayPane.setPage(HelpScreen.class.getResource("/loaddiscstore.html"));
-            } else if ( "Save Disc Store".equalsIgnoreCase(selectedItem) ) {
-                theDisplayPane.setPage(HelpScreen.class.getResource("/savediscstore.html"));
-            } else if ( "Add Disc".equalsIgnoreCase(selectedItem) ) {
-                theDisplayPane.setPage(HelpScreen.class.getResource("/adddisc.html"));
-            } else if ( "Clear Disc".equalsIgnoreCase(selectedItem) ) {
-                theDisplayPane.setPage(HelpScreen.class.getResource("/cleardisc.html"));
-            } else if ( "Delete Disc".equalsIgnoreCase(selectedItem) ) {
-                theDisplayPane.setPage(HelpScreen.class.getResource("/deletedisc.html"));
-            } else if ( "Add Track(s)".equalsIgnoreCase(selectedItem) ) {
-                theDisplayPane.setPage(HelpScreen.class.getResource("/addtracks.html"));
-            } else if ( "Edit Track".equalsIgnoreCase(selectedItem) ) {
-                theDisplayPane.setPage(HelpScreen.class.getResource("/edittrack.html"));
-            } else if ( "Delete Track".equalsIgnoreCase(selectedItem) ) {
-                theDisplayPane.setPage(HelpScreen.class.getResource("/deletetrack.html"));
-            }
+    		theDisplayPane.setPage(HelpScreen.class.getResource(contentUrls.get(selectedItem)));
         } catch ( IOException e ) {
             LOG.error("IO Exception whilst processing list", e);
             dispose();
