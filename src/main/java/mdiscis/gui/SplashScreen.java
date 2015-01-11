@@ -21,6 +21,7 @@ public class SplashScreen extends JFrame {
 	private static final long serialVersionUID = 1199055213432005930L;
 	
 	private static final String FONT_NAME = "Arial";
+	private static final String MOUSE_MESSAGE = "Mouse entered - no action";
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SplashScreen.class);
 	
@@ -139,16 +140,16 @@ public class SplashScreen extends JFrame {
                 dispose();
             }
             public void mousePressed(MouseEvent e) {
-            	LOG.info("Mouse entered - no action");
+            	LOG.info(MOUSE_MESSAGE);
             }
             public void mouseReleased(MouseEvent e) {
-            	LOG.info("Mouse entered - no action");
+            	LOG.info(MOUSE_MESSAGE);
             }
             public void mouseEntered(MouseEvent e) {
-            	LOG.info("Mouse entered - no action");
+            	LOG.info(MOUSE_MESSAGE);
             }
             public void mouseExited(MouseEvent e) {
-            	LOG.info("Mouse entered - no action");
+            	LOG.info(MOUSE_MESSAGE);
             }
         };
     }

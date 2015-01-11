@@ -192,8 +192,10 @@ public class AddDialog extends JDialog {
         Dimension screenDim = tools.getScreenSize();
         Dimension displayDim = new Dimension(550,500);
         this.setLocation ( (int) (screenDim.width/2)-(displayDim.width/2), (int) (screenDim.height/2)-(displayDim.height/2));
-
-        //Display the front screen to the user.
+    }
+    
+    public void displayDialog ( ) {
+    	//Display the front screen to the user.
         this.pack ();
         this.setVisible (true);
         this.setSize ( new Dimension(550,500) );
@@ -254,7 +256,7 @@ public class AddDialog extends JDialog {
     public LocalDate getDate ( final String date ) {
         String[] dateSplit = date.split("/");
         int day = Integer.parseInt(dateSplit[0]);
-        int month = Integer.parseInt(dateSplit[1])-1;
+        int month = Integer.parseInt(dateSplit[1]);
         int year = Integer.parseInt(dateSplit[2]);
         return LocalDate.of(year,month,day);
     }

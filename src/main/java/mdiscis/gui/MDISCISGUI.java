@@ -111,14 +111,7 @@ public class MDISCISGUI extends JFrame {
         thePreviousTracksButton.setEnabled(thePage != 1); 
         thePreviousTracksButton.addActionListener( new ActionListener() {
             public void actionPerformed ( ActionEvent e ) {
-                thePage -= 1;
-                theContentsPanel = drawContentsPanel();
-                theDialogPanel.remove(theDialogPanel.getComponent(1));
-                theDialogPanel.add(theContentsPanel, 1);
-                theDialogPanel.revalidate();
-                theDialogPanel.repaint();
-                thePreviousTracksButton.setEnabled(thePage != 1); 
-                theNextTracksButton.setEnabled(theDiscStore.getDisc((Integer) theDiscBox.getSelectedItem()).getNumTracks() > (thePage*NUM_DISPLAY_TRACKS ) ); 
+                processPreviousTrackButton((Integer) theDiscBox.getSelectedItem());
             }
         });
         buttonPanel.add(thePreviousTracksButton);
@@ -128,14 +121,8 @@ public class MDISCISGUI extends JFrame {
         theNextTracksButton.setEnabled(theDiscStore.getNumDiscs() > 0 && theDiscStore.getDisc((Integer) theDiscBox.getSelectedItem()).getNumTracks() > (thePage*NUM_DISPLAY_TRACKS ));
         theNextTracksButton.addActionListener( new ActionListener() {
             public void actionPerformed ( ActionEvent e ) {
-                thePage += 1;
-                theContentsPanel = drawContentsPanel();
-                theDialogPanel.remove(theDialogPanel.getComponent(1));
-                theDialogPanel.add(theContentsPanel, 1);
-                theDialogPanel.revalidate();
-                theDialogPanel.repaint();
-                thePreviousTracksButton.setEnabled(thePage != 1);  
-                theNextTracksButton.setEnabled(theDiscStore.getDisc((Integer) theDiscBox.getSelectedItem()).getNumTracks() > (thePage*NUM_DISPLAY_TRACKS )); 
+            	thePage+=1;
+                processNextTrackButton(thePage, (Integer) theDiscBox.getSelectedItem());
             }
         });
         buttonPanel.add(theNextTracksButton);
@@ -167,7 +154,36 @@ public class MDISCISGUI extends JFrame {
         Dimension displayDim = new Dimension(750,600);
         this.setLocation ( (int) (screenDim.width/2)-(displayDim.width/2), (int) (screenDim.height/2)-(displayDim.height/2));
 
-        //Display the front screen to the user.
+    }
+    
+    public void processPreviousTrackButton ( int selectedItem) {
+    	thePage -= 1;
+        theContentsPanel = drawContentsPanel();
+        theDialogPanel.remove(theDialogPanel.getComponent(1));
+        theDialogPanel.add(theContentsPanel, 1);
+        theDialogPanel.revalidate();
+        theDialogPanel.repaint();
+        thePreviousTracksButton.setEnabled(thePage != 1); 
+        if (theDiscStore.getDisc(selectedItem)!=null) {
+        	theNextTracksButton.setEnabled(theDiscStore.getDisc(selectedItem).getNumTracks() > (thePage*NUM_DISPLAY_TRACKS ) ); 
+        }
+    }
+    
+    public void processNextTrackButton ( int page, int selectedItem ) {
+    	thePage = page;
+        theContentsPanel = drawContentsPanel();
+        theDialogPanel.remove(theDialogPanel.getComponent(1));
+        theDialogPanel.add(theContentsPanel, 1);
+        theDialogPanel.revalidate();
+        theDialogPanel.repaint();
+        thePreviousTracksButton.setEnabled(thePage != 1);
+        if (theDiscStore.getDisc(selectedItem)!=null) {
+        	theNextTracksButton.setEnabled(theDiscStore.getDisc(selectedItem).getNumTracks() > (thePage*NUM_DISPLAY_TRACKS )); 
+        }
+    }
+    
+    public void displayScreen ( ) {
+    	//Display the front screen to the user.
         this.pack ();
         this.setVisible (true);
         this.setSize ( new Dimension(750,600) );
@@ -186,13 +202,7 @@ public class MDISCISGUI extends JFrame {
         theDiscBox.setFont(new Font(FONT_NAME, Font.PLAIN, 14));
         theDiscBox.addItemListener( new ItemListener() {
             public void itemStateChanged ( ItemEvent e ) {
-                thePage = 1;
-                theContentsPanel = drawContentsPanel();
-                theDialogPanel.remove(theDialogPanel.getComponent(1));
-                theDialogPanel.add(theContentsPanel, 1);
-                theDialogPanel.revalidate();
-                theDialogPanel.repaint();
-                theNextTracksButton.setEnabled(theDiscStore.getNumDiscs() > 0 && theDiscStore.getDisc((Integer) theDiscBox.getSelectedItem()).getNumTracks() > (thePage*NUM_DISPLAY_TRACKS )); 
+                processNextTrackButton(1, (Integer) theDiscBox.getSelectedItem());
             }
         });
         //Add label and box + then spacer.
@@ -435,7 +445,8 @@ public class MDISCISGUI extends JFrame {
      */
     private void addTracks() {
         //Construct add dialog and it will do the rest!
-        new AddDialog(this, "Add Talk", theDiscStore, this);
+        AddDialog dialog = new AddDialog(this, "Add Talk", theDiscStore, this);
+        dialog.displayDialog();
     }
 
     /**
@@ -452,7 +463,8 @@ public class MDISCISGUI extends JFrame {
             return;
         }
         //Construct edit dialog.
-        new AddDialog(this, "Edit Talk", theDiscStore, discNumber, trackNumber, myTrack.getTalk(), this);
+        AddDialog dialog = new AddDialog(this, "Edit Talk", theDiscStore, discNumber, trackNumber, myTrack.getTalk(), this);
+        dialog.displayDialog();
     }
 
     /**
@@ -501,6 +513,7 @@ public class MDISCISGUI extends JFrame {
             if ( returnVal == JFileChooser.APPROVE_OPTION) {
                 if ( theDiscStore.loadFile(fileDialog.getSelectedFile()) ) {
                     MDISCISGUI gui = new MDISCISGUI(theDiscStore);
+                    gui.displayScreen();
                     gui.theStatusBar.setText("File loaded successfully!");
                     dispose();
                     return;
@@ -521,6 +534,7 @@ public class MDISCISGUI extends JFrame {
         int result = JOptionPane.showOptionDialog(MDISCISGUI.this, "Are you sure you want to create a new store without saving the current store?", "Please Confirm New Operation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[] { "Yes", "No" }, "No");
         if ( result == JOptionPane.YES_OPTION ) {
             MDISCISGUI gui = new MDISCISGUI(theDiscStore);
+            gui.displayScreen();
             gui.theStatusBar.setText("Created a new disc store successfully!");
             dispose();
         }
@@ -543,7 +557,8 @@ public class MDISCISGUI extends JFrame {
         	LOG.warn("Thread was interrupted!", e);
         }
         //Create the gui.
-        new MDISCISGUI();
+        MDISCISGUI gui = new MDISCISGUI();
+        gui.displayScreen();
     }
             
 }
