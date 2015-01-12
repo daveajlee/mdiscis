@@ -2,6 +2,7 @@ package mdiscis.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 import javax.swing.*;
 import javax.swing.filechooser.*;
@@ -132,7 +133,7 @@ public class MDISCISGUI extends JFrame {
         theAddTracksButton.setEnabled(theDiscStore.getNumDiscs() > 0);
         theAddTracksButton.addActionListener( new ActionListener() {
             public void actionPerformed ( ActionEvent e ) {
-                addTracks();
+                showAddDialog("Add Talk");
             }
         });
         buttonPanel.add(theAddTracksButton);
@@ -214,7 +215,7 @@ public class MDISCISGUI extends JFrame {
         theClearDiscButton.setEnabled(theDiscStore.getNumDiscs() > 0); 
         theClearDiscButton.addActionListener(new ActionListener() {
             public void actionPerformed ( ActionEvent e ) {
-                clearDisc();
+                clearDisc((Integer) theDiscBox.getSelectedItem());
             }
         });
         discControlPanel.add(theClearDiscButton);
@@ -224,7 +225,7 @@ public class MDISCISGUI extends JFrame {
         theDeleteDiscButton.setEnabled(theDiscStore.getNumDiscs() > 0); 
         theDeleteDiscButton.addActionListener(new ActionListener() {
             public void actionPerformed ( ActionEvent e ) {
-                deleteDisc();
+                deleteDisc((Integer) theDiscBox.getSelectedItem());
             }
         });
         discControlPanel.add(theDeleteDiscButton);
@@ -260,7 +261,11 @@ public class MDISCISGUI extends JFrame {
         menuItem = new JMenuItem("Load");
         menuItem.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                MDISCISGUI.this.loadFile();
+            	int result = showOptionDialog("Are you sure you want to load a store without saving the current store?", "Please Confirm Load Operation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if ( result == JOptionPane.YES_OPTION ) {
+                	JFileChooser fileChooser = MDISCISGUI.this.showOpenFileDialog();
+                	MDISCISGUI.this.loadFile(fileChooser.showOpenDialog(MDISCISGUI.this), fileChooser.getSelectedFile());
+                }
             }
         });
         fileMenu.add(menuItem);
@@ -270,7 +275,8 @@ public class MDISCISGUI extends JFrame {
         menuItem = new JMenuItem("Save");
         menuItem.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                MDISCISGUI.this.saveFile();
+            	JFileChooser fileChooser = MDISCISGUI.this.showSaveFileDialog();
+                MDISCISGUI.this.saveFile(fileChooser.showSaveDialog(MDISCISGUI.this), fileChooser.getSelectedFile());
             }
         });
         fileMenu.add(menuItem);
@@ -397,9 +403,9 @@ public class MDISCISGUI extends JFrame {
     }
 
     /**
-     * Private method to add another disc.
+     * Public method to add another disc.
      */
-    private void addAnotherDisc() {
+    public void addAnotherDisc() {
         int nextDiscNumber = theDiscStore.addDisc();
         theDiscModel.addElement(nextDiscNumber);
         theStatusBar.setText(DISC + nextDiscNumber + " has been successfully added!");
@@ -413,21 +419,23 @@ public class MDISCISGUI extends JFrame {
     /**
      * Private method to clear discs.
      */
-    private void clearDisc() {
-        int discNumber = (Integer) theDiscBox.getSelectedItem();
-        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure that you wish to delete the index of disc " + discNumber + "?", "Please confirm clear operation!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+    public void clearDisc(int discNumber) {
+        int confirm = showConfirmDialog("Are you sure that you wish to delete the index of disc " + discNumber + "?", "Please confirm clear operation!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if ( confirm == JOptionPane.YES_OPTION ) {
             theDiscStore.clearDisc(discNumber);
             theStatusBar.setText(DISC + discNumber + " has been successfully cleared!");
         }
     }
+    
+    public int showConfirmDialog(final String message, final String title, final int optionType, final int messageType ) {
+    	return JOptionPane.showConfirmDialog(this, message, title, optionType, messageType);
+    }
 
     /**
      * Private method to delete disc.
      */
-    private void deleteDisc() {
-        int discNumber = (Integer) theDiscBox.getSelectedItem();
-        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure that you wish to delete disc " + discNumber + "?", "Please confirm delete operation!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+    public void deleteDisc(int discNumber) {
+        int confirm = showConfirmDialog("Are you sure that you wish to delete disc " + discNumber + "?", "Please confirm delete operation!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if ( confirm == JOptionPane.YES_OPTION ) {
             theDiscStore.deleteDisc(discNumber);
             theDiscModel.removeElement(discNumber);
@@ -441,11 +449,11 @@ public class MDISCISGUI extends JFrame {
     }
 
     /**
-     * Private method to add tracks.
+     * Private method to display add dialog.
      */
-    private void addTracks() {
+    private void showAddDialog(final String title) {
         //Construct add dialog and it will do the rest!
-        AddDialog dialog = new AddDialog(this, "Add Talk", theDiscStore, this);
+        AddDialog dialog = new AddDialog(this, title, theDiscStore, this);
         dialog.displayDialog();
     }
 
@@ -454,7 +462,7 @@ public class MDISCISGUI extends JFrame {
      * @param discNumber a <code>int</code> with the disc number.
      * @param trackNumber a <code>int</code> with the track number.
      */
-    private void editTrack(int discNumber, int trackNumber) {
+    public void editTrack(int discNumber, int trackNumber) {
         //Get the track to be edited.
         Track myTrack = theDiscStore.getDisc(discNumber).getTrackByNumber(trackNumber);
         //Check that it is not null.
@@ -462,15 +470,19 @@ public class MDISCISGUI extends JFrame {
             theStatusBar.setText("ERROR: Track could not be edited!");
             return;
         }
-        //Construct edit dialog.
-        AddDialog dialog = new AddDialog(this, "Edit Talk", theDiscStore, discNumber, trackNumber, myTrack.getTalk(), this);
+        showEditDialog("Edit Talk", discNumber, trackNumber, myTrack.getTalk());
+    }
+    
+    public void showEditDialog(final String title, final int discNumber, final int trackNumber, final Talk talk) {
+    	//Construct edit dialog.
+        AddDialog dialog = new AddDialog(this, title, theDiscStore, discNumber, trackNumber, talk, this);
         dialog.displayDialog();
     }
 
     /**
      * Save file.
      */
-    private void saveFile ( ) {
+    public JFileChooser showSaveFileDialog ( ) {
         //Create file dialog box.
         JFileChooser fileDialog = new JFileChooser();
         fileDialog.setDialogTitle("Save Disc Store");
@@ -478,11 +490,25 @@ public class MDISCISGUI extends JFrame {
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Minidisc Index Files", "mdi");
         fileDialog.setFileFilter(filter);
         //Display file dialog.
-        int returnVal = fileDialog.showSaveDialog(this);
+        return fileDialog;
+    }
+    
+    public JFileChooser showOpenFileDialog ( ) {
+    	//Create file dialog box.
+        JFileChooser fileDialog = new JFileChooser();
+        fileDialog.setDialogTitle("Load Disc Store");
+        //Only display files with mdi extension.
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Mindisc Index Files", "mdi");
+        fileDialog.setFileFilter(filter);
+        //Display file dialog.
+        return fileDialog;
+    }
+    
+    public void saveFile ( final int returnVal, final File selectedFile ) {
         //Check if user submitted file.
         if ( returnVal == JFileChooser.APPROVE_OPTION ) {
-            if ( theDiscStore.saveFile(fileDialog.getSelectedFile()) ) {
-                String fileName = fileDialog.getSelectedFile().getPath();
+            if ( theDiscStore.saveFile(selectedFile) ) {
+                String fileName = selectedFile.getPath();
                 if ( !fileName.endsWith(".mdi") ) { 
                 	fileName += ".mdi"; 
                 }
@@ -493,36 +519,32 @@ public class MDISCISGUI extends JFrame {
         }
     }
 
+    public int showOptionDialog ( final String message, final String title, final int options, final int messageType ) {
+    	return JOptionPane.showOptionDialog(MDISCISGUI.this, message, title, options, messageType, null, new String[] { "Yes", "No" }, "No");
+    }
+    
+    public void loadDisplayScreen( final DiscStore discStore ) {
+    	MDISCISGUI gui = new MDISCISGUI(theDiscStore);
+        gui.displayScreen();
+        gui.theStatusBar.setText("File loaded successfully!");
+        dispose();
+    }
+    
     /**
      * Load file.
      */
-    private void loadFile ( ) {
-        //Check that the user wants to lose data.
-        int result = JOptionPane.showOptionDialog(MDISCISGUI.this, "Are you sure you want to load a store without saving the current store?", "Please Confirm Load Operation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[] { "Yes", "No" }, "No");
-        if ( result == JOptionPane.YES_OPTION ) {
-            //Create file dialog box.
-            JFileChooser fileDialog = new JFileChooser();
-            fileDialog.setDialogTitle("Load Disc Store");
-            //Only display files with mdi extension.
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Mindisc Index Files", "mdi");
-            fileDialog.setFileFilter(filter);
-            //Display file dialog.
-            int returnVal = fileDialog.showOpenDialog(this);
-            //Check if user submitted file and print coming soon.
-            boolean validFile = true;
-            if ( returnVal == JFileChooser.APPROVE_OPTION) {
-                if ( theDiscStore.loadFile(fileDialog.getSelectedFile()) ) {
-                    MDISCISGUI gui = new MDISCISGUI(theDiscStore);
-                    gui.displayScreen();
-                    gui.theStatusBar.setText("File loaded successfully!");
-                    dispose();
-                    return;
-                }
-                validFile = false;
+    public void loadFile ( final int returnVal, final File selectedFile ) {
+    	//Check if user submitted file and print coming soon.
+        boolean validFile = true;
+        if ( returnVal == JFileChooser.APPROVE_OPTION) {
+        	if ( theDiscStore.loadFile(selectedFile) ) {
+        		loadDisplayScreen(theDiscStore);
+                return;
             }
-            if ( !validFile ) {
-                JOptionPane.showMessageDialog(this,"The selected file is not compatible with this version of MDISCIS.\nPlease either choose another file or create a new store.", "ERROR: Saved File Could Not Be Loaded", JOptionPane.ERROR_MESSAGE);
-            }
+            validFile = false;
+        }
+        if ( !validFile ) {
+        	this.theStatusBar.setText("The selected file is not compatible with this version of MDISCIS. Please either choose another file or create a new store.");
         }
     }
 
