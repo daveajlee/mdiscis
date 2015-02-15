@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<!-- Splash Screen -->
+	<entry key="title">MDISCIS - MiniDISC Indexing Software</entry>
+	<entry key="version.text">Version: 2.1</entry>
+	<entry key="loading.text">Loading... Please Wait!</entry>
+	<entry key="copyright.text">Copyright 2003-2015 David A J Lee. All rights reserved.</entry>
+	<!-- Main dialog page -->
+	<entry key="num.display.tracks">10</entry>
+	<entry key="track.text">Track </entry>
+	<entry key="disc.text">Disc </entry>
+	<entry key="previous.tracks.button">&lt; Previous Track(s)</entry>
+	<entry key="next.tracks.button">Next Track(s) &gt;</entry>
+	<entry key="add.talk.text">Add Talk</entry>
+	<entry key="add.tracks.button">Add Track(s)</entry>
+	<entry key="status.ready.text">Ready</entry>
+	<entry key="clear.disc.button">Clear Disc</entry>
+	<entry key="delete.disc.button">Delete Disc</entry>
+	<entry key="add.disc.button">Add Another Disc</entry>
+	<entry key="load.dialog.message">Are you sure you want to load a store without saving the current store?</entry>
+	<entry key="load.dialog.title">Please Confirm Load Operation</entry>
+</properties>

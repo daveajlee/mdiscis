@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+		<RollingFile name="RollingFile" fileName="logs/mdiscis.log"
+			filePattern="logs/$${date:yyyy-MM}/trams-timetabler-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="250 MB" />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Logger name="org.springframework" level="debug">
+			<AppenderRef ref="RollingFile" />
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="org.springframework.oxm" level="debug">
+			<AppenderRef ref="RollingFile" />
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="org.springframework.transaction" level="debug">
+			<AppenderRef ref="RollingFile" />
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Root level="debug">
+			<AppenderRef ref="RollingFile" />
+			<AppenderRef ref="Console" />
+		</Root>
+	</Loggers>
+</configuration>

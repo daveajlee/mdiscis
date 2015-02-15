@@ -1,4 +1,4 @@
-package mdiscis.data;
+package de.davelee.mdiscis.data;
 
 import java.util.*;
 

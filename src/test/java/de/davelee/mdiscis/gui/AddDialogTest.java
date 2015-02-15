@@ -6,11 +6,11 @@ import java.time.LocalDate;
 
 import javax.swing.JFrame;
 
-import mdiscis.data.DiscStore;
-import mdiscis.data.Talk;
-import mdiscis.gui.AddDialog;
-
 import org.junit.Test;
+
+import de.davelee.mdiscis.data.DiscStore;
+import de.davelee.mdiscis.data.Talk;
+import de.davelee.mdiscis.gui.AddDialog;
 
 public class AddDialogTest {
 

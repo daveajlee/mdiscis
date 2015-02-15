@@ -1,4 +1,4 @@
-package mdiscis.gui;
+package de.davelee.mdiscis.gui;
 
 //Import the Java GUI packages.
 import java.awt.*;
@@ -8,6 +8,8 @@ import javax.swing.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.davelee.mdiscis.config.GUIConfig;
 
 /**
  * Splash screen for the MDISCIS program.
@@ -25,27 +27,25 @@ public class SplashScreen extends JFrame {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SplashScreen.class);
 	
-    private JLabel thePresentsLabel;
-    private JLabel theTitleLabel;
-    private JLabel theLoadingLabel;
-    private JLabel theCopyrightLabel;
+    private JLabel titleLabel;
+    private JLabel loadingLabel;
+    private JLabel copyrightLabel;
     
-    private JPanel websitePanel;
     private JPanel logoPanel;
     
     /**
      * Create a new splash screen.
      * @param isAboutScreen a <code>boolean</code> which is true iff this is the about screen rather than splash screen at beginning.
      */
-    public SplashScreen ( boolean isAboutScreen ) {
+    public SplashScreen ( final boolean isAboutScreen, final GUIConfig guiConfig ) {
         
         //Initialise GUI with resizable, title and decorate methods.
-        this.setTitle ("MDISCIS - MiniDISC Indexing Software");
+        this.setTitle (guiConfig.getTitle());
         this.setResizable (true);
         this.setUndecorated(true);
         
         //Set image icon.
-        Image img = Toolkit.getDefaultToolkit().getImage(SplashScreen.class.getResource("/mdiscislogo.png"));
+        Image img = Toolkit.getDefaultToolkit().getImage(SplashScreen.class.getResource("/images/mdiscislogo.png"));
         setIconImage(img);
         
         //Get a container to add things to.
@@ -58,26 +58,10 @@ public class SplashScreen extends JFrame {
         centrePanel.add(Box.createRigidArea(new Dimension(0,10))); //Spacer.
         centrePanel.setBackground(Color.WHITE);
         
-        //Construct website panel to add to the centre panel.
-        websitePanel = new JPanel();
-        websitePanel.setBackground(Color.WHITE);
-        ImageIcon websiteImage = new ImageIcon(SplashScreen.class.getResource("/logocircle.png"));
-        JLabel websiteLabel = new JLabel("", websiteImage, JLabel.CENTER);
-        websitePanel.add(websiteLabel);
-        centrePanel.add(websitePanel);
-        
-        //Construct presents panel to add to the centre panel.
-        JPanel presentsPanel = new JPanel();
-        presentsPanel.setBackground(Color.WHITE);
-        thePresentsLabel = new JLabel("Presents");
-        thePresentsLabel.setFont(new Font(FONT_NAME, Font.ITALIC, 16));
-        presentsPanel.add(thePresentsLabel);
-        centrePanel.add(presentsPanel);
-        
         //Construct logo panel to add to the centre panel.
         logoPanel = new JPanel();
         logoPanel.setBackground(Color.WHITE);
-        ImageIcon logoImage = new ImageIcon(SplashScreen.class.getResource("/mdiscislogo.png"));
+        ImageIcon logoImage = new ImageIcon(SplashScreen.class.getResource("/images/mdiscislogo.png"));
         JLabel logoLabel = new JLabel("", logoImage, JLabel.CENTER);
         logoPanel.add(logoLabel);
         centrePanel.add(logoPanel);
@@ -85,29 +69,29 @@ public class SplashScreen extends JFrame {
         //Construct title panel to add to the centre panel.
         JPanel titlePanel = new JPanel();
         titlePanel.setBackground(Color.WHITE);
-        theTitleLabel = new JLabel("MDISCIS - Minidisc Indexing Software");
-        theTitleLabel.setFont(new Font(FONT_NAME, Font.BOLD, 25));
-        titlePanel.add(theTitleLabel);
+        titleLabel = new JLabel(guiConfig.getTitle());
+        titleLabel.setFont(new Font(FONT_NAME, Font.BOLD, 25));
+        titlePanel.add(titleLabel);
         centrePanel.add(titlePanel);
         
         //Construct loading panel to add to the centre panel.
         JPanel loadingPanel = new JPanel();
         loadingPanel.setBackground(Color.WHITE);
         if ( isAboutScreen ) { 
-        	theLoadingLabel = new JLabel("Version: 1.1"); 
+        	loadingLabel = new JLabel(guiConfig.getVersionText()); 
         } else { 
-        	theLoadingLabel = new JLabel("Loading... Please Wait!"); 
+        	loadingLabel = new JLabel(guiConfig.getLoadingText()); 
         }
-        theLoadingLabel.setFont(new Font(FONT_NAME, Font.ITALIC, 15));
-        loadingPanel.add(theLoadingLabel);
+        loadingLabel.setFont(new Font(FONT_NAME, Font.ITALIC, 15));
+        loadingPanel.add(loadingLabel);
         centrePanel.add(loadingPanel);
         
         //Construct copyright panel to add to the centre panel.
         JPanel copyrightPanel = new JPanel();
         copyrightPanel.setBackground(Color.WHITE);
-        theCopyrightLabel = new JLabel("Copyright 2003-2009 David A J Lee. All rights reserved.");
-        theCopyrightLabel.setFont(new Font(FONT_NAME, Font.PLAIN, 10));
-        copyrightPanel.add(theCopyrightLabel);
+        copyrightLabel = new JLabel(guiConfig.getCopyrightText());
+        copyrightLabel.setFont(new Font(FONT_NAME, Font.PLAIN, 10));
+        copyrightPanel.add(copyrightLabel);
         centrePanel.add(copyrightPanel);
         
         c.add(centrePanel, BorderLayout.CENTER);
@@ -115,7 +99,6 @@ public class SplashScreen extends JFrame {
         //Mouse listeners if this is the about screen.
         if ( isAboutScreen ) {
             this.getContentPane().addMouseListener (createMouseListener());
-            websitePanel.addMouseListener (createMouseListener());
             logoPanel.addMouseListener (createMouseListener());
         }
         

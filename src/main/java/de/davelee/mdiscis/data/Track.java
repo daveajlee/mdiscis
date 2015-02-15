@@ -1,4 +1,4 @@
-package mdiscis.data;
+package de.davelee.mdiscis.data;
 
 /**
  * This class represents a track in the MDISCIS program.

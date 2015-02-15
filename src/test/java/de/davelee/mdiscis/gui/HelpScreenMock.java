@@ -1,9 +1,9 @@
 package de.davelee.mdiscis.gui;
 
-import mdiscis.gui.HelpScreen;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.davelee.mdiscis.gui.HelpScreen;
 
 public class HelpScreenMock extends HelpScreen {
 	

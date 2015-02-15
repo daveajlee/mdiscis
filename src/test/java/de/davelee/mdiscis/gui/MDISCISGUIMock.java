@@ -2,13 +2,14 @@ package de.davelee.mdiscis.gui;
 
 import javax.swing.JOptionPane;
 
-import mdiscis.data.DiscStore;
-import mdiscis.data.Talk;
-import mdiscis.gui.HelpScreen;
-import mdiscis.gui.MDISCISGUI;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.davelee.mdiscis.config.GUIConfig;
+import de.davelee.mdiscis.data.DiscStore;
+import de.davelee.mdiscis.data.Talk;
+import de.davelee.mdiscis.gui.HelpScreen;
+import de.davelee.mdiscis.gui.MDISCISGUI;
 
 public class MDISCISGUIMock extends MDISCISGUI {
 	
@@ -19,11 +20,11 @@ public class MDISCISGUIMock extends MDISCISGUI {
 	private static final Logger LOG = LoggerFactory.getLogger(HelpScreen.class);
 	
 	public MDISCISGUIMock() {
-		super();
+		super(new GUIConfig());
 	}
 	
 	public MDISCISGUIMock(DiscStore discStore) {
-		super(discStore);
+		super(discStore, new GUIConfig());
 	}
 	
 	public void displayScreen() {

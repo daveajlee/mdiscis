@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 
-import mdiscis.data.Talk;
-import mdiscis.data.Track;
-
 import org.junit.Test;
+
+import de.davelee.mdiscis.data.Talk;
+import de.davelee.mdiscis.data.Track;
 
 public class TrackTest {
 	

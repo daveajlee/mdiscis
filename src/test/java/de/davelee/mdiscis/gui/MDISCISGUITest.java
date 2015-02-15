@@ -8,10 +8,10 @@ import javax.swing.JOptionPane;
 
 import org.junit.Test;
 
+import de.davelee.mdiscis.data.DiscStore;
 import de.davelee.mdiscis.data.DiscStoreMock;
-import mdiscis.data.DiscStore;
-import mdiscis.data.Talk;
-import mdiscis.gui.MDISCISGUI;
+import de.davelee.mdiscis.data.Talk;
+import de.davelee.mdiscis.gui.MDISCISGUI;
 
 public class MDISCISGUITest {
 	

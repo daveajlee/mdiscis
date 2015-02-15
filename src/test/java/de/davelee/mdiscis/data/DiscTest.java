@@ -7,10 +7,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 
-import mdiscis.data.Disc;
-import mdiscis.data.Talk;
-
 import org.junit.Test;
+
+import de.davelee.mdiscis.data.Disc;
+import de.davelee.mdiscis.data.Talk;
 
 public class DiscTest {
 	

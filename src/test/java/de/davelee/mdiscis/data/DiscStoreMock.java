@@ -2,7 +2,7 @@ package de.davelee.mdiscis.data;
 
 import java.io.File;
 
-import mdiscis.data.DiscStore;
+import de.davelee.mdiscis.data.DiscStore;
 
 public class DiscStoreMock extends DiscStore {
 	

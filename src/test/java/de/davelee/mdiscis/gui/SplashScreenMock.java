@@ -1,9 +1,10 @@
 package de.davelee.mdiscis.gui;
 
-import mdiscis.gui.SplashScreen;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.davelee.mdiscis.config.GUIConfig;
+import de.davelee.mdiscis.gui.SplashScreen;
 
 public class SplashScreenMock extends SplashScreen {
 	
@@ -14,7 +15,7 @@ public class SplashScreenMock extends SplashScreen {
 	private static final Logger LOG = LoggerFactory.getLogger(SplashScreen.class);
 	
 	public SplashScreenMock ( final boolean isAboutScreen ) {
-		super(isAboutScreen);
+		super(isAboutScreen, new GUIConfig());
 	}
 	
 	public void displayScreen() {

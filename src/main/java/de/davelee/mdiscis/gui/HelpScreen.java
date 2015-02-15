@@ -1,4 +1,4 @@
-package mdiscis.gui;
+package de.davelee.mdiscis.gui;
 
 //Import java awt packages.
 import java.awt.*;
@@ -30,12 +30,12 @@ public class HelpScreen extends JFrame {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(HelpScreen.class);
 	
-	private JLabel theSearchLabel;
-    private JTextField theSearchField;
-    private JLabel theTopicsLabel;
-    private JList<String> theTopicsList;
-    private DefaultListModel<String> theTopicsModel;
-    private JEditorPane theDisplayPane;
+	private JLabel searchLabel;
+    private JTextField searchField;
+    private JLabel topicsLabel;
+    private JList<String> tpicsList;
+    private DefaultListModel<String> topicsModel;
+    private JEditorPane displayPane;
     
     private Map<String, String> contentUrls;
     
@@ -45,7 +45,7 @@ public class HelpScreen extends JFrame {
     public HelpScreen (  ) {
         
         //Set image icon.
-        Image img = Toolkit.getDefaultToolkit().getImage(SplashScreen.class.getResource("/mdiscislogo.png"));
+        Image img = Toolkit.getDefaultToolkit().getImage(SplashScreen.class.getResource("/images/mdiscislogo.png"));
         setIconImage(img);
         
         //Close this window if the user hits exit.
@@ -82,63 +82,63 @@ public class HelpScreen extends JFrame {
         
         //Add search label.
         JPanel searchLabelPanel = new JPanel();
-        theSearchLabel = new JLabel("Search for Help...");
-        theSearchLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        searchLabelPanel.add(theSearchLabel);
+        searchLabel = new JLabel("Search for Help...");
+        searchLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        searchLabelPanel.add(searchLabel);
         leftPanel.add(searchLabelPanel);
         leftPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         
         //Add search field.
-        theSearchField = new JTextField();
-        theSearchField.setColumns(40);
-        theSearchField.addKeyListener( new KeyAdapter() {
+        searchField = new JTextField();
+        searchField.setColumns(40);
+        searchField.addKeyListener( new KeyAdapter() {
             public void keyReleased ( KeyEvent e ) {
-                updateList(theSearchField.getText());
+                updateList(searchField.getText());
             }
         });
-        leftPanel.add(theSearchField);
+        leftPanel.add(searchField);
         leftPanel.add(Box.createRigidArea(new Dimension(0, 20))); //Spacer.
         
         //Add search label.
         JPanel topicLabelPanel = new JPanel();
-        theTopicsLabel = new JLabel("Choose a Help Topic...");
-        theTopicsLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        topicLabelPanel.add(theTopicsLabel);
+        topicsLabel = new JLabel("Choose a Help Topic...");
+        topicsLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        topicLabelPanel.add(topicsLabel);
         leftPanel.add(topicLabelPanel);
         leftPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         
         //Add topics list.
         JPanel topicListPanel = new JPanel(new BorderLayout());
-        theTopicsModel = new DefaultListModel<String>();
-        theTopicsModel.addElement("Welcome"); 
-        theTopicsModel.addElement("Main Screen");
-        theTopicsModel.addElement("New Disc Store"); 
-        theTopicsModel.addElement("Load Disc Store");
-        theTopicsModel.addElement("Save Disc Store"); 
-        theTopicsModel.addElement("Add Disc");
-        theTopicsModel.addElement("Clear Disc"); 
-        theTopicsModel.addElement("Delete Disc");
-        theTopicsModel.addElement("Add Track(s)"); 
-        theTopicsModel.addElement("Edit Track");
-        theTopicsModel.addElement("Delete Track");
+        topicsModel = new DefaultListModel<String>();
+        topicsModel.addElement("Welcome"); 
+        topicsModel.addElement("Main Screen");
+        topicsModel.addElement("New Disc Store"); 
+        topicsModel.addElement("Load Disc Store");
+        topicsModel.addElement("Save Disc Store"); 
+        topicsModel.addElement("Add Disc");
+        topicsModel.addElement("Clear Disc"); 
+        topicsModel.addElement("Delete Disc");
+        topicsModel.addElement("Add Track(s)"); 
+        topicsModel.addElement("Edit Track");
+        topicsModel.addElement("Delete Track");
 
-        theTopicsList = new JList<String>(theTopicsModel);
-        theTopicsList.setVisibleRowCount(10);
-        theTopicsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tpicsList = new JList<String>(topicsModel);
+        tpicsList.setVisibleRowCount(10);
+        tpicsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //Default.
-        theTopicsList.setSelectedIndex(0);
+        tpicsList.setSelectedIndex(0);
         //Action Listener for when a particular help topic is selected.
-        theTopicsList.addListSelectionListener(new ListSelectionListener() {
+        tpicsList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged ( ListSelectionEvent lse ) {
                 //Get selected item.
                 String selectedItem;
                 try {
-                    selectedItem = theTopicsList.getSelectedValue().toString();
+                    selectedItem = tpicsList.getSelectedValue().toString();
                 } catch ( NullPointerException npe ) {
                 	LOG.warn("No topics in list ", npe);
-                    if ( theTopicsList.getModel().getSize() > 0 ) {
-                        selectedItem = theTopicsList.getModel().getElementAt(0).toString();
-                        theTopicsList.setSelectedValue(selectedItem, true);
+                    if ( tpicsList.getModel().getSize() > 0 ) {
+                        selectedItem = tpicsList.getModel().getElementAt(0).toString();
+                        tpicsList.setSelectedValue(selectedItem, true);
                     } else {
                         selectedItem = "";
                     }
@@ -147,7 +147,7 @@ public class HelpScreen extends JFrame {
                 loadContent(selectedItem);
             }
         });
-        JScrollPane topicsPane = new JScrollPane(theTopicsList);
+        JScrollPane topicsPane = new JScrollPane(tpicsList);
         topicListPanel.add(topicsPane, BorderLayout.CENTER);
         leftPanel.add(topicListPanel);
         leftPanel.add(Box.createRigidArea(new Dimension(0, 10))); //Spacer.
@@ -163,14 +163,14 @@ public class HelpScreen extends JFrame {
         rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); //Spacer
         //Add editor pane.
         try {
-            theDisplayPane = new JEditorPane(HelpScreen.class.getResource("/intro.html"));
-            theDisplayPane.setSize(new Dimension(650,500));
-            theDisplayPane.setMaximumSize(new Dimension(650,500));
+            displayPane = new JEditorPane(HelpScreen.class.getResource("/html/intro.html"));
+            displayPane.setSize(new Dimension(650,500));
+            displayPane.setMaximumSize(new Dimension(650,500));
         } catch (IOException e) {
         	LOG.error("Error displaying file", e);
             dispose();
         }
-        JScrollPane displayScroll = new JScrollPane(theDisplayPane);
+        JScrollPane displayScroll = new JScrollPane(displayPane);
         displayScroll.setMaximumSize(new Dimension(650,390));
         rightPanel.add(displayScroll);
         rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); //Spacer.
@@ -199,22 +199,22 @@ public class HelpScreen extends JFrame {
     
     public void initialiseContent ( ) {
     	contentUrls = new HashMap<String, String>();
-    	contentUrls.put("Welcome", "/intro.html");
-    	contentUrls.put("Main Screen", "/mainscreen.html");
-    	contentUrls.put("New Disc Store", "/newdiscstore.html");
-    	contentUrls.put("Load Disc Store", "/loaddiscstore.html");
-    	contentUrls.put("Save Disc Store", "/savediscstore.html");
-    	contentUrls.put("Add Disc", "/adddisc.html");
-    	contentUrls.put("Clear Disc", "/cleardisc.html");
-    	contentUrls.put("Delete Disc", "/deletedisc.html");
-    	contentUrls.put("Add Track(s)", "/addtracks.html");
-    	contentUrls.put("Edit Track", "/edittrack.html");
-    	contentUrls.put("Delete Track", "/deletetrack.html");
+    	contentUrls.put("Welcome", "/html/intro.html");
+    	contentUrls.put("Main Screen", "/html/mainscreen.html");
+    	contentUrls.put("New Disc Store", "/html/newdiscstore.html");
+    	contentUrls.put("Load Disc Store", "/html/loaddiscstore.html");
+    	contentUrls.put("Save Disc Store", "/html/savediscstore.html");
+    	contentUrls.put("Add Disc", "/html/adddisc.html");
+    	contentUrls.put("Clear Disc", "/html/cleardisc.html");
+    	contentUrls.put("Delete Disc", "/html/deletedisc.html");
+    	contentUrls.put("Add Track(s)", "/html/addtracks.html");
+    	contentUrls.put("Edit Track", "/html/edittrack.html");
+    	contentUrls.put("Delete Track", "/html/deletetrack.html");
     }
     
     public void loadContent(final String selectedItem) {
     	try {
-    		theDisplayPane.setPage(HelpScreen.class.getResource(contentUrls.get(selectedItem)));
+    		displayPane.setPage(HelpScreen.class.getResource(contentUrls.get(selectedItem)));
         } catch ( IOException e ) {
             LOG.error("IO Exception whilst processing list", e);
             dispose();
@@ -230,18 +230,18 @@ public class HelpScreen extends JFrame {
         DefaultListModel<String> tempModel = new DefaultListModel<String>();
         //If text is blank then set tempModel to fullModel.
         if ( "".equalsIgnoreCase(text) ) {
-            tempModel = theTopicsModel;
+            tempModel = topicsModel;
         } else {
         	//Otherwise, add those which have this prefix.
-            for ( int i = 0; i < theTopicsModel.size(); i++ ) {
-                if ( includeString(text, theTopicsModel.get(i).toString()) ) {
-                    tempModel.addElement(theTopicsModel.get(i).toString());
+            for ( int i = 0; i < topicsModel.size(); i++ ) {
+                if ( includeString(text, topicsModel.get(i).toString()) ) {
+                    tempModel.addElement(topicsModel.get(i).toString());
                 }
             }
         }
         //Set the list to the temp model.
-        theTopicsList.setModel(tempModel);
-        theTopicsList.setSelectedIndex(0);
+        tpicsList.setModel(tempModel);
+        tpicsList.setSelectedIndex(0);
     }
     
     /**

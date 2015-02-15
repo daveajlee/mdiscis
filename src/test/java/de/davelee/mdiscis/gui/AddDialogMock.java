@@ -2,13 +2,13 @@ package de.davelee.mdiscis.gui;
 
 import javax.swing.JFrame;
 
-import mdiscis.data.DiscStore;
-import mdiscis.data.Talk;
-import mdiscis.gui.AddDialog;
-import mdiscis.gui.MDISCISGUI;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.davelee.mdiscis.data.DiscStore;
+import de.davelee.mdiscis.data.Talk;
+import de.davelee.mdiscis.gui.AddDialog;
+import de.davelee.mdiscis.gui.MDISCISGUI;
 
 public class AddDialogMock extends AddDialog {
 	

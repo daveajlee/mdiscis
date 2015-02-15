@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import mdiscis.gui.HelpScreen;
+import de.davelee.mdiscis.gui.HelpScreen;
 
 public class HelpScreenTest {
 	

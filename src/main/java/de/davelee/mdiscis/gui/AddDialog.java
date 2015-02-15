@@ -1,4 +1,4 @@
-package mdiscis.gui;
+package de.davelee.mdiscis.gui;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,10 +8,10 @@ import javax.swing.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.davelee.mdiscis.data.*;
+
 import java.time.LocalDate;
 import java.util.*;
-
-import mdiscis.data.*;
 
 /**
  * The add dialog displays an add window to the user in the MDISCIS program.
@@ -28,20 +28,20 @@ public class AddDialog extends JDialog {
 	
 	private static final String EDIT_TALK = "Edit Talk";
 	
-	private JComboBox<Integer> theDiscBox;
-    private JSpinner theStartTrackSpinner;
-    private JSpinner theEndTrackSpinner;
-    private JTextField theSubjectField;
-    private JTextField theSpeakerField;
-    private JTextField theTalkTitleField;
-    private JSpinner theDayDateSpinner;
-    private JSpinner theMonthDateSpinner;
-    private JSpinner theYearDateSpinner;
+	private JComboBox<Integer> discBox;
+    private JSpinner startTrackSpinner;
+    private JSpinner endTrackSpinner;
+    private JTextField subjectField;
+    private JTextField speakerField;
+    private JTextField talkTitleField;
+    private JSpinner dayDateSpinner;
+    private JSpinner monthDateSpinner;
+    private JSpinner yearDateSpinner;
 
-    private JCheckBox theTalkRecordedOption;
+    private JCheckBox talkRecordedOption;
 
-    private DiscStore theDiscStore;
-    private MDISCISGUI theGUI;
+    private DiscStore discStore;
+    private MDISCISGUI gui;
 
     /**
      * Create a new add dialog to display on top of the parent frame.
@@ -50,32 +50,32 @@ public class AddDialog extends JDialog {
      * @param discStore a <code>DiscStore</code> representing the current store.
      * @param gui a <code>MinidiscGUI</code> representing the parent window.
      */
-    public AddDialog(JFrame parent, String title, DiscStore discStore, MDISCISGUI gui){
+    public AddDialog(JFrame parent, String title, final DiscStore discStore, final MDISCISGUI gui){
         super(parent,title,true);
 
         //Initialise variables.
-        theDiscStore = discStore;
-        theGUI = gui;
+        this.discStore = discStore;
+        this.gui = gui;
         
         DefaultComboBoxModel<Integer> discModel = new DefaultComboBoxModel<Integer>();
-        for ( int i = 0; i < theDiscStore.getNumDiscs(); i++ ) {
-            discModel.addElement(theDiscStore.getDiscNumber(i));
+        for ( int i = 0; i < this.discStore.getNumDiscs(); i++ ) {
+            discModel.addElement(this.discStore.getDiscNumber(i));
         }
-        theDiscBox = new JComboBox<Integer>(discModel);
-        theStartTrackSpinner = new JSpinner(new SpinnerNumberModel(1,1,50,1));
-        theEndTrackSpinner = new JSpinner(new SpinnerNumberModel(10,1,50,1));
-        theSubjectField = new JTextField("", 30);
-        theSpeakerField = new JTextField("", 30);
-        theTalkTitleField = new JTextField("",30);
+        discBox = new JComboBox<Integer>(discModel);
+        startTrackSpinner = new JSpinner(new SpinnerNumberModel(1,1,50,1));
+        endTrackSpinner = new JSpinner(new SpinnerNumberModel(10,1,50,1));
+        subjectField = new JTextField("", 30);
+        speakerField = new JTextField("", 30);
+        talkTitleField = new JTextField("",30);
         //Initialise day, month and year to current date.
         Calendar now = Calendar.getInstance();
-        theDayDateSpinner = new JSpinner(new SpinnerNumberModel(now.get(Calendar.DAY_OF_MONTH),1,31,1));
-        theMonthDateSpinner = new JSpinner(new SpinnerNumberModel(now.get(Calendar.MONTH) + 1,1,12,1));
-        theYearDateSpinner = new JSpinner(new SpinnerNumberModel(now.get(Calendar.YEAR),2003,2023,1));
-        JSpinner.NumberEditor yearDisplayer = new JSpinner.NumberEditor(theYearDateSpinner,"0000");
-        theYearDateSpinner.setEditor(yearDisplayer);
+        dayDateSpinner = new JSpinner(new SpinnerNumberModel(now.get(Calendar.DAY_OF_MONTH),1,31,1));
+        monthDateSpinner = new JSpinner(new SpinnerNumberModel(now.get(Calendar.MONTH) + 1,1,12,1));
+        yearDateSpinner = new JSpinner(new SpinnerNumberModel(now.get(Calendar.YEAR),2003,2023,1));
+        JSpinner.NumberEditor yearDisplayer = new JSpinner.NumberEditor(yearDateSpinner,"0000");
+        yearDateSpinner.setEditor(yearDisplayer);
 
-        theTalkRecordedOption = new JCheckBox();
+        talkRecordedOption = new JCheckBox();
 
         //Create interface.
         createInterface();
@@ -91,31 +91,31 @@ public class AddDialog extends JDialog {
      * @param talk a <code>Talk</code> Object with the talk details.
      * @param gui a <code>MinidiscGUI</code> representing the parent window.
      */
-    public AddDialog(JFrame parent, String title, DiscStore discStore, int discNumber, int trackNumber, Talk talk, MDISCISGUI gui){
+    public AddDialog(JFrame parent, String title, final DiscStore discStore, int discNumber, int trackNumber, Talk talk, final MDISCISGUI gui){
         super(parent,title,true);
 
         //Initialise variables.
-        theDiscStore = discStore;
-        theGUI = gui;
+        this.discStore = discStore;
+        this.gui = gui;
 
         DefaultComboBoxModel<Integer> discModel = new DefaultComboBoxModel<Integer>();
         discModel.addElement(discNumber);
-        theDiscBox = new JComboBox<Integer>(discModel);
-        theStartTrackSpinner = new JSpinner(new SpinnerNumberModel(trackNumber,trackNumber,trackNumber,0));
-        theEndTrackSpinner = new JSpinner(new SpinnerNumberModel(trackNumber,trackNumber,trackNumber,0));
-        theEndTrackSpinner.setVisible(false);
-        theSubjectField = new JTextField(talk.getSubject(), 30);
-        theSpeakerField = new JTextField(talk.getSpeaker(), 30);
-        theTalkTitleField = new JTextField(talk.getTitle(),30);
+        discBox = new JComboBox<Integer>(discModel);
+        startTrackSpinner = new JSpinner(new SpinnerNumberModel(trackNumber,trackNumber,trackNumber,0));
+        endTrackSpinner = new JSpinner(new SpinnerNumberModel(trackNumber,trackNumber,trackNumber,0));
+        endTrackSpinner.setVisible(false);
+        subjectField = new JTextField(talk.getSubject(), 30);
+        speakerField = new JTextField(talk.getSpeaker(), 30);
+        talkTitleField = new JTextField(talk.getTitle(),30);
         //Initialise day, month and year to supplied date.
-        theDayDateSpinner = new JSpinner(new SpinnerNumberModel(talk.getDate().getDayOfMonth(),1,31,1));
-        theMonthDateSpinner = new JSpinner(new SpinnerNumberModel(talk.getDate().getMonthValue(),1,12,1));
-        theYearDateSpinner = new JSpinner(new SpinnerNumberModel(talk.getDate().getYear(),2003,2023,1));
-        JSpinner.NumberEditor yearDisplayer = new JSpinner.NumberEditor(theYearDateSpinner,"0000");
-        theYearDateSpinner.setEditor(yearDisplayer);
+        dayDateSpinner = new JSpinner(new SpinnerNumberModel(talk.getDate().getDayOfMonth(),1,31,1));
+        monthDateSpinner = new JSpinner(new SpinnerNumberModel(talk.getDate().getMonthValue(),1,12,1));
+        yearDateSpinner = new JSpinner(new SpinnerNumberModel(talk.getDate().getYear(),2003,2023,1));
+        JSpinner.NumberEditor yearDisplayer = new JSpinner.NumberEditor(yearDateSpinner,"0000");
+        yearDateSpinner.setEditor(yearDisplayer);
 
-        theTalkRecordedOption = new JCheckBox();
-        theTalkRecordedOption.setSelected(talk.isRecorded());
+        talkRecordedOption = new JCheckBox();
+        talkRecordedOption.setSelected(talk.isRecorded());
 
         //Create interface.
         createInterface();
@@ -133,36 +133,36 @@ public class AddDialog extends JDialog {
         JPanel fieldPanel = new JPanel(new GridLayout(9,2,5,5));
 
         labelPanel.add(new JLabel("Disc"));
-        fieldPanel.add(theDiscBox);
+        fieldPanel.add(discBox);
         if ( "Add Talk".equalsIgnoreCase(super.getTitle()) ) {
             labelPanel.add(new JLabel("Start Track"));
-            fieldPanel.add(theStartTrackSpinner);
+            fieldPanel.add(startTrackSpinner);
             labelPanel.add(new JLabel("End Track"));
-            fieldPanel.add(theEndTrackSpinner);
+            fieldPanel.add(endTrackSpinner);
         } else {
             labelPanel.add(new JLabel("Track"));
-            fieldPanel.add(theStartTrackSpinner);
+            fieldPanel.add(startTrackSpinner);
             labelPanel.add(new JLabel("")); 
             fieldPanel.add(new JLabel(""));
         }
         labelPanel.add(new JLabel("Subject"));
-        fieldPanel.add(theSubjectField);
+        fieldPanel.add(subjectField);
         labelPanel.add(new JLabel("Speaker"));
-        fieldPanel.add(theSpeakerField);
+        fieldPanel.add(speakerField);
         labelPanel.add(new JLabel("Talk Title"));
-        fieldPanel.add(theTalkTitleField);
+        fieldPanel.add(talkTitleField);
         labelPanel.add(new JLabel("Date"));
         //Construct a separate panel for date.
         JPanel datePanel = new JPanel();
-        datePanel.add(theDayDateSpinner); 
+        datePanel.add(dayDateSpinner); 
         datePanel.add(new JLabel("/"));
-        datePanel.add(theMonthDateSpinner); 
+        datePanel.add(monthDateSpinner); 
         datePanel.add(new JLabel("/"));
-        datePanel.add(theYearDateSpinner);
+        datePanel.add(yearDateSpinner);
         fieldPanel.add(datePanel);
         //Finally add recorded.
         labelPanel.add(new JLabel("Recorded?"));
-        fieldPanel.add(theTalkRecordedOption);
+        fieldPanel.add(talkRecordedOption);
         
         c.add(labelPanel,BorderLayout.WEST);
         c.add(fieldPanel,BorderLayout.CENTER);
@@ -203,48 +203,48 @@ public class AddDialog extends JDialog {
     
     public void processOkButton ( ) {
     	//Check if the end track is before the start track - if it is show error message and do nothing.
-        if ( Integer.parseInt(theEndTrackSpinner.getValue().toString()) < Integer.parseInt(theStartTrackSpinner.getValue().toString())) {
+        if ( Integer.parseInt(endTrackSpinner.getValue().toString()) < Integer.parseInt(startTrackSpinner.getValue().toString())) {
             JOptionPane.showMessageDialog(AddDialog.this, "End Track value was less than the Start Track value which is not possible. Please choose another End Track value!", "ERROR: End Track is before Start Track", JOptionPane.ERROR_MESSAGE);
             return;
         }
         //Before we add it - delete the old one if it is edit!
         if ( EDIT_TALK.equalsIgnoreCase(AddDialog.this.getTitle()) ) {
-            theDiscStore.removeTrack(Integer.parseInt(theDiscBox.getSelectedItem().toString()), Integer.parseInt(theStartTrackSpinner.getValue().toString()));
+            discStore.removeTrack(Integer.parseInt(discBox.getSelectedItem().toString()), Integer.parseInt(startTrackSpinner.getValue().toString()));
         }
         boolean added = false;
         try {
-            int discNum = Integer.parseInt(theDiscBox.getSelectedItem().toString());
-            int startTrack = Integer.parseInt(theStartTrackSpinner.getValue().toString());
-            int endTrack = Integer.parseInt(theEndTrackSpinner.getValue().toString());
-            String subject = theSubjectField.getText();
-            String speaker = theSpeakerField.getText();
-            String talkTitle = theTalkTitleField.getText();
-            LocalDate date = getDate(theDayDateSpinner.getValue().toString() + "/" + theMonthDateSpinner.getValue().toString() + "/" + theYearDateSpinner.getValue().toString());
-            boolean recorded = theTalkRecordedOption.isSelected();
+            int discNum = Integer.parseInt(discBox.getSelectedItem().toString());
+            int startTrack = Integer.parseInt(startTrackSpinner.getValue().toString());
+            int endTrack = Integer.parseInt(endTrackSpinner.getValue().toString());
+            String subject = subjectField.getText();
+            String speaker = speakerField.getText();
+            String talkTitle = talkTitleField.getText();
+            LocalDate date = getDate(dayDateSpinner.getValue().toString() + "/" + monthDateSpinner.getValue().toString() + "/" + yearDateSpinner.getValue().toString());
+            boolean recorded = talkRecordedOption.isSelected();
             Talk talk = new Talk();
             talk.setSubject(subject);
             talk.setSpeaker(speaker);
             talk.setTitle(talkTitle);
             talk.setDate(date);
             talk.setRecorded(recorded);
-            added = theDiscStore.addTracks(discNum, startTrack, endTrack, talk);
+            added = discStore.addTracks(discNum, startTrack, endTrack, talk);
         } catch ( Exception ex ) { 
         	LOG.error("Parsing error whilst adding tracks", ex);
         }
         updateStatus(added);
-        theGUI.refreshDisplay();
+        gui.refreshDisplay();
         dispose();
     }
     
     public void updateStatus ( final boolean added ) {
     	if ( EDIT_TALK.equalsIgnoreCase(AddDialog.this.getTitle()) && added ) {
-        	theGUI.updateStatus("Track " + theDiscBox.getSelectedItem().toString() + " of disc " + theStartTrackSpinner.getValue().toString() + " has been edited successfully!");
+        	gui.updateStatus("Track " + discBox.getSelectedItem().toString() + " of disc " + startTrackSpinner.getValue().toString() + " has been edited successfully!");
         } else if ( EDIT_TALK.equalsIgnoreCase(AddDialog.this.getTitle()) && !added ) {
-        	theGUI.updateStatus("Track " + theDiscBox.getSelectedItem().toString() + " of disc " + theStartTrackSpinner.getValue().toString() + " could not be edited!");
+        	gui.updateStatus("Track " + discBox.getSelectedItem().toString() + " of disc " + startTrackSpinner.getValue().toString() + " could not be edited!");
         } else if ( added ) {
-        	theGUI.updateStatus("Added successfully.\n");
+        	gui.updateStatus("Added successfully.\n");
         } else {
-        	theGUI.updateStatus("Not added - Maybe a duplicate track id was used?\n");
+        	gui.updateStatus("Not added - Maybe a duplicate track id was used?\n");
         }
     }
 

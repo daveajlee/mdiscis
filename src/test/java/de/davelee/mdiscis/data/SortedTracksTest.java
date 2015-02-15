@@ -1,10 +1,11 @@
 package de.davelee.mdiscis.data;
 
 import static org.junit.Assert.assertEquals;
-import mdiscis.data.SortedTracks;
-import mdiscis.data.Track;
 
 import org.junit.Test;
+
+import de.davelee.mdiscis.data.SortedTracks;
+import de.davelee.mdiscis.data.Track;
 
 public class SortedTracksTest {
 	
