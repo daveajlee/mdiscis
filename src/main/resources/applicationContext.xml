@@ -30,6 +30,29 @@
     	<property name="addDiscButtonText" value="${add.disc.button}"/>
     	<property name="loadDialogMessage" value="${load.dialog.message}"/>
     	<property name="loadDialogTitle" value="${load.dialog.title}"/>
+    	<property name="discLabelText" value="${disc.label.text}"/>
+    	<property name="trackLabelText" value="${track.label.text}"/>
+    	<property name="exitDialogMessage" value="${exit.dialog.message}"/>
+    	<property name="exitDialogTitle" value="${exit.dialog.title}"/>
+    	<property name="yesOptionText" value="${yes.option.text}"/>
+    	<property name="noOptionText" value="${no.option.text}"/>
+    	<property name="editButtonText" value="${edit.button}"/>
+    	<property name="deleteButtonText" value="${delete.button}"/>
+    	<property name="deleteTrackDialogMessage" value="${delete.track.dialog.message}"/>
+    	<property name="deleteDialogTitle" value="${delete.dialog.title}"/>
+    	<property name="deleteSuccessText" value="${delete.success.text}"/>
+    	<property name="deleteErrorText" value="${delete.error.text}"/>
+    </bean>
+    
+    <bean id="menuConfig" class="de.davelee.mdiscis.config.MenuConfig">
+    	<property name="fileText" value="${menu.file.text}"/>
+    	<property name="newText" value="${menu.new.text}"/>
+    	<property name="loadText" value="${menu.load.text}"/>
+    	<property name="saveText" value="${menu.save.text}"/>
+    	<property name="exitText" value="${menu.exit.text}"/>
+    	<property name="helpText" value="${menu.help.text}"/>
+    	<property name="contentsText" value="${menu.contents.text}"/>
+    	<property name="aboutText" value="${menu.about.text}"/>
     </bean>
 
 </beans>

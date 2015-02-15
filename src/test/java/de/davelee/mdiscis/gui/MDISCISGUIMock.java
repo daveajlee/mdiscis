@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.davelee.mdiscis.config.GUIConfig;
+import de.davelee.mdiscis.config.MenuConfig;
 import de.davelee.mdiscis.data.DiscStore;
 import de.davelee.mdiscis.data.Talk;
 import de.davelee.mdiscis.gui.HelpScreen;
@@ -20,11 +21,11 @@ public class MDISCISGUIMock extends MDISCISGUI {
 	private static final Logger LOG = LoggerFactory.getLogger(HelpScreen.class);
 	
 	public MDISCISGUIMock() {
-		super(new GUIConfig());
+		super(new GUIConfig(), new MenuConfig());
 	}
 	
 	public MDISCISGUIMock(DiscStore discStore) {
-		super(discStore, new GUIConfig());
+		super(discStore, new GUIConfig(), new MenuConfig());
 	}
 	
 	public void displayScreen() {

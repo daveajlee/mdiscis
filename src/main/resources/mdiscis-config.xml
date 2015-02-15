@@ -20,4 +20,25 @@
 	<entry key="add.disc.button">Add Another Disc</entry>
 	<entry key="load.dialog.message">Are you sure you want to load a store without saving the current store?</entry>
 	<entry key="load.dialog.title">Please Confirm Load Operation</entry>
+	<entry key="disc.label.text">Disc: </entry>
+	<entry key="track.label.text">Track: </entry>
+	<entry key="exit.dialog.message">Are you sure you wish to exit MDISCIS?</entry>
+	<entry key="exit.dialog.title">Please Confirm Exit</entry>
+	<entry key="yes.option.text">Yes</entry>
+	<entry key="no.option.text">No</entry>
+	<entry key="edit.button">Edit</entry>
+	<entry key="delete.button">Delete</entry>
+	<entry key="delete.track.dialog.message"> Are you sure that you wish to delete this track?</entry>
+	<entry key="delete.dialog.title">Please confirm delete operation!</entry>
+	<entry key="delete.success.text"> was removed successfully! </entry>
+	<entry key="delete.error.text"> could not be removed!</entry>
+	<!-- Menu Config -->
+	<entry key="menu.file.text">File</entry>
+	<entry key="menu.new.text">New</entry>
+	<entry key="menu.load.text">Load</entry>
+	<entry key="menu.save.text">Save</entry>
+	<entry key="menu.exit.text">Exit</entry>
+	<entry key="menu.help.text">Help</entry>
+	<entry key="menu.contents.text">Contents</entry>
+	<entry key="menu.about.text">About</entry>
 </properties>

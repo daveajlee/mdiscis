@@ -19,6 +19,18 @@ public class GUIConfig {
 	private String addDiscButtonText;
 	private String loadDialogMessage;
 	private String loadDialogTitle;
+	private String discLabelText;
+	private String trackLabelText;
+	private String exitDialogMessage;
+	private String exitDialogTitle;
+	private String yesOptionText;
+	private String noOptionText;
+	private String editButtonText;
+	private String deleteButtonText;
+	private String deleteTrackDialogMessage;
+	private String deleteDialogTitle;
+	private String deleteSuccessText;
+	private String deleteErrorText;
 
 	public String getTitle() {
 		return title;
@@ -156,4 +168,100 @@ public class GUIConfig {
 		this.loadDialogTitle = loadDialogTitle;
 	}
 
+	public String getDiscLabelText() {
+		return discLabelText;
+	}
+
+	public void setDiscLabelText(final String discLabelText) {
+		this.discLabelText = discLabelText;
+	}
+	
+	public String getTrackLabelText() {
+		return trackLabelText;
+	}
+
+	public void setTrackLabelText(final String trackLabelText) {
+		this.trackLabelText = trackLabelText;
+	}
+
+	public String getExitDialogMessage() {
+		return exitDialogMessage;
+	}
+
+	public void setExitDialogMessage(final String exitDialogMessage) {
+		this.exitDialogMessage = exitDialogMessage;
+	}
+
+	public String getExitDialogTitle() {
+		return exitDialogTitle;
+	}
+
+	public void setExitDialogTitle(final String exitDialogTitle) {
+		this.exitDialogTitle = exitDialogTitle;
+	}
+
+	public String getYesOptionText() {
+		return yesOptionText;
+	}
+
+	public void setYesOptionText(final String yesOptionText) {
+		this.yesOptionText = yesOptionText;
+	}
+
+	public String getNoOptionText() {
+		return noOptionText;
+	}
+
+	public void setNoOptionText(final String noOptionText) {
+		this.noOptionText = noOptionText;
+	}
+
+	public String getEditButtonText() {
+		return editButtonText;
+	}
+
+	public void setEditButtonText(final String editButtonText) {
+		this.editButtonText = editButtonText;
+	}
+
+	public String getDeleteButtonText() {
+		return deleteButtonText;
+	}
+
+	public void setDeleteButtonText(final String deleteButtonText) {
+		this.deleteButtonText = deleteButtonText;
+	}
+
+	public String getDeleteTrackDialogMessage() {
+		return deleteTrackDialogMessage;
+	}
+
+	public void setDeleteTrackDialogMessage(final String deleteTrackDialogMessage) {
+		this.deleteTrackDialogMessage = deleteTrackDialogMessage;
+	}
+
+	public String getDeleteDialogTitle() {
+		return deleteDialogTitle;
+	}
+
+	public void setDeleteDialogTitle(final String deleteDialogTitle) {
+		this.deleteDialogTitle = deleteDialogTitle;
+	}
+
+	public String getDeleteSuccessText() {
+		return deleteSuccessText;
+	}
+
+	public void setDeleteSuccessText(final String deleteSuccessText) {
+		this.deleteSuccessText = deleteSuccessText;
+	}
+
+	public String getDeleteErrorText() {
+		return deleteErrorText;
+	}
+
+	public void setDeleteErrorText(final String deleteErrorText) {
+		this.deleteErrorText = deleteErrorText;
+	}
+	
 }
