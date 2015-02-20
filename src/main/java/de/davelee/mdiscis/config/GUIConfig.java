@@ -28,9 +28,27 @@ public class GUIConfig {
 	private String editButtonText;
 	private String deleteButtonText;
 	private String deleteTrackDialogMessage;
+	private String deleteDiscDialogMessage;
 	private String deleteDialogTitle;
 	private String deleteSuccessText;
 	private String deleteErrorText;
+	private String addedSuccessText;
+	private String clearDialogMessage;
+	private String clearDialogTitle;
+	private String clearSuccessText;
+	private String editLabelText;
+	private String editErrorText;
+	private String saveFileDialogTitle;
+	private String loadFileDialogTitle;
+	private String fileExtension;
+	private String fileExtensionName;
+	private String saveFileSuccessText;
+	private String saveFileErrorText;
+	private String loadFileSuccessText;
+	private String loadFileErrorText;
+	private String newDialogMessage;
+	private String newDialogTitle;
+	private String newSuccessText;
 
 	public String getTitle() {
 		return title;
@@ -239,6 +257,14 @@ public class GUIConfig {
 	public void setDeleteTrackDialogMessage(final String deleteTrackDialogMessage) {
 		this.deleteTrackDialogMessage = deleteTrackDialogMessage;
 	}
+	
+	public String getDeleteDiscDialogMessage() {
+		return deleteDiscDialogMessage;
+	}
+
+	public void setDeleteDiscDialogMessage(final String deleteDiscDialogMessage) {
+		this.deleteDiscDialogMessage = deleteDiscDialogMessage;
+	}
 
 	public String getDeleteDialogTitle() {
 		return deleteDialogTitle;
@@ -262,6 +288,142 @@ public class GUIConfig {
 
 	public void setDeleteErrorText(final String deleteErrorText) {
 		this.deleteErrorText = deleteErrorText;
+	}
+
+	public String getAddedSuccessText() {
+		return addedSuccessText;
+	}
+
+	public void setAddedSuccessText(final String addedSuccessText) {
+		this.addedSuccessText = addedSuccessText;
+	}
+
+	public String getClearDialogMessage() {
+		return clearDialogMessage;
+	}
+
+	public void setClearDialogMessage(final String clearDialogMessage) {
+		this.clearDialogMessage = clearDialogMessage;
+	}
+
+	public String getClearDialogTitle() {
+		return clearDialogTitle;
+	}
+
+	public void setClearDialogTitle(final String clearDialogTitle) {
+		this.clearDialogTitle = clearDialogTitle;
+	}
+
+	public String getClearSuccessText() {
+		return clearSuccessText;
+	}
+
+	public void setClearSuccessText(final String clearSuccessText) {
+		this.clearSuccessText = clearSuccessText;
+	}
+
+	public String getEditLabelText() {
+		return editLabelText;
+	}
+
+	public void setEditLabelText(final String editLabelText) {
+		this.editLabelText = editLabelText;
+	}
+
+	public String getEditErrorText() {
+		return editErrorText;
+	}
+
+	public void setEditErrorText(final String editErrorText) {
+		this.editErrorText = editErrorText;
+	}
+
+	public String getSaveFileDialogTitle() {
+		return saveFileDialogTitle;
+	}
+
+	public void setSaveFileDialogTitle(final String saveFileDialogTitle) {
+		this.saveFileDialogTitle = saveFileDialogTitle;
+	}
+
+	public String getLoadFileDialogTitle() {
+		return loadFileDialogTitle;
+	}
+
+	public void setLoadFileDialogTitle(final String loadFileDialogTitle) {
+		this.loadFileDialogTitle = loadFileDialogTitle;
+	}
+
+	public String getFileExtension() {
+		return fileExtension;
+	}
+
+	public void setFileExtension(final String fileExtension) {
+		this.fileExtension = fileExtension;
+	}
+
+	public String getFileExtensionName() {
+		return fileExtensionName;
+	}
+
+	public void setFileExtensionName(final String fileExtensionName) {
+		this.fileExtensionName = fileExtensionName;
+	}
+
+	public String getSaveFileSuccessText() {
+		return saveFileSuccessText;
+	}
+
+	public void setSaveFileSuccessText(final String saveFileSuccessText) {
+		this.saveFileSuccessText = saveFileSuccessText;
+	}
+
+	public String getSaveFileErrorText() {
+		return saveFileErrorText;
+	}
+
+	public void setSaveFileErrorText(final String saveFileErrorText) {
+		this.saveFileErrorText = saveFileErrorText;
+	}
+
+	public String getLoadFileSuccessText() {
+		return loadFileSuccessText;
+	}
+
+	public void setLoadFileSuccessText(final String loadFileSuccessText) {
+		this.loadFileSuccessText = loadFileSuccessText;
+	}
+
+	public String getLoadFileErrorText() {
+		return loadFileErrorText;
+	}
+
+	public void setLoadFileErrorText(final String loadFileErrorText) {
+		this.loadFileErrorText = loadFileErrorText;
+	}
+
+	public String getNewDialogMessage() {
+		return newDialogMessage;
+	}
+
+	public void setNewDialogMessage(final String newDialogMessage) {
+		this.newDialogMessage = newDialogMessage;
+	}
+
+	public String getNewDialogTitle() {
+		return newDialogTitle;
+	}
+
+	public void setNewDialogTitle(final String newDialogTitle) {
+		this.newDialogTitle = newDialogTitle;
+	}
+
+	public String getNewSuccessText() {
+		return newSuccessText;
+	}
+
+	public void setNewSuccessText(final String newSuccessText) {
+		this.newSuccessText = newSuccessText;
 	}
 	
 }

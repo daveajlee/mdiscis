@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import de.davelee.mdiscis.config.GUIConfig;
+import de.davelee.mdiscis.config.HelpConfig;
 import de.davelee.mdiscis.config.MenuConfig;
 import de.davelee.mdiscis.data.*;
 
@@ -55,24 +56,27 @@ public class MDISCISGUI extends JFrame {
     //Config objects.
     private GUIConfig guiConfig;
     private MenuConfig menuConfig;
+    private HelpConfig helpConfig;
 
     /**
      * Create and display the user interface to the user.
      */
-    public MDISCISGUI ( final DiscStore discStore, final GUIConfig guiConfig, final MenuConfig menuConfig ) {
+    public MDISCISGUI ( final DiscStore discStore, final GUIConfig guiConfig, final MenuConfig menuConfig, final HelpConfig helpConfig ) {
         this.discStore = discStore;
         this.guiConfig = guiConfig;
         this.menuConfig = menuConfig;
+        this.helpConfig = helpConfig;
         createInterface();
     }
     
     /**
      * Create and display the user interface to the user.
      */
-    public MDISCISGUI ( final GUIConfig guiConfig, final MenuConfig menuConfig ) {
+    public MDISCISGUI ( final GUIConfig guiConfig, final MenuConfig menuConfig, final HelpConfig helpConfig ) {
         discStore = new DiscStore();
         this.guiConfig = guiConfig;
         this.menuConfig = menuConfig;
+        this.helpConfig = helpConfig;
         createInterface();
     }
 
@@ -303,7 +307,7 @@ public class MDISCISGUI extends JFrame {
         menuItem = new JMenuItem(menuConfig.getContentsText());
         menuItem.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                HelpScreen screen = new HelpScreen();
+                HelpScreen screen = new HelpScreen(helpConfig);
                 screen.displayScreen();
             }
         });
@@ -414,7 +418,7 @@ public class MDISCISGUI extends JFrame {
     public void addAnotherDisc() {
         int nextDiscNumber = discStore.addDisc();
         discModel.addElement(nextDiscNumber);
-        statusBar.setText(guiConfig.getDiscText() + nextDiscNumber + " has been successfully added!");
+        statusBar.setText(guiConfig.getDiscText() + nextDiscNumber + guiConfig.getAddedSuccessText());
         if ( discStore.getNumDiscs() == 1 ) {
             clearDiscButton.setEnabled(true);
             deleteDiscButton.setEnabled(true);
@@ -426,10 +430,10 @@ public class MDISCISGUI extends JFrame {
      * Private method to clear discs.
      */
     public void clearDisc(int discNumber) {
-        int confirm = showConfirmDialog("Are you sure that you wish to delete the index of disc " + discNumber + "?", "Please confirm clear operation!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int confirm = showConfirmDialog(guiConfig.getDiscText() + discNumber + guiConfig.getClearDialogMessage(), guiConfig.getClearDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if ( confirm == JOptionPane.YES_OPTION ) {
             discStore.clearDisc(discNumber);
-            statusBar.setText(guiConfig.getDiscText() + discNumber + " has been successfully cleared!");
+            statusBar.setText(guiConfig.getDiscText() + discNumber + guiConfig.getClearSuccessText());
         }
     }
     
@@ -441,11 +445,11 @@ public class MDISCISGUI extends JFrame {
      * Private method to delete disc.
      */
     public void deleteDisc(int discNumber) {
-        int confirm = showConfirmDialog("Are you sure that you wish to delete disc " + discNumber + "?", "Please confirm delete operation!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int confirm = showConfirmDialog(guiConfig.getDiscText() + discNumber + guiConfig.getDeleteDiscDialogMessage(), guiConfig.getDeleteDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if ( confirm == JOptionPane.YES_OPTION ) {
             discStore.deleteDisc(discNumber);
             discModel.removeElement(discNumber);
-            statusBar.setText(guiConfig.getDiscText() + discNumber + " has been successfully deleted!");
+            statusBar.setText(guiConfig.getDiscText() + discNumber + guiConfig.getDeleteSuccessText());
         }
         if ( discStore.getNumDiscs() == 0 ) {
             clearDiscButton.setEnabled(false);
@@ -473,10 +477,10 @@ public class MDISCISGUI extends JFrame {
         Track myTrack = discStore.getDisc(discNumber).getTrackByNumber(trackNumber);
         //Check that it is not null.
         if ( myTrack == null ) {
-            statusBar.setText("ERROR: Track could not be edited!");
+            statusBar.setText(guiConfig.getEditErrorText());
             return;
         }
-        showEditDialog("Edit Talk", discNumber, trackNumber, myTrack.getTalk());
+        showEditDialog(guiConfig.getEditLabelText(), discNumber, trackNumber, myTrack.getTalk());
     }
     
     public void showEditDialog(final String title, final int discNumber, final int trackNumber, final Talk talk) {
@@ -491,9 +495,9 @@ public class MDISCISGUI extends JFrame {
     public JFileChooser showSaveFileDialog ( ) {
         //Create file dialog box.
         JFileChooser fileDialog = new JFileChooser();
-        fileDialog.setDialogTitle("Save Disc Store");
+        fileDialog.setDialogTitle(guiConfig.getSaveFileDialogTitle());
         //Only display files with mdi extension.
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Minidisc Index Files", "mdi");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(guiConfig.getFileExtensionName(), guiConfig.getFileExtension());
         fileDialog.setFileFilter(filter);
         //Display file dialog.
         return fileDialog;
@@ -502,9 +506,9 @@ public class MDISCISGUI extends JFrame {
     public JFileChooser showOpenFileDialog ( ) {
     	//Create file dialog box.
         JFileChooser fileDialog = new JFileChooser();
-        fileDialog.setDialogTitle("Load Disc Store");
+        fileDialog.setDialogTitle(guiConfig.getLoadFileDialogTitle());
         //Only display files with mdi extension.
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Mindisc Index Files", "mdi");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(guiConfig.getFileExtensionName(), guiConfig.getFileExtension());
         fileDialog.setFileFilter(filter);
         //Display file dialog.
         return fileDialog;
@@ -515,24 +519,24 @@ public class MDISCISGUI extends JFrame {
         if ( returnVal == JFileChooser.APPROVE_OPTION ) {
             if ( discStore.saveFile(selectedFile) ) {
                 String fileName = selectedFile.getPath();
-                if ( !fileName.endsWith(".mdi") ) { 
-                	fileName += ".mdi"; 
+                if ( !fileName.endsWith("." + guiConfig.getFileExtension()) ) { 
+                	fileName += "." + guiConfig.getFileExtension(); 
                 }
-                statusBar.setText("The current disc indices have been successfully saved to " + fileName);
+                statusBar.setText(guiConfig.getSaveFileSuccessText() + fileName);
             } else {
-                statusBar.setText("ERROR: The file could not be saved. Please try again later.");
+                statusBar.setText(guiConfig.getSaveFileErrorText());
             }
         }
     }
 
     public int showOptionDialog ( final String message, final String title, final int options, final int messageType ) {
-    	return JOptionPane.showOptionDialog(MDISCISGUI.this, message, title, options, messageType, null, new String[] { "Yes", "No" }, "No");
+    	return JOptionPane.showOptionDialog(MDISCISGUI.this, message, title, options, messageType, null, new String[] { guiConfig.getYesOptionText(), guiConfig.getNoOptionText() }, guiConfig.getNoOptionText());
     }
     
     public void loadDisplayScreen( final DiscStore discStore ) {
-    	MDISCISGUI gui = new MDISCISGUI(discStore, guiConfig, menuConfig);
+    	MDISCISGUI gui = new MDISCISGUI(discStore, guiConfig, menuConfig, helpConfig);
         gui.displayScreen();
-        gui.statusBar.setText("File loaded successfully!");
+        gui.statusBar.setText(guiConfig.getLoadFileSuccessText());
         dispose();
     }
     
@@ -550,7 +554,7 @@ public class MDISCISGUI extends JFrame {
             validFile = false;
         }
         if ( !validFile ) {
-        	this.statusBar.setText("The selected file is not compatible with this version of MDISCIS. Please either choose another file or create a new store.");
+        	this.statusBar.setText(guiConfig.getLoadFileErrorText());
         }
     }
 
@@ -559,11 +563,11 @@ public class MDISCISGUI extends JFrame {
      */
     private void newFile ( ) {
         //Check that the user wants to lose data.
-        int result = JOptionPane.showOptionDialog(MDISCISGUI.this, "Are you sure you want to create a new store without saving the current store?", "Please Confirm New Operation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[] { "Yes", "No" }, "No");
+        int result = JOptionPane.showOptionDialog(MDISCISGUI.this, guiConfig.getNewDialogMessage(), guiConfig.getNewDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[] { "Yes", "No" }, "No");
         if ( result == JOptionPane.YES_OPTION ) {
-            MDISCISGUI gui = new MDISCISGUI(discStore, guiConfig, menuConfig);
+            MDISCISGUI gui = new MDISCISGUI(discStore, guiConfig, menuConfig, helpConfig);
             gui.displayScreen();
-            gui.statusBar.setText("Created a new disc store successfully!");
+            gui.statusBar.setText(guiConfig.getNewSuccessText());
             dispose();
         }
     }
@@ -576,6 +580,7 @@ public class MDISCISGUI extends JFrame {
     	ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         GUIConfig guiConfig = context.getBean(GUIConfig.class);
         MenuConfig menuConfig = context.getBean(MenuConfig.class);
+        HelpConfig helpConfig = context.getBean(HelpConfig.class);
         try {
             //Use Nimbus Look and Feel!!!!
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -588,7 +593,7 @@ public class MDISCISGUI extends JFrame {
         	LOG.warn("Thread was interrupted!", e);
         }
         //Create the gui.
-        MDISCISGUI gui = new MDISCISGUI(guiConfig, menuConfig);
+        MDISCISGUI gui = new MDISCISGUI(guiConfig, menuConfig, helpConfig);
         gui.displayScreen();
         context.close();
     }

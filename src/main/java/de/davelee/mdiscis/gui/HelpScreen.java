@@ -9,12 +9,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+
 //Import java swing packages.
 import javax.swing.*;
 import javax.swing.event.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.davelee.mdiscis.config.HelpConfig;
 
 /**
  * HelpScreen.java is the screen to display the help screen for MDISCIS.
@@ -33,16 +36,19 @@ public class HelpScreen extends JFrame {
 	private JLabel searchLabel;
     private JTextField searchField;
     private JLabel topicsLabel;
-    private JList<String> tpicsList;
+    private JList<String> topicsList;
     private DefaultListModel<String> topicsModel;
     private JEditorPane displayPane;
     
     private Map<String, String> contentUrls;
+    private HelpConfig helpConfig;
     
     /**
      * Default constructor for HelpScreen which creates the help screen interface and displays it to the user.
      */
-    public HelpScreen (  ) {
+    public HelpScreen ( final HelpConfig helpConfig ) {
+    	
+    	this.helpConfig = helpConfig;
         
         //Set image icon.
         Image img = Toolkit.getDefaultToolkit().getImage(SplashScreen.class.getResource("/images/mdiscislogo.png"));
@@ -58,7 +64,7 @@ public class HelpScreen extends JFrame {
         initialiseContent();
         
         //Initialise GUI with title and close attributes.
-        this.setTitle ( "MDISCIS Help" );
+        this.setTitle ( helpConfig.getHelpScreenTitle() );
         this.setResizable (false);
         this.setDefaultCloseOperation (DISPOSE_ON_CLOSE);
         
@@ -82,7 +88,7 @@ public class HelpScreen extends JFrame {
         
         //Add search label.
         JPanel searchLabelPanel = new JPanel();
-        searchLabel = new JLabel("Search for Help...");
+        searchLabel = new JLabel(helpConfig.getSearchLabelText());
         searchLabel.setFont(new Font("Arial", Font.BOLD, 14));
         searchLabelPanel.add(searchLabel);
         leftPanel.add(searchLabelPanel);
@@ -101,7 +107,7 @@ public class HelpScreen extends JFrame {
         
         //Add search label.
         JPanel topicLabelPanel = new JPanel();
-        topicsLabel = new JLabel("Choose a Help Topic...");
+        topicsLabel = new JLabel(helpConfig.getTopicsLabelText());
         topicsLabel.setFont(new Font("Arial", Font.BOLD, 14));
         topicLabelPanel.add(topicsLabel);
         leftPanel.add(topicLabelPanel);
@@ -110,35 +116,35 @@ public class HelpScreen extends JFrame {
         //Add topics list.
         JPanel topicListPanel = new JPanel(new BorderLayout());
         topicsModel = new DefaultListModel<String>();
-        topicsModel.addElement("Welcome"); 
-        topicsModel.addElement("Main Screen");
-        topicsModel.addElement("New Disc Store"); 
-        topicsModel.addElement("Load Disc Store");
-        topicsModel.addElement("Save Disc Store"); 
-        topicsModel.addElement("Add Disc");
-        topicsModel.addElement("Clear Disc"); 
-        topicsModel.addElement("Delete Disc");
-        topicsModel.addElement("Add Track(s)"); 
-        topicsModel.addElement("Edit Track");
-        topicsModel.addElement("Delete Track");
+        topicsModel.addElement(helpConfig.getWelcomeOptionText()); 
+        topicsModel.addElement(helpConfig.getMainScreenOptionText());
+        topicsModel.addElement(helpConfig.getNewDiscStoreOptionText()); 
+        topicsModel.addElement(helpConfig.getLoadDiscStoreOptionText());
+        topicsModel.addElement(helpConfig.getSaveDiscStoreOptionText()); 
+        topicsModel.addElement(helpConfig.getAddDiscOptionText());
+        topicsModel.addElement(helpConfig.getClearDiscOptionText()); 
+        topicsModel.addElement(helpConfig.getDeleteDiscOptionText());
+        topicsModel.addElement(helpConfig.getAddTrackOptionText()); 
+        topicsModel.addElement(helpConfig.getEditTrackOptionText());
+        topicsModel.addElement(helpConfig.getDeleteTrackOptionText());
 
-        tpicsList = new JList<String>(topicsModel);
-        tpicsList.setVisibleRowCount(10);
-        tpicsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        topicsList = new JList<String>(topicsModel);
+        topicsList.setVisibleRowCount(10);
+        topicsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //Default.
-        tpicsList.setSelectedIndex(0);
+        topicsList.setSelectedIndex(0);
         //Action Listener for when a particular help topic is selected.
-        tpicsList.addListSelectionListener(new ListSelectionListener() {
+        topicsList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged ( ListSelectionEvent lse ) {
                 //Get selected item.
                 String selectedItem;
                 try {
-                    selectedItem = tpicsList.getSelectedValue().toString();
+                    selectedItem = topicsList.getSelectedValue().toString();
                 } catch ( NullPointerException npe ) {
                 	LOG.warn("No topics in list ", npe);
-                    if ( tpicsList.getModel().getSize() > 0 ) {
-                        selectedItem = tpicsList.getModel().getElementAt(0).toString();
-                        tpicsList.setSelectedValue(selectedItem, true);
+                    if ( topicsList.getModel().getSize() > 0 ) {
+                        selectedItem = topicsList.getModel().getElementAt(0).toString();
+                        topicsList.setSelectedValue(selectedItem, true);
                     } else {
                         selectedItem = "";
                     }
@@ -147,7 +153,7 @@ public class HelpScreen extends JFrame {
                 loadContent(selectedItem);
             }
         });
-        JScrollPane topicsPane = new JScrollPane(tpicsList);
+        JScrollPane topicsPane = new JScrollPane(topicsList);
         topicListPanel.add(topicsPane, BorderLayout.CENTER);
         leftPanel.add(topicListPanel);
         leftPanel.add(Box.createRigidArea(new Dimension(0, 10))); //Spacer.
@@ -163,7 +169,7 @@ public class HelpScreen extends JFrame {
         rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); //Spacer
         //Add editor pane.
         try {
-            displayPane = new JEditorPane(HelpScreen.class.getResource("/html/intro.html"));
+            displayPane = new JEditorPane(HelpScreen.class.getResource(helpConfig.getWelcomeOptionPage()));
             displayPane.setSize(new Dimension(650,500));
             displayPane.setMaximumSize(new Dimension(650,500));
         } catch (IOException e) {
@@ -199,17 +205,17 @@ public class HelpScreen extends JFrame {
     
     public void initialiseContent ( ) {
     	contentUrls = new HashMap<String, String>();
-    	contentUrls.put("Welcome", "/html/intro.html");
-    	contentUrls.put("Main Screen", "/html/mainscreen.html");
-    	contentUrls.put("New Disc Store", "/html/newdiscstore.html");
-    	contentUrls.put("Load Disc Store", "/html/loaddiscstore.html");
-    	contentUrls.put("Save Disc Store", "/html/savediscstore.html");
-    	contentUrls.put("Add Disc", "/html/adddisc.html");
-    	contentUrls.put("Clear Disc", "/html/cleardisc.html");
-    	contentUrls.put("Delete Disc", "/html/deletedisc.html");
-    	contentUrls.put("Add Track(s)", "/html/addtracks.html");
-    	contentUrls.put("Edit Track", "/html/edittrack.html");
-    	contentUrls.put("Delete Track", "/html/deletetrack.html");
+    	contentUrls.put(helpConfig.getWelcomeOptionText(), helpConfig.getWelcomeOptionPage());
+    	contentUrls.put(helpConfig.getMainScreenOptionText(), helpConfig.getMainScreenOptionPage());
+    	contentUrls.put(helpConfig.getNewDiscStoreOptionText(), helpConfig.getNewDiscStoreOptionPage());
+    	contentUrls.put(helpConfig.getLoadDiscStoreOptionText(), helpConfig.getLoadDiscStoreOptionPage());
+    	contentUrls.put(helpConfig.getSaveDiscStoreOptionText(), helpConfig.getSaveDiscStoreOptionPage());
+    	contentUrls.put(helpConfig.getAddDiscOptionText(), helpConfig.getAddDiscOptionPage());
+    	contentUrls.put(helpConfig.getClearDiscOptionText(), helpConfig.getClearDiscOptionPage());
+    	contentUrls.put(helpConfig.getDeleteDiscOptionText(), helpConfig.getDeleteDiscOptionPage());
+    	contentUrls.put(helpConfig.getAddTrackOptionText(), helpConfig.getAddTrackOptionPage());
+    	contentUrls.put(helpConfig.getEditTrackOptionText(), helpConfig.getEditTrackOptionPage());
+    	contentUrls.put(helpConfig.getDeleteTrackOptionText(), helpConfig.getDeleteTrackOptionPage());
     }
     
     public void loadContent(final String selectedItem) {
@@ -240,8 +246,8 @@ public class HelpScreen extends JFrame {
             }
         }
         //Set the list to the temp model.
-        tpicsList.setModel(tempModel);
-        tpicsList.setSelectedIndex(0);
+        topicsList.setModel(tempModel);
+        topicsList.setSelectedIndex(0);
     }
     
     /**
