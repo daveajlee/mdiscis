@@ -100,5 +100,30 @@
     	<property name="editTrackOptionPage" value="${help.topics.edittrack.page}"/>
     	<property name="deleteTrackOptionPage" value="${help.topics.deletetrack.page}"/>
     </bean>
+    
+    <bean id="addDialogConfig" class="de.davelee.mdiscis.config.AddDialogConfig">
+    	<property name="editTalkText" value="${add.edittalk.text}"/>
+    	<property name="discLabelText" value="${add.disc.label.text}"/>
+    	<property name="addTalkText" value="${add.addtalk.text}"/>
+    	<property name="startTrackText" value="${add.starttrack.text}"/>
+    	<property name="endTrackText" value="${add.endtrack.text}"/>
+    	<property name="trackText" value="${add.track.text}"/>
+    	<property name="subjectText" value="${add.subject.text}"/>
+    	<property name="speakerText" value="${add.speaker.text}"/>
+    	<property name="talkTitleText" value="${add.talktitle.text}"/>
+    	<property name="dateText" value="${add.date.text}"/>
+    	<property name="dateSymbol" value="${add.datesplitter.symbol}"/>
+    	<property name="recordedText" value="${add.recorded.text}"/>
+    	<property name="okButtonText" value="${add.okbutton.text}"/>
+    	<property name="cancelButtonText" value="${add.cancelbutton.text}"/>
+    	<property name="endTrackErrorMessage" value="${add.endtrack.error.message}"/>
+    	<property name="endTrackErrorTitle" value="${add.endtrack.error.title}"/>
+    	<property name="trackLabel" value="${add.track.label}"/>
+    	<property name="ofDiscLabel" value="${add.ofdisc.label}"/>
+    	<property name="editSuccessText" value="${add.edit.success.text}"/>
+    	<property name="editErrorText" value="${add.edit.error.text}"/>
+    	<property name="addSuccessText" value="${add.add.success.text}"/>
+    	<property name="addErrorText" value="${add.add.error.text}"/>
+    </bean>
 
 </beans>

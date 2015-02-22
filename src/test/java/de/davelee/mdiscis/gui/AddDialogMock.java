@@ -18,11 +18,11 @@ public class AddDialogMock extends AddDialog {
 	private static final long serialVersionUID = -3906493538783395728L;
 	private static final Logger LOG = LoggerFactory.getLogger(AddDialogMock.class);
 	
-	public AddDialogMock(JFrame parent, String title, DiscStore discStore, MDISCISGUI gui){
+	public AddDialogMock(final JFrame parent, final String title, final DiscStore discStore, final MDISCISGUI gui) {
 		super(parent, title, discStore, gui);
 	}
 	
-	public AddDialogMock(JFrame parent, String title, DiscStore discStore, int discNumber, int trackNumber, Talk talk, MDISCISGUI gui){
+	public AddDialogMock(final JFrame parent, final String title, final DiscStore discStore, final int discNumber, final int trackNumber, final Talk talk, final MDISCISGUI gui){
 		super(parent, title, discStore, discNumber, trackNumber, talk, gui);
 	}
 	

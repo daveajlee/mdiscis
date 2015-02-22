@@ -85,4 +85,27 @@
 	<entry key="help.topics.addtrack.page">/html/addtracks.html</entry>
 	<entry key="help.topics.edittrack.page">/html/edittrack.html</entry>
 	<entry key="help.topics.deletetrack.page">/html/deletetrack.html</entry>
+	<!-- Add Dialog -->
+	<entry key="add.edittalk.text">Edit Talk</entry>
+	<entry key="add.disc.label.text">Disc</entry>
+	<entry key="add.addtalk.text">Add Talk</entry>
+	<entry key="add.starttrack.text">Start Track</entry>
+	<entry key="add.endtrack.text">End Track</entry>
+	<entry key="add.track.text">Track</entry>
+	<entry key="add.subject.text">Subject</entry>
+	<entry key="add.speaker.text">Speaker</entry>
+	<entry key="add.talktitle.text">Talk Title</entry>
+	<entry key="add.date.text">Date</entry>
+	<entry key="add.datesplitter.symbol">/</entry>
+	<entry key="add.recorded.text">Recorded?</entry>
+	<entry key="add.okbutton.text">OK</entry>
+	<entry key="add.cancelbutton.text">Cancel</entry>
+	<entry key="add.endtrack.error.message">End Track value was less than the Start Track value which is not possible. Please choose another End Track value!</entry>
+	<entry key="add.endtrack.error.title">ERROR: End Track is before Start Track</entry>
+	<entry key="add.track.label">Track </entry>
+	<entry key="add.ofdisc.label"> of disc </entry>
+	<entry key="add.edit.success.text"> has been edited successfully!</entry>
+	<entry key="add.edit.error.text"> could not be edited!</entry>
+	<entry key="add.add.success.text">Added successfully.</entry>
+	<entry key="add.add.error.text">Not added - Maybe a duplicate track id was used?</entry>
 </properties>

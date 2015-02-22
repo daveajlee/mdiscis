@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import de.davelee.mdiscis.config.AddDialogConfig;
 import de.davelee.mdiscis.config.GUIConfig;
 import de.davelee.mdiscis.config.HelpConfig;
 import de.davelee.mdiscis.config.MenuConfig;
@@ -57,27 +58,25 @@ public class MDISCISGUI extends JFrame {
     private GUIConfig guiConfig;
     private MenuConfig menuConfig;
     private HelpConfig helpConfig;
+    private AddDialogConfig addDialogConfig;
 
     /**
      * Create and display the user interface to the user.
      */
-    public MDISCISGUI ( final DiscStore discStore, final GUIConfig guiConfig, final MenuConfig menuConfig, final HelpConfig helpConfig ) {
+    public MDISCISGUI ( final DiscStore discStore, final GUIConfig guiConfig, final MenuConfig menuConfig, final HelpConfig helpConfig, final AddDialogConfig addDialogConfig ) {
         this.discStore = discStore;
         this.guiConfig = guiConfig;
         this.menuConfig = menuConfig;
         this.helpConfig = helpConfig;
+        this.addDialogConfig = addDialogConfig;
         createInterface();
     }
     
     /**
      * Create and display the user interface to the user.
      */
-    public MDISCISGUI ( final GUIConfig guiConfig, final MenuConfig menuConfig, final HelpConfig helpConfig ) {
-        discStore = new DiscStore();
-        this.guiConfig = guiConfig;
-        this.menuConfig = menuConfig;
-        this.helpConfig = helpConfig;
-        createInterface();
+    public MDISCISGUI ( final GUIConfig guiConfig, final MenuConfig menuConfig, final HelpConfig helpConfig, final AddDialogConfig addDialogConfig ) {
+        this(new DiscStore(), guiConfig, menuConfig, helpConfig, addDialogConfig);
     }
 
     /**
@@ -263,7 +262,7 @@ public class MDISCISGUI extends JFrame {
         menuItem = new JMenuItem(menuConfig.getNewText());
         menuItem.addActionListener (new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                MDISCISGUI.this.newFile();
+                MDISCISGUI.this.newFile(JOptionPane.showOptionDialog(MDISCISGUI.this, guiConfig.getNewDialogMessage(), guiConfig.getNewDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[] { guiConfig.getYesOptionText(), guiConfig.getNoOptionText() }, guiConfig.getNoOptionText()));
             }
         });
         fileMenu.add(menuItem);
@@ -334,9 +333,9 @@ public class MDISCISGUI extends JFrame {
      * This method draws the contents panel as requested.
      */
     public JPanel drawContentsPanel ( ) {
-        JPanel contentsPanel = new JPanel(new GridLayout(guiConfig.getNumDisplayTracks(),1,5,5));
-        contentsPanel.setBorder(BorderFactory.createEtchedBorder());
-        contentsPanel.setBackground(Color.WHITE);
+        JPanel myContentsPanel = new JPanel(new GridLayout(guiConfig.getNumDisplayTracks(),1,5,5));
+        myContentsPanel.setBorder(BorderFactory.createEtchedBorder());
+        myContentsPanel.setBackground(Color.WHITE);
         //Initialise button arrays.
         editTrackButtons = new JButton[guiConfig.getNumDisplayTracks()];
         deleteTrackButtons = new JButton[guiConfig.getNumDisplayTracks()];
@@ -375,10 +374,10 @@ public class MDISCISGUI extends JFrame {
                 thisPanel.add(deleteTrackButtons[i]);
             }
             //Finally add this panel to the contents panel.
-            contentsPanel.add(thisPanel);
+            myContentsPanel.add(thisPanel);
         }
         //Return contents panel.
-        return contentsPanel;
+        return myContentsPanel;
     }
     
     public void performDeleteTrack ( final int trackNumber ) {
@@ -534,7 +533,7 @@ public class MDISCISGUI extends JFrame {
     }
     
     public void loadDisplayScreen( final DiscStore discStore ) {
-    	MDISCISGUI gui = new MDISCISGUI(discStore, guiConfig, menuConfig, helpConfig);
+    	MDISCISGUI gui = new MDISCISGUI(discStore, guiConfig, menuConfig, helpConfig, addDialogConfig);
         gui.displayScreen();
         gui.statusBar.setText(guiConfig.getLoadFileSuccessText());
         dispose();
@@ -561,18 +560,25 @@ public class MDISCISGUI extends JFrame {
     /**
      * Create a new disc store.
      */
-    private void newFile ( ) {
+    public void newFile ( final int result ) {
         //Check that the user wants to lose data.
-        int result = JOptionPane.showOptionDialog(MDISCISGUI.this, guiConfig.getNewDialogMessage(), guiConfig.getNewDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[] { "Yes", "No" }, "No");
         if ( result == JOptionPane.YES_OPTION ) {
-            MDISCISGUI gui = new MDISCISGUI(discStore, guiConfig, menuConfig, helpConfig);
+            MDISCISGUI gui = new MDISCISGUI(discStore, guiConfig, menuConfig, helpConfig, addDialogConfig);
             gui.displayScreen();
             gui.statusBar.setText(guiConfig.getNewSuccessText());
             dispose();
         }
     }
     
-    /**
+    public AddDialogConfig getAddDialogConfig() {
+		return addDialogConfig;
+	}
+
+	public void setAddDialogConfig(final AddDialogConfig addDialogConfig) {
+		this.addDialogConfig = addDialogConfig;
+	}
+
+	/**
      * Main method to run the MDISCIS program.
      * @param args a <code>String</code> array of arguments which are not presently used.
      */
@@ -581,6 +587,7 @@ public class MDISCISGUI extends JFrame {
         GUIConfig guiConfig = context.getBean(GUIConfig.class);
         MenuConfig menuConfig = context.getBean(MenuConfig.class);
         HelpConfig helpConfig = context.getBean(HelpConfig.class);
+        AddDialogConfig addDialogConfig = context.getBean(AddDialogConfig.class);
         try {
             //Use Nimbus Look and Feel!!!!
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -593,7 +600,7 @@ public class MDISCISGUI extends JFrame {
         	LOG.warn("Thread was interrupted!", e);
         }
         //Create the gui.
-        MDISCISGUI gui = new MDISCISGUI(guiConfig, menuConfig, helpConfig);
+        MDISCISGUI gui = new MDISCISGUI(guiConfig, menuConfig, helpConfig, addDialogConfig);
         gui.displayScreen();
         context.close();
     }

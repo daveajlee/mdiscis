@@ -19,25 +19,36 @@ public class MDISCISGUITest {
 	public void testMDISCISGUIShortConstructor() {
 		MDISCISGUI gui = new MDISCISGUIMock();
 		gui.processPreviousTrackButton(1);
+		gui.processPreviousTrackButton(10);
 		gui.processNextTrackButton(1, 1);
+		gui.processNextTrackButton(1, 50);
+		gui.processNextTrackButton(2, 50);
 		gui.addAnotherDisc();
 		gui.createDiscControlPanel();
 		gui.initialiseMenu();
 		gui.addAnotherDisc();
+		gui.processPreviousTrackButton(1);
 		gui.clearDisc(1);
 		gui.clearDisc(3);
 		gui.deleteDisc(1);
+		gui.deleteDisc(2);
 		gui.deleteDisc(3);
 		gui.updateStatus("Test");
+		gui.newFile(JOptionPane.YES_OPTION);
+		gui.newFile(JOptionPane.NO_OPTION);
 	}
 	
 	@Test
 	public void testMDISCISGUILongConstructor() {
 		DiscStore discStore = new DiscStore();
 		discStore.addDisc();
+		discStore.getDisc(1).addTracks(1, 50, new Talk());
 		MDISCISGUI gui = new MDISCISGUIMock();
 		gui.processPreviousTrackButton(1);
+		gui.processPreviousTrackButton(13);
 		gui.processNextTrackButton(1, 1);
+		gui.processNextTrackButton(1, 50);
+		gui.processNextTrackButton(2, 50);
 		gui.createDiscControlPanel();
 		gui.initialiseMenu();
 		gui.updateStatus("Test");
