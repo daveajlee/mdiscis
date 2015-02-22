@@ -17,6 +17,12 @@
     <log4j.version>2.0.2</log4j.version>
     <spring.version>4.1.4.RELEASE</spring.version>
   </properties>
+ 
+  <scm>
+    <connection>scm:git:git://dal109txl@bitbucket.org/dal109txl/mdiscis.git</connection>
+    <developerConnection>scm:git:https://dal109txl@bitbucket.org/dal109txl/mdiscis.git</developerConnection>
+    <url>https://dal109txl@bitbucket.org/dal109txl/mdiscis.git</url>
+  </scm>
 
   <dependencies>
     	<dependency>
