@@ -4,7 +4,7 @@ Thank you for your interest in MDISCIS - Minidisc Indexing Software. This reposi
 
 ### What is this repository for? ###
 
-* This repository contains the current version of MDISCIS and the current source code in Java. The current version of MDISCIS is 2.1-SNAPSHOT. The next planned version is 2.1 - building the current source code builds version 2.1-SNAPSHOT.
+* This repository contains the current version of MDISCIS and the current source code in Java. The current version of MDISCIS is 2.1. Building the current source code builds version 2.1.
 
 ### How do I get set up? ###
 
