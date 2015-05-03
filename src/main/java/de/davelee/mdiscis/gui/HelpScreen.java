@@ -22,7 +22,6 @@ import de.davelee.mdiscis.config.HelpConfig;
 /**
  * HelpScreen.java is the screen to display the help screen for MDISCIS.
  * @author Dave Lee
- * @version 1.0
  */
 public class HelpScreen extends JFrame {
 
@@ -45,6 +44,7 @@ public class HelpScreen extends JFrame {
     
     /**
      * Default constructor for HelpScreen which creates the help screen interface and displays it to the user.
+     * @param helpConfig a <code>HelpConfig</code> object representing the current localisation for help messages.
      */
     public HelpScreen ( final HelpConfig helpConfig ) {
     	
@@ -197,12 +197,19 @@ public class HelpScreen extends JFrame {
         setBounds(x, y, this.getWidth(), this.getHeight());
     }
     
+    /**
+     * Display the screen to the user.
+     */
     public void displayScreen ( ) {
     	//Display the dialog box to the user.
         this.setVisible (true);
         this.setSize ( new Dimension(700,450) );
     }
     
+    /**
+     * Initialise the options and html pages for this help screen.
+     * This method is usually called by the constructor.
+     */
     public void initialiseContent ( ) {
     	contentUrls = new HashMap<String, String>();
     	contentUrls.put(helpConfig.getWelcomeOptionText(), helpConfig.getWelcomeOptionPage());
@@ -218,6 +225,10 @@ public class HelpScreen extends JFrame {
     	contentUrls.put(helpConfig.getDeleteTrackOptionText(), helpConfig.getDeleteTrackOptionPage());
     }
     
+    /**
+     * Load the html page associated with the selected text into the html content pane.
+     * @param selectedItem a <code>String</code> with the selected text.
+     */
     public void loadContent(final String selectedItem) {
     	try {
     		displayPane.setPage(HelpScreen.class.getResource(contentUrls.get(selectedItem)));

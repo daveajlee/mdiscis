@@ -29,6 +29,7 @@ public class Disc {
      * Add a track to this disc.
      * @param trackId a <code>int</code> with track id.
      * @param talk a <code>Talk</code> object with the talk details.
+     * @return a <code>boolean</code> which is true iff the track was added successfully.
      */
     public boolean addTrack (int trackId, Talk talk) {
     	//Check for duplicate tracks.

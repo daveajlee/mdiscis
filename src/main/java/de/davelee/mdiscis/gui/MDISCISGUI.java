@@ -62,6 +62,11 @@ public class MDISCISGUI extends JFrame {
 
     /**
      * Create and display the user interface to the user.
+     * @param discStore a <code>DiscStore</code> representing the current discs to display as part of the interface.
+     * @param guiConfig a <code>GUIConfig</code> representing the localisation texts for the GUI.
+     * @param menuConfig a <code>MenuConfig</code> representing the localisation texts for the Menu.
+     * @param helpConfig a <code>HelpConfig</code> representing the localisation texts for the Help screen.
+     * @param addDialogConfig a <code>AddDialogConfig</code> representing the localisation texts for the Add Dialog.
      */
     public MDISCISGUI ( final DiscStore discStore, final GUIConfig guiConfig, final MenuConfig menuConfig, final HelpConfig helpConfig, final AddDialogConfig addDialogConfig ) {
         this.discStore = discStore;
@@ -74,6 +79,10 @@ public class MDISCISGUI extends JFrame {
     
     /**
      * Create and display the user interface to the user.
+     * @param guiConfig a <code>GUIConfig</code> representing the localisation texts for the GUI.
+     * @param menuConfig a <code>MenuConfig</code> representing the localisation texts for the Menu.
+     * @param helpConfig a <code>HelpConfig</code> representing the localisation texts for the Help screen.
+     * @param addDialogConfig a <code>AddDialogConfig</code> representing the localisation texts for the Add Dialog.
      */
     public MDISCISGUI ( final GUIConfig guiConfig, final MenuConfig menuConfig, final HelpConfig helpConfig, final AddDialogConfig addDialogConfig ) {
         this(new DiscStore(), guiConfig, menuConfig, helpConfig, addDialogConfig);
@@ -166,7 +175,11 @@ public class MDISCISGUI extends JFrame {
 
     }
     
-    public void processPreviousTrackButton ( int selectedItem) {
+    /**
+     * Process the previous track button for the selected disc.
+     * @param selectedDisc a <code>int</code> with the disc currently selected in the interface.
+     */
+    public void processPreviousTrackButton ( int selectedDisc) {
     	page -= 1;
         contentsPanel = drawContentsPanel();
         dialogPanel.remove(dialogPanel.getComponent(1));
@@ -174,12 +187,17 @@ public class MDISCISGUI extends JFrame {
         dialogPanel.revalidate();
         dialogPanel.repaint();
         previousTracksButton.setEnabled(page != 1); 
-        if (discStore.getDisc(selectedItem)!=null) {
-        	nextTracksButton.setEnabled(discStore.getDisc(selectedItem).getNumTracks() > (page*guiConfig.getNumDisplayTracks() ) ); 
+        if (discStore.getDisc(selectedDisc)!=null) {
+        	nextTracksButton.setEnabled(discStore.getDisc(selectedDisc).getNumTracks() > (page*guiConfig.getNumDisplayTracks() ) ); 
         }
     }
     
-    public void processNextTrackButton ( final int page, final int selectedItem ) {
+    /**
+     * Process the next track button for this page and the selected disc.
+     * @param page a <code>int</code> with the page number for the selected disc which is currently selected in the user interface.
+     * @param selectedDisc a <code>int</code> with the disc currently selected in the interface.
+     */
+    public void processNextTrackButton ( final int page, final int selectedDisc ) {
     	this.page = page;
         contentsPanel = drawContentsPanel();
         dialogPanel.remove(dialogPanel.getComponent(1));
@@ -187,20 +205,25 @@ public class MDISCISGUI extends JFrame {
         dialogPanel.revalidate();
         dialogPanel.repaint();
         previousTracksButton.setEnabled(this.page != 1);
-        if (discStore.getDisc(selectedItem)!=null) {
-        	nextTracksButton.setEnabled(discStore.getDisc(selectedItem).getNumTracks() > (this.page*guiConfig.getNumDisplayTracks() )); 
+        if (discStore.getDisc(selectedDisc)!=null) {
+        	nextTracksButton.setEnabled(discStore.getDisc(selectedDisc).getNumTracks() > (this.page*guiConfig.getNumDisplayTracks() )); 
         }
     }
     
+    /**
+     * Display the front screen to the user.
+     */
     public void displayScreen ( ) {
-    	//Display the front screen to the user.
         this.pack ();
         this.setVisible (true);
         this.setSize ( new Dimension(750,600) );
     }
     
+    /**
+     * Create the disc control panel with buttons to choose discs etc.
+     * @return a <code>JPanel</code> representing the generated user interface panel.
+     */
     public JPanel createDiscControlPanel ( ) {
-    	//Create disc control panel.
         JPanel discControlPanel = new JPanel(new GridBagLayout());
         discLabel = new JLabel(guiConfig.getDiscLabelText());
         discLabel.setFont(new Font(FONT_NAME, Font.BOLD, 14));
@@ -251,6 +274,9 @@ public class MDISCISGUI extends JFrame {
         return discControlPanel;
     }
     
+    /**
+     * Initialise the menu bar displayed at the top of the screen.
+     */
     public void initialiseMenu ( ) {
     	JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
@@ -322,6 +348,10 @@ public class MDISCISGUI extends JFrame {
         helpMenu.add(menuItem);
     }
     
+    /**
+     * Display a dialog to the user asking if they wish to exit MDISCIS.
+     * If yes, then exit the program.
+     */
     public void exit() {
     	int result = JOptionPane.showOptionDialog(MDISCISGUI.this, guiConfig.getExitDialogMessage(), guiConfig.getExitDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[] { guiConfig.getYesOptionText(), guiConfig.getNoOptionText() }, guiConfig.getNoOptionText());
         if ( result == JOptionPane.YES_OPTION ) {
@@ -331,6 +361,7 @@ public class MDISCISGUI extends JFrame {
 
     /**
      * This method draws the contents panel as requested.
+     * @return a <code>JPanel</code> with the drawn contents panel.
      */
     public JPanel drawContentsPanel ( ) {
         JPanel myContentsPanel = new JPanel(new GridLayout(guiConfig.getNumDisplayTracks(),1,5,5));
@@ -380,6 +411,10 @@ public class MDISCISGUI extends JFrame {
         return myContentsPanel;
     }
     
+    /**
+     * Delete the selected track after asking the user if they really want to delete the track.
+     * @param trackNumber a <code>int</code> with the track number that the user wishes to delete.
+     */
     public void performDeleteTrack ( final int trackNumber ) {
     	int confirm = JOptionPane.showConfirmDialog(MDISCISGUI.this, guiConfig.getDiscLabelText() + (Integer) discBox.getSelectedItem() + " " + guiConfig.getTrackLabelText() + trackNumber + guiConfig.getDeleteTrackDialogMessage(), guiConfig.getDeleteDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if ( confirm == JOptionPane.YES_OPTION ) {
@@ -427,6 +462,7 @@ public class MDISCISGUI extends JFrame {
 
     /**
      * Private method to clear discs.
+     * @param discNumber a <code>int</code> with the number of the disc to clear.
      */
     public void clearDisc(int discNumber) {
         int confirm = showConfirmDialog(guiConfig.getDiscText() + discNumber + guiConfig.getClearDialogMessage(), guiConfig.getClearDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -436,12 +472,21 @@ public class MDISCISGUI extends JFrame {
         }
     }
     
+    /**
+     * Display a confirmation panel according to the specified options.
+     * @param message a <code>String</code> with the message to display to the user.
+     * @param title a <code>String</code> with the dialog title.
+     * @param optionType a <code>int</code> representing which options to display to the user - basis: JOptionPane.
+     * @param messageType a <code>int</code> representing the type of message e.g. INFORMATION_MESSAGE, ERROR_MESSAGE etc.
+     * @return a <code>int</code> with the result of the confirmation dialog e.g. YES_OPTION, NO_OPTION.
+     */
     public int showConfirmDialog(final String message, final String title, final int optionType, final int messageType ) {
     	return JOptionPane.showConfirmDialog(this, message, title, optionType, messageType);
     }
 
     /**
      * Private method to delete disc.
+     * @param discNumber a <code>int</code> with the number of the disc to delete.
      */
     public void deleteDisc(int discNumber) {
         int confirm = showConfirmDialog(guiConfig.getDiscText() + discNumber + guiConfig.getDeleteDiscDialogMessage(), guiConfig.getDeleteDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -482,6 +527,13 @@ public class MDISCISGUI extends JFrame {
         showEditDialog(guiConfig.getEditLabelText(), discNumber, trackNumber, myTrack.getTalk());
     }
     
+    /**
+     * Show an edit dialog based on the specified parameters.
+     * @param title a <code>String</code> with the title of the track.
+     * @param discNumber a <code>int</code> with the disc number.
+     * @param trackNumber a <code>int</code> with the track number.
+     * @param talk a <code>Talk</code> object representing the details of the talk currently saved to this track.
+     */
     public void showEditDialog(final String title, final int discNumber, final int trackNumber, final Talk talk) {
     	//Construct edit dialog.
         AddDialog dialog = new AddDialog(this, title, discStore, discNumber, trackNumber, talk, this);
@@ -490,6 +542,7 @@ public class MDISCISGUI extends JFrame {
 
     /**
      * Save file.
+     * @return a <code>JFileChooser</code> object to display a dialog to the user allowing them to choose a file to save the contents to.
      */
     public JFileChooser showSaveFileDialog ( ) {
         //Create file dialog box.
@@ -502,6 +555,10 @@ public class MDISCISGUI extends JFrame {
         return fileDialog;
     }
     
+    /**
+     * Load file.
+     * @return a <code>JFileChooser</code> object to display a dialog to the user allowing them to choose a file to load the contents from.
+     */
     public JFileChooser showOpenFileDialog ( ) {
     	//Create file dialog box.
         JFileChooser fileDialog = new JFileChooser();
@@ -513,6 +570,11 @@ public class MDISCISGUI extends JFrame {
         return fileDialog;
     }
     
+    /**
+     * Save the file.
+     * @param returnVal a <code>int</code> based on the result of the dialog box e.g. APPROVE_OPTION.
+     * @param selectedFile a <code>File</code> object representing the selected file to save the contents to.
+     */
     public void saveFile ( final int returnVal, final File selectedFile ) {
         //Check if user submitted file.
         if ( returnVal == JFileChooser.APPROVE_OPTION ) {
@@ -528,10 +590,22 @@ public class MDISCISGUI extends JFrame {
         }
     }
 
+    /**
+     * Show an option dialog based on the specified parameters.
+     * @param message a <code>String</code> with the message to display to the user.
+     * @param title a <code>String</code> with the dialog title.
+     * @param options a <code>int</code> representing which options to display to the user - basis: JOptionPane.
+     * @param messageType a <code>int</code> representing the type of message e.g. INFORMATION_MESSAGE, ERROR_MESSAGE etc.
+     * @return a <code>int</code> with the result of the confirmation dialog e.g. YES_OPTION, NO_OPTION.
+     */
     public int showOptionDialog ( final String message, final String title, final int options, final int messageType ) {
     	return JOptionPane.showOptionDialog(MDISCISGUI.this, message, title, options, messageType, null, new String[] { guiConfig.getYesOptionText(), guiConfig.getNoOptionText() }, guiConfig.getNoOptionText());
     }
     
+    /**
+     * Load the display screen based on the supplied disc store.
+     * @param discStore a <code>DiscStore</code> representing the discs to display in the user interface.
+     */
     public void loadDisplayScreen( final DiscStore discStore ) {
     	MDISCISGUI gui = new MDISCISGUI(discStore, guiConfig, menuConfig, helpConfig, addDialogConfig);
         gui.displayScreen();
@@ -541,9 +615,11 @@ public class MDISCISGUI extends JFrame {
     
     /**
      * Load file.
+     * @param returnVal a <code>int</code> which represents the user response to the JFileChooser Dialog.
+     * @param selectedFile a <code>File</code> object representing the file to load the data from.
      */
     public void loadFile ( final int returnVal, final File selectedFile ) {
-    	//Check if user submitted file and print coming soon.
+    	//Check if user submitted file.
         boolean validFile = true;
         if ( returnVal == JFileChooser.APPROVE_OPTION) {
         	if ( discStore.loadFile(selectedFile) ) {
@@ -559,6 +635,7 @@ public class MDISCISGUI extends JFrame {
 
     /**
      * Create a new disc store.
+     * @param result a <code>int</code> which contains the result of a JOptionPane.
      */
     public void newFile ( final int result ) {
         //Check that the user wants to lose data.
@@ -570,10 +647,18 @@ public class MDISCISGUI extends JFrame {
         }
     }
     
+    /**
+     * Retrieve the configuration for the add dialog.
+     * @return a <code>AddDialogConfig</code> representing the configuration for the add dialog.
+     */
     public AddDialogConfig getAddDialogConfig() {
 		return addDialogConfig;
 	}
 
+    /**
+     * Set the configuration for the add dialog.
+     * @param addDialogConfig a <code>AddDialogConfig</code> representing the configuration for the add dialog.
+     */
 	public void setAddDialogConfig(final AddDialogConfig addDialogConfig) {
 		this.addDialogConfig = addDialogConfig;
 	}

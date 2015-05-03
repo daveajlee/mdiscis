@@ -36,6 +36,7 @@ public class SplashScreen extends JFrame {
     /**
      * Create a new splash screen.
      * @param isAboutScreen a <code>boolean</code> which is true iff this is the about screen rather than splash screen at beginning.
+     * @param guiConfig a <code>GUIConfig</code> object representing the localisation text for the GUI.
      */
     public SplashScreen ( final boolean isAboutScreen, final GUIConfig guiConfig ) {
         
@@ -110,13 +111,19 @@ public class SplashScreen extends JFrame {
 
     }
     
+    /**
+     * Display the front screen to the user.
+     */
     public void displayScreen() {
-    	//Display the front screen to the user.
         this.pack ();
         this.setVisible (true);
         this.setSize ( getPreferredSize() );
     }
     
+    /**
+     * Create a mouse listener which closes this screen when clicked.
+     * @return a <code>MouseListener</code> object representing the created mouse listener.
+     */
     public MouseListener createMouseListener() {
     	return new MouseListener () {
             public void mouseClicked(MouseEvent e) {

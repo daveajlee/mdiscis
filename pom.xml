@@ -1,54 +1,55 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.davelee</groupId>
-  <artifactId>mdiscis</artifactId>
-  <version>2.1.2-SNAPSHOT</version>
-  <packaging>jar</packaging>
+	<groupId>de.davelee</groupId>
+	<artifactId>mdiscis</artifactId>
+	<version>2.1.2-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
-  <name>mdiscis</name>
-  <url>http://maven.apache.org</url>
+	<name>mdiscis</name>
+	<url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jacoco.version>0.7.2.201409121644</jacoco.version>
-    <slf4j.version>1.7.7</slf4j.version>
-    <log4j.version>2.0.2</log4j.version>
-    <spring.version>4.1.4.RELEASE</spring.version>
-  </properties>
- 
-  <scm>
-    <connection>scm:git:git://dal109txl@bitbucket.org/dal109txl/mdiscis.git</connection>
-    <developerConnection>scm:git:https://dal109txl@bitbucket.org/dal109txl/mdiscis.git</developerConnection>
-    <url>https://dal109txl@bitbucket.org/dal109txl/mdiscis.git</url>
-  </scm>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jacoco.version>0.7.2.201409121644</jacoco.version>
+		<slf4j.version>1.7.7</slf4j.version>
+		<log4j.version>2.0.2</log4j.version>
+		<spring.version>4.1.4.RELEASE</spring.version>
+	</properties>
 
-  <dependencies>
-    	<dependency>
-     		<groupId>junit</groupId>
-      		<artifactId>junit</artifactId>
-      		<version>4.12</version>
-      		<scope>test</scope>
-    	</dependency>
-    	
-    	<!-- Spring Dependencies -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-    
-    	<!-- Logging Frameworks -->
+	<scm>
+		<connection>scm:git:git://dal109txl@bitbucket.org/dal109txl/mdiscis.git</connection>
+		<developerConnection>scm:git:https://dal109txl@bitbucket.org/dal109txl/mdiscis.git</developerConnection>
+		<url>https://dal109txl@bitbucket.org/dal109txl/mdiscis.git</url>
+	</scm>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring Dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- Logging Frameworks -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -69,59 +70,75 @@
 			<artifactId>log4j-slf4j-impl</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
-  </dependencies>
+	</dependencies>
 
-  
-  <build>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-        			<artifactId>maven-shade-plugin</artifactId>
-        			<version>2.3</version>
-        			<executions>
-          				<execution>
-            				<phase>package</phase>
-            				<goals>
-              					<goal>shade</goal>
-            				</goals>
-            				<configuration>
-              					<transformers>
-                					<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  						<mainClass>de.davelee.mdiscis.gui.MDISCISGUI</mainClass>
-                					</transformer>
-              					</transformers>
-            				</configuration>
-          				</execution>
-        			</executions>
-        		</plugin>
-        		<plugin>
-					<groupId>org.jacoco</groupId>
-					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>${jacoco.version}</version>
-					<executions>
-						<execution>
-							<goals>
-								<goal>prepare-agent</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>report</id>
-							<phase>prepare-package</phase>
-							<goals>
-								<goal>report</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.17</version>
-					<configuration>
-						<argLine>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${project.build.directory}\jacoco.exec</argLine>
-					</configuration>
 
-				</plugin>
-			</plugins>
-  </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>de.davelee.mdiscis.gui.MDISCISGUI</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.17</version>
+				<configuration>
+					<argLine>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${project.build.directory}\jacoco.exec</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
+					<docletArtifact>
+						<groupId>org.umlgraph</groupId>
+						<artifactId>umlgraph</artifactId>
+						<version>5.6.6</version>
+					</docletArtifact>
+					<additionalparam>-horizontal -attributes -enumconstants
+						-enumerations -operations -types -visibility -inferrel -inferdep
+						-hide java.* -inferrel -collpackages java.util.*</additionalparam>
+					<show>public</show>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
