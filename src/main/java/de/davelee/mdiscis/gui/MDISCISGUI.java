@@ -235,7 +235,9 @@ public class MDISCISGUI extends JFrame {
         discBox.setFont(new Font(FONT_NAME, Font.PLAIN, 14));
         discBox.addItemListener( new ItemListener() {
             public void itemStateChanged ( ItemEvent e ) {
-                processNextTrackButton(1, (Integer) discBox.getSelectedItem());
+            	if ( discBox.getSelectedItem() != null ) { 
+            		processNextTrackButton(1, (Integer) discBox.getSelectedItem());
+            	}
             }
         });
         //Add label and box + then spacer.
@@ -468,8 +470,9 @@ public class MDISCISGUI extends JFrame {
         int confirm = showConfirmDialog(guiConfig.getDiscText() + discNumber + guiConfig.getClearDialogMessage(), guiConfig.getClearDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if ( confirm == JOptionPane.YES_OPTION ) {
             discStore.clearDisc(discNumber);
-            statusBar.setText(guiConfig.getDiscText() + discNumber + guiConfig.getClearSuccessText());
+            //Refresh screen.
             MDISCISGUI gui = new MDISCISGUI(discStore, guiConfig, menuConfig, helpConfig, addDialogConfig);
+            gui.statusBar.setText(guiConfig.getDiscText() + discNumber + guiConfig.getClearSuccessText());
             gui.displayScreen();
             dispose();
         }
@@ -496,13 +499,17 @@ public class MDISCISGUI extends JFrame {
         if ( confirm == JOptionPane.YES_OPTION ) {
             discStore.deleteDisc(discNumber);
             discModel.removeElement(discNumber);
-            statusBar.setText(guiConfig.getDiscText() + discNumber + guiConfig.getDeleteSuccessText());
         }
         if ( discStore.getNumDiscs() == 0 ) {
             clearDiscButton.setEnabled(false);
             deleteDiscButton.setEnabled(false);
             addTracksButton.setEnabled(false);
         }
+        //Refresh screen.
+        MDISCISGUI gui = new MDISCISGUI(discStore, guiConfig, menuConfig, helpConfig, addDialogConfig);
+        gui.statusBar.setText(guiConfig.getDiscText() + discNumber + guiConfig.getDeleteSuccessText());
+        gui.displayScreen();
+        dispose();
     }
 
     /**
