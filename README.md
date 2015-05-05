@@ -4,7 +4,7 @@ Thank you for your interest in MDISCIS - Minidisc Indexing Software. This reposi
 
 ### What is this repository for? ###
 
-* This repository contains the current version of MDISCIS and the current source code in Java. The master branch builds the current version of MDISCIS (2.1.1). The develop branch builds the next version of MDISCIS (currently 2.1.2-SNAPSHOT).
+* This repository contains the current version of MDISCIS and the current source code in Java. The master branch builds the current version of MDISCIS (2.1.2). The develop branch builds the next version of MDISCIS (currently 2.2.0-SNAPSHOT).
 
 ### How do I get set up? ###
 
