@@ -9,12 +9,17 @@
     <context:component-scan base-package="de.davelee.mdiscis" />
     
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    	<property name="location" value="classpath:mdiscis-config.xml" />
+    	<property name="locations">
+    		<list>
+    			<value>classpath:mdiscis-config.xml</value>
+    			<value>classpath:version.properties</value>
+    		</list>
+    	</property>
 	</bean>
     
     <bean id="guiConfig" class="de.davelee.mdiscis.config.GUIConfig">
     	<property name="title" value="${title}"/>
-    	<property name="versionText" value="${version.text}"/>
+    	<property name="versionText" value="${version.number}"/>
     	<property name="loadingText" value="${loading.text}"/>
     	<property name="copyrightText" value="${copyright.text}"/>
     	<property name="numDisplayTracks" value="${num.display.tracks}"/>
