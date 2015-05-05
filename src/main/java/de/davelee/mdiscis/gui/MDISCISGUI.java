@@ -469,6 +469,9 @@ public class MDISCISGUI extends JFrame {
         if ( confirm == JOptionPane.YES_OPTION ) {
             discStore.clearDisc(discNumber);
             statusBar.setText(guiConfig.getDiscText() + discNumber + guiConfig.getClearSuccessText());
+            MDISCISGUI gui = new MDISCISGUI(discStore, guiConfig, menuConfig, helpConfig, addDialogConfig);
+            gui.displayScreen();
+            dispose();
         }
     }
     
