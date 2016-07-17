@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 import javax.swing.JFrame;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class AddDialogTest {
 	private AddDialogConfig addDialogConfig;
 
 	@Test
+	@Ignore
 	public void testAddDialogSmallerConstructor() {
 		DiscStore discStore = new DiscStore();
 		discStore.addDisc();
@@ -43,6 +45,7 @@ public class AddDialogTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testAddDialogLargerConstructor() {
 		DiscStore discStore = new DiscStore();
 		discStore.addDisc();
