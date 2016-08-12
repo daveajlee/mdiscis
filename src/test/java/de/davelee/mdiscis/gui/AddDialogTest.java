@@ -26,7 +26,6 @@ public class AddDialogTest {
 	private AddDialogConfig addDialogConfig;
 
 	@Test
-	@Ignore
 	public void testAddDialogSmallerConstructor() {
 		DiscStore discStore = new DiscStore();
 		discStore.addDisc();
@@ -45,7 +44,6 @@ public class AddDialogTest {
 	}
 	
 	@Test
-	@Ignore
 	public void testAddDialogLargerConstructor() {
 		DiscStore discStore = new DiscStore();
 		discStore.addDisc();

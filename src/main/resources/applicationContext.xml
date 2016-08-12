@@ -12,7 +12,6 @@
     	<property name="locations">
     		<list>
     			<value>classpath:mdiscis-config.xml</value>
-    			<value>classpath:version.properties</value>
     		</list>
     	</property>
 	</bean>
