@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.davelee.mdiscis.data.DiscStore;
@@ -17,7 +16,6 @@ import de.davelee.mdiscis.gui.MDISCISGUI;
 public class MDISCISGUITest {
 	
 	@Test
-	@Ignore
 	public void testMDISCISGUIShortConstructor() {
 		MDISCISGUI gui = new MDISCISGUIMock();
 		gui.processPreviousTrackButton(1);
@@ -41,7 +39,6 @@ public class MDISCISGUITest {
 	}
 	
 	@Test
-	@Ignore
 	public void testMDISCISGUILongConstructor() {
 		DiscStore discStore = new DiscStore();
 		discStore.addDisc();
@@ -58,7 +55,6 @@ public class MDISCISGUITest {
 	}
 	
 	@Test
-	@Ignore
 	public void testEditTrack() {
 		DiscStore discStore = new DiscStore();
 		discStore.addDisc();
@@ -75,7 +71,6 @@ public class MDISCISGUITest {
 	}
 	
 	@Test
-	@Ignore
 	public void testSaveFile() {
 		DiscStore discStore = new DiscStoreMock();
 		MDISCISGUI gui = new MDISCISGUIMock(discStore);
@@ -85,7 +80,6 @@ public class MDISCISGUITest {
 	}
 	
 	@Test
-	@Ignore
 	public void testLoadFile() {
 		DiscStore discStore = new DiscStoreMock();
 		MDISCISGUI gui = new MDISCISGUIMock(discStore);
