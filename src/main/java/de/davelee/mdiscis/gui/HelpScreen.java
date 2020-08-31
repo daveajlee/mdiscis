@@ -31,8 +31,7 @@ public class HelpScreen extends JFrame {
 	private static final long serialVersionUID = -8280654427837134758L;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(HelpScreen.class);
-	
-	private JLabel searchLabel;
+
     private JTextField searchField;
     private JList<String> topicsList;
     private DefaultListModel<String> topicsModel;
@@ -87,7 +86,7 @@ public class HelpScreen extends JFrame {
         
         //Add search label.
         JPanel searchLabelPanel = new JPanel();
-        searchLabel = new JLabel(helpConfig.getSearchLabelText());
+        JLabel searchLabel = new JLabel(helpConfig.getSearchLabelText());
         searchLabel.setFont(new Font("Arial", Font.BOLD, 14));
         searchLabelPanel.add(searchLabel);
         leftPanel.add(searchLabelPanel);

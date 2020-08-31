@@ -27,8 +27,6 @@ public class SplashScreen extends JFrame {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SplashScreen.class);
     
-    private JPanel logoPanel;
-    
     /**
      * Create a new splash screen.
      * @param isAboutScreen a <code>boolean</code> which is true iff this is the about screen rather than splash screen at beginning.
@@ -56,7 +54,7 @@ public class SplashScreen extends JFrame {
         centrePanel.setBackground(Color.WHITE);
         
         //Construct logo panel to add to the centre panel.
-        logoPanel = new JPanel();
+        JPanel logoPanel = new JPanel();
         logoPanel.setBackground(Color.WHITE);
         ImageIcon logoImage = new ImageIcon(SplashScreen.class.getResource("/images/mdiscislogo.png"));
         JLabel logoLabel = new JLabel("", logoImage, JLabel.CENTER);
