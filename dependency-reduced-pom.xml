@@ -20,6 +20,13 @@
     </resources>
     <plugins>
       <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-shade-plugin</artifactId>
         <version>2.3</version>
         <executions>
@@ -56,12 +63,6 @@
                 <goals>
                   <goal>cobertura</goal>
                 </goals>
-                <configuration>
-                  <formats>
-                    <format>html</format>
-                    <format>xml</format>
-                  </formats>
-                </configuration>
               </execution>
             </executions>
             <configuration>
@@ -74,19 +75,9 @@
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <version>2.17</version>
-            <executions>
-              <execution>
-                <id>default-test</id>
-                <phase>test</phase>
-                <goals>
-                  <goal>test</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
           <plugin>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.10.4</version>
             <executions>
               <execution>
                 <id>aggregate</id>
@@ -121,9 +112,6 @@
                 <goals>
                   <goal>findbugs</goal>
                 </goals>
-                <configuration>
-                  <xmlOutput>true</xmlOutput>
-                </configuration>
               </execution>
             </executions>
             <configuration>
@@ -165,19 +153,19 @@
     <repository>
       <id>deployment</id>
       <name>Internal Releases</name>
-      <url>http://localhost:8079/repository/maven-releases/</url>
+      <url>http://localhost:9002/repository/maven-releases/</url>
     </repository>
     <snapshotRepository>
       <id>deployment</id>
       <name>Internal Snapshot Releases</name>
-      <url>http://localhost:8079/repository/maven-snapshots/</url>
+      <url>http://localhost:9002/repository/maven-snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
   <properties>
-    <spring.version>4.1.4.RELEASE</spring.version>
     <slf4j.version>1.7.7</slf4j.version>
-    <log4j.version>2.0.2</log4j.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring.version>4.1.4.RELEASE</spring.version>
+    <log4j.version>2.0.2</log4j.version>
   </properties>
 </project>
 

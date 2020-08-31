@@ -8,12 +8,6 @@ public class Track {
 	
     private int trackId;
     private Talk talk;
-    
-    /**
-     * Default constructor.
-     */
-    public Track() { 	
-    }
 
     /**
      * Get the track id.

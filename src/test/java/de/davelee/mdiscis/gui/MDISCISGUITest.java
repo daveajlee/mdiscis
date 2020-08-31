@@ -11,7 +11,8 @@ import org.junit.Test;
 import de.davelee.mdiscis.data.DiscStore;
 import de.davelee.mdiscis.data.DiscStoreMock;
 import de.davelee.mdiscis.data.Talk;
-import de.davelee.mdiscis.gui.MDISCISGUI;
+
+import static org.junit.Assert.*;
 
 public class MDISCISGUITest {
 	
@@ -24,7 +25,7 @@ public class MDISCISGUITest {
 		gui.processNextTrackButton(1, 50);
 		gui.processNextTrackButton(2, 50);
 		gui.addAnotherDisc();
-		gui.createDiscControlPanel();
+		assertNotNull(gui.createDiscControlPanel());
 		gui.initialiseMenu();
 		gui.addAnotherDisc();
 		gui.processPreviousTrackButton(1);
@@ -49,7 +50,7 @@ public class MDISCISGUITest {
 		gui.processNextTrackButton(1, 1);
 		gui.processNextTrackButton(1, 50);
 		gui.processNextTrackButton(2, 50);
-		gui.createDiscControlPanel();
+		assertNotNull(gui.createDiscControlPanel());
 		gui.initialiseMenu();
 		gui.updateStatus("Test");
 	}
@@ -57,7 +58,7 @@ public class MDISCISGUITest {
 	@Test
 	public void testEditTrack() {
 		DiscStore discStore = new DiscStore();
-		discStore.addDisc();
+		assertEquals(1, discStore.addDisc());
 		Talk talk = new Talk();
 		talk.setDate(LocalDate.of(2015, 1, 12));
 		talk.setRecorded(true);
@@ -74,18 +75,18 @@ public class MDISCISGUITest {
 	public void testSaveFile() {
 		DiscStore discStore = new DiscStoreMock();
 		MDISCISGUI gui = new MDISCISGUIMock(discStore);
-		gui.saveFile(JOptionPane.NO_OPTION, new File("selected.txt"));
-		gui.saveFile(JOptionPane.YES_OPTION, new File("selected.mdi"));
-		gui.saveFile(JOptionPane.YES_OPTION, new File("selected.txt"));
+		assertFalse(gui.saveFile(JOptionPane.NO_OPTION, new File("selected.txt")));
+		assertTrue(gui.saveFile(JOptionPane.YES_OPTION, new File("selected.mdi")));
+		assertFalse(gui.saveFile(JOptionPane.YES_OPTION, new File("selected.txt")));
 	}
 	
 	@Test
 	public void testLoadFile() {
 		DiscStore discStore = new DiscStoreMock();
 		MDISCISGUI gui = new MDISCISGUIMock(discStore);
-		gui.loadFile(JFileChooser.APPROVE_OPTION, new File("selectedload.txt"));
-		gui.loadFile(JFileChooser.APPROVE_OPTION, new File("selectedload2.txt"));
-		gui.loadFile(JFileChooser.CANCEL_OPTION, new File("selectedload2.txt"));
+		assertTrue(gui.loadFile(JFileChooser.APPROVE_OPTION, new File("selectedload.txt")));
+		assertFalse(gui.loadFile(JFileChooser.APPROVE_OPTION, new File("selectedload2.txt")));
+		assertFalse(gui.loadFile(JFileChooser.CANCEL_OPTION, new File("selectedload2.txt")));
 	}
 
 }

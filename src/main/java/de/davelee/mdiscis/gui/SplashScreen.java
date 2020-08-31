@@ -26,10 +26,6 @@ public class SplashScreen extends JFrame {
 	private static final String MOUSE_MESSAGE = "Mouse entered - no action";
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SplashScreen.class);
-	
-    private JLabel titleLabel;
-    private JLabel loadingLabel;
-    private JLabel copyrightLabel;
     
     private JPanel logoPanel;
     
@@ -70,7 +66,7 @@ public class SplashScreen extends JFrame {
         //Construct title panel to add to the centre panel.
         JPanel titlePanel = new JPanel();
         titlePanel.setBackground(Color.WHITE);
-        titleLabel = new JLabel(guiConfig.getTitle());
+        JLabel titleLabel = new JLabel(guiConfig.getTitle());
         titleLabel.setFont(new Font(FONT_NAME, Font.BOLD, 25));
         titlePanel.add(titleLabel);
         centrePanel.add(titlePanel);
@@ -78,10 +74,9 @@ public class SplashScreen extends JFrame {
         //Construct loading panel to add to the centre panel.
         JPanel loadingPanel = new JPanel();
         loadingPanel.setBackground(Color.WHITE);
+        JLabel loadingLabel = new JLabel(guiConfig.getLoadingText());
         if ( isAboutScreen ) { 
         	loadingLabel = new JLabel(guiConfig.getVersionText()); 
-        } else { 
-        	loadingLabel = new JLabel(guiConfig.getLoadingText()); 
         }
         loadingLabel.setFont(new Font(FONT_NAME, Font.ITALIC, 15));
         loadingPanel.add(loadingLabel);
@@ -90,7 +85,7 @@ public class SplashScreen extends JFrame {
         //Construct copyright panel to add to the centre panel.
         JPanel copyrightPanel = new JPanel();
         copyrightPanel.setBackground(Color.WHITE);
-        copyrightLabel = new JLabel(guiConfig.getCopyrightText());
+        JLabel copyrightLabel = new JLabel(guiConfig.getCopyrightText());
         copyrightLabel.setFont(new Font(FONT_NAME, Font.PLAIN, 10));
         copyrightPanel.add(copyrightLabel);
         centrePanel.add(copyrightPanel);

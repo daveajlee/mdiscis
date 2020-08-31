@@ -5,11 +5,12 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import de.davelee.mdiscis.data.DiscStore;
+import de.davelee.mdiscis.data.Talk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.davelee.mdiscis.config.AddDialogConfig;
-import de.davelee.mdiscis.data.*;
 
 import java.time.LocalDate;
 import java.util.*;

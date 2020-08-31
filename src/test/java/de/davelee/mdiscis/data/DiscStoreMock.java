@@ -7,17 +7,11 @@ import de.davelee.mdiscis.data.DiscStore;
 public class DiscStoreMock extends DiscStore {
 	
 	public boolean saveFile(File file) {
-		if ( file.getPath().contains("selected.mdi")) {
-			return true;
-		}
-		return false;
+		return file.getPath().contains("selected.mdi");
 	}
 	
 	public boolean loadFile(File file) {
-		if ( file.getPath().contains("selectedload.txt")) {
-			return true;
-		}
-		return false;
+		return file.getPath().contains("selectedload.txt");
 	}
 
 }

@@ -9,13 +9,6 @@ import java.util.*;
 public class SortedTracks implements Comparator<Track> {
 
     /**
-     * Default constructor - do nothing.
-     */
-    public SortedTracks () {
-        
-    }
-
-    /**
      * Compare two track objects.
      * @param t1 a <code>Track</code> object.
      * @param t2 a <code>Track</code> object.

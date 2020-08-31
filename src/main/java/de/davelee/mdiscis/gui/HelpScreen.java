@@ -34,7 +34,6 @@ public class HelpScreen extends JFrame {
 	
 	private JLabel searchLabel;
     private JTextField searchField;
-    private JLabel topicsLabel;
     private JList<String> topicsList;
     private DefaultListModel<String> topicsModel;
     private JEditorPane displayPane;
@@ -107,7 +106,7 @@ public class HelpScreen extends JFrame {
         
         //Add search label.
         JPanel topicLabelPanel = new JPanel();
-        topicsLabel = new JLabel(helpConfig.getTopicsLabelText());
+        JLabel topicsLabel = new JLabel(helpConfig.getTopicsLabelText());
         topicsLabel.setFont(new Font("Arial", Font.BOLD, 14));
         topicLabelPanel.add(topicsLabel);
         leftPanel.add(topicLabelPanel);

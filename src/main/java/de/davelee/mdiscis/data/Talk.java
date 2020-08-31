@@ -14,12 +14,6 @@ public class Talk {
     private String title;
     private LocalDate date;
     private boolean recorded;
-	
-    /**
-     * Constructor - create a blank talk.
-     */ 
-    public Talk() {
-    }
 
     /**
      * Get the subject name.

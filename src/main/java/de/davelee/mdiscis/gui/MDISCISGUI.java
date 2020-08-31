@@ -7,6 +7,9 @@ import java.io.File;
 import javax.swing.*;
 import javax.swing.filechooser.*;
 
+import de.davelee.mdiscis.data.DiscStore;
+import de.davelee.mdiscis.data.Talk;
+import de.davelee.mdiscis.data.Track;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -15,7 +18,6 @@ import de.davelee.mdiscis.config.AddDialogConfig;
 import de.davelee.mdiscis.config.GUIConfig;
 import de.davelee.mdiscis.config.HelpConfig;
 import de.davelee.mdiscis.config.MenuConfig;
-import de.davelee.mdiscis.data.*;
 
 /**
  * This class creates and displays the user interface for the MDISCIS program.
@@ -32,16 +34,12 @@ public class MDISCISGUI extends JFrame {
 	
 	private DiscStore discStore;
     private JLabel statusBar;
-    private JLabel discLabel;
     private DefaultComboBoxModel<Integer> discModel;
     private JComboBox<Integer> discBox;
     private JButton clearDiscButton;
-    private JButton addDiscButton;
     private JButton deleteDiscButton;
     private JPanel dialogPanel;
     private JPanel contentsPanel;
-    private JButton[] editTrackButtons;
-    private JButton[] deleteTrackButtons;
     private JButton previousTracksButton;
     private JButton nextTracksButton;
     private JButton addTracksButton;
@@ -50,9 +48,6 @@ public class MDISCISGUI extends JFrame {
 
     //This is the page of tracks that we are showing.
     private int page = 1;
-
-    //This is needed to control action listener.
-    private int trackNum = 0;
     
     //Config objects.
     private GUIConfig guiConfig;
@@ -225,7 +220,7 @@ public class MDISCISGUI extends JFrame {
      */
     public JPanel createDiscControlPanel ( ) {
         JPanel discControlPanel = new JPanel(new GridBagLayout());
-        discLabel = new JLabel(guiConfig.getDiscLabelText());
+        JLabel discLabel = new JLabel(guiConfig.getDiscLabelText());
         discLabel.setFont(new Font(FONT_NAME, Font.BOLD, 14));
         discModel = new DefaultComboBoxModel<Integer>();
         for ( int i = 0; i < discStore.getNumDiscs(); i++ ) {
@@ -265,7 +260,7 @@ public class MDISCISGUI extends JFrame {
         discControlPanel.add(deleteDiscButton);
         discControlPanel.add(Box.createRigidArea(new Dimension(25,0)));
         //Now create add another disc button.
-        addDiscButton = new JButton(guiConfig.getAddDiscButtonText());
+        JButton addDiscButton = new JButton(guiConfig.getAddDiscButtonText());
         addDiscButton.addActionListener(new ActionListener() {
             public void actionPerformed ( ActionEvent e ) {
                 addAnotherDisc();
@@ -370,8 +365,8 @@ public class MDISCISGUI extends JFrame {
         myContentsPanel.setBorder(BorderFactory.createEtchedBorder());
         myContentsPanel.setBackground(Color.WHITE);
         //Initialise button arrays.
-        editTrackButtons = new JButton[guiConfig.getNumDisplayTracks()];
-        deleteTrackButtons = new JButton[guiConfig.getNumDisplayTracks()];
+        JButton[] editTrackButtons = new JButton[guiConfig.getNumDisplayTracks()];
+        JButton[] deleteTrackButtons = new JButton[guiConfig.getNumDisplayTracks()];
         //Do some test data for the moment.
         for ( int i = 0; i < guiConfig.getNumDisplayTracks(); i++ ) {
             //Create a panel.
@@ -379,7 +374,7 @@ public class MDISCISGUI extends JFrame {
             thisPanel.setLayout(new BoxLayout(thisPanel, BoxLayout.LINE_AXIS));
             thisPanel.setBackground(Color.WHITE);
             //Check if we have a track or if we just have a blank space.
-            trackNum = ((page-1)*guiConfig.getNumDisplayTracks()) + i;
+            int trackNum = ((page-1)*guiConfig.getNumDisplayTracks()) + i;
             if ( discStore.getNumDiscs() > 0 && trackNum < discStore.getDisc((Integer) discBox.getSelectedItem()).getNumTracks() ) {
                 //Create a label which will hold the track info.
                 JLabel trackLabel = new JLabel(guiConfig.getTrackText() + discStore.getTrackInformation((Integer) discBox.getSelectedItem(), trackNum));
@@ -584,8 +579,9 @@ public class MDISCISGUI extends JFrame {
      * Save the file.
      * @param returnVal a <code>int</code> based on the result of the dialog box e.g. APPROVE_OPTION.
      * @param selectedFile a <code>File</code> object representing the selected file to save the contents to.
+     * @return a <code>boolean</code> which is true iff the file was saved successfully.
      */
-    public void saveFile ( final int returnVal, final File selectedFile ) {
+    public boolean saveFile ( final int returnVal, final File selectedFile ) {
         //Check if user submitted file.
         if ( returnVal == JFileChooser.APPROVE_OPTION ) {
             if ( discStore.saveFile(selectedFile) ) {
@@ -594,10 +590,13 @@ public class MDISCISGUI extends JFrame {
                 	fileName += "." + guiConfig.getFileExtension(); 
                 }
                 statusBar.setText(guiConfig.getSaveFileSuccessText() + fileName);
+                return true;
             } else {
                 statusBar.setText(guiConfig.getSaveFileErrorText());
+                return false;
             }
         }
+        return false;
     }
 
     /**
@@ -627,20 +626,23 @@ public class MDISCISGUI extends JFrame {
      * Load file.
      * @param returnVal a <code>int</code> which represents the user response to the JFileChooser Dialog.
      * @param selectedFile a <code>File</code> object representing the file to load the data from.
+     * @return a <code>boolean</code> which is true iff the file was loaded successfully.
      */
-    public void loadFile ( final int returnVal, final File selectedFile ) {
+    public boolean loadFile ( final int returnVal, final File selectedFile ) {
     	//Check if user submitted file.
         boolean validFile = true;
         if ( returnVal == JFileChooser.APPROVE_OPTION) {
         	if ( discStore.loadFile(selectedFile) ) {
         		loadDisplayScreen(discStore);
-                return;
+                return true;
             }
             validFile = false;
         }
         if ( !validFile ) {
         	this.statusBar.setText(guiConfig.getLoadFileErrorText());
+        	return false;
         }
+        return false;
     }
 
     /**
