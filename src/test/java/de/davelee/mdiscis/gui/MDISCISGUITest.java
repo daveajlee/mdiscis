@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.davelee.mdiscis.data.DiscStore;
@@ -17,6 +18,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
+@Ignore
 public class MDISCISGUITest {
 	
 	@Test

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import de.davelee.mdiscis.gui.HelpScreen;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:testApplicationContext.xml")
+@Ignore
 public class HelpScreenTest {
 	
 	@Autowired
