@@ -4,7 +4,7 @@
 	<!-- Splash Screen -->
 	<entry key="title">MDISCIS - MiniDISC Indexing Software</entry>
 	<entry key="loading.text">Loading... Please Wait!</entry>
-	<entry key="copyright.text">Copyright 2003-2015 David A J Lee. All rights reserved.</entry>
+	<entry key="copyright.text">Copyright 2003-2020 David A J Lee. All rights reserved.</entry>
 	<entry key="version.number">${project.version}</entry>
 	<!-- Main dialog page -->
 	<entry key="num.display.tracks">10</entry>

@@ -99,7 +99,7 @@ public class MDISCISGUI extends JFrame {
         });
 
         //Set image icon.
-        Image img = Toolkit.getDefaultToolkit().getImage(SplashScreen.class.getResource("/images/mdiscislogo.png"));
+        Image img = Toolkit.getDefaultToolkit().getImage(SplashScreen.class.getResource("/images/mdiscis-logo-icon.png"));
         setIconImage(img);
 
         Container c = getContentPane();
@@ -350,7 +350,8 @@ public class MDISCISGUI extends JFrame {
      * If yes, then exit the program.
      */
     public void exit() {
-    	int result = JOptionPane.showOptionDialog(MDISCISGUI.this, guiConfig.getExitDialogMessage(), guiConfig.getExitDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[] { guiConfig.getYesOptionText(), guiConfig.getNoOptionText() }, guiConfig.getNoOptionText());
+        ImageIcon imageIcon = new ImageIcon(MDISCISGUI.class.getResource("/images/mdiscis-logo-icon.png"));
+    	int result = JOptionPane.showOptionDialog(MDISCISGUI.this, guiConfig.getExitDialogMessage(), guiConfig.getExitDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, imageIcon, new String[] { guiConfig.getYesOptionText(), guiConfig.getNoOptionText() }, guiConfig.getNoOptionText());
         if ( result == JOptionPane.YES_OPTION ) {
             System.exit(0);
         }
@@ -686,8 +687,6 @@ public class MDISCISGUI extends JFrame {
         HelpConfig helpConfig = context.getBean(HelpConfig.class);
         AddDialogConfig addDialogConfig = context.getBean(AddDialogConfig.class);
         try {
-            //Use Nimbus Look and Feel!!!!
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
             //Show splash screen.
             SplashScreen ss = new SplashScreen(false, guiConfig);
             ss.displayScreen();

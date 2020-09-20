@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import de.davelee.mdiscis.config.AddDialogConfig;
 import de.davelee.mdiscis.data.DiscStore;
 import de.davelee.mdiscis.data.Talk;
-import de.davelee.mdiscis.gui.AddDialog;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:testApplicationContext.xml")

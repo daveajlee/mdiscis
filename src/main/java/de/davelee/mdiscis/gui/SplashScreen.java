@@ -24,6 +24,8 @@ public class SplashScreen extends JFrame {
 	
 	private static final String FONT_NAME = "Arial";
 	private static final String MOUSE_MESSAGE = "Mouse entered - no action";
+
+	private ImageDisplay logoDisplay;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SplashScreen.class);
     
@@ -40,7 +42,7 @@ public class SplashScreen extends JFrame {
         this.setUndecorated(true);
         
         //Set image icon.
-        Image img = Toolkit.getDefaultToolkit().getImage(SplashScreen.class.getResource("/images/mdiscislogo.png"));
+        Image img = Toolkit.getDefaultToolkit().getImage(SplashScreen.class.getResource("/images/mdiscis-logo-icon.png"));
         setIconImage(img);
         
         //Get a container to add things to.
@@ -56,18 +58,11 @@ public class SplashScreen extends JFrame {
         //Construct logo panel to add to the centre panel.
         JPanel logoPanel = new JPanel();
         logoPanel.setBackground(Color.WHITE);
-        ImageIcon logoImage = new ImageIcon(SplashScreen.class.getResource("/images/mdiscislogo.png"));
-        JLabel logoLabel = new JLabel("", logoImage, JLabel.CENTER);
-        logoPanel.add(logoLabel);
+        logoDisplay = new ImageDisplay("images/mdiscis-logo.png", 0, 0);
+        logoDisplay.setSize(794,493);
+        logoDisplay.setBackground(Color.WHITE);
+        logoPanel.add(logoDisplay);
         centrePanel.add(logoPanel);
-        
-        //Construct title panel to add to the centre panel.
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(Color.WHITE);
-        JLabel titleLabel = new JLabel(guiConfig.getTitle());
-        titleLabel.setFont(new Font(FONT_NAME, Font.BOLD, 25));
-        titlePanel.add(titleLabel);
-        centrePanel.add(titlePanel);
         
         //Construct loading panel to add to the centre panel.
         JPanel loadingPanel = new JPanel();
@@ -93,7 +88,7 @@ public class SplashScreen extends JFrame {
         //Mouse listeners if this is the about screen.
         if ( isAboutScreen ) {
             this.getContentPane().addMouseListener (createMouseListener());
-            logoPanel.addMouseListener (createMouseListener());
+            logoDisplay.addMouseListener (createMouseListener());
         }
         
         //Position the screen at the center of the screen.
@@ -123,16 +118,16 @@ public class SplashScreen extends JFrame {
                 dispose();
             }
             public void mousePressed(MouseEvent e) {
-            	LOG.info(MOUSE_MESSAGE);
+                //Nothing happens when mouse pressed.
             }
             public void mouseReleased(MouseEvent e) {
-            	LOG.info(MOUSE_MESSAGE);
+                //Nothing happens when mouse released.
             }
             public void mouseEntered(MouseEvent e) {
-            	LOG.info(MOUSE_MESSAGE);
+                //Nothing happens when mouse entered.
             }
             public void mouseExited(MouseEvent e) {
-            	LOG.info(MOUSE_MESSAGE);
+                //Nothing happens when mouse exited.
             }
         };
     }

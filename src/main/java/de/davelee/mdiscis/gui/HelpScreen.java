@@ -49,7 +49,7 @@ public class HelpScreen extends JFrame {
     	this.helpConfig = helpConfig;
         
         //Set image icon.
-        Image img = Toolkit.getDefaultToolkit().getImage(SplashScreen.class.getResource("/images/mdiscislogo.png"));
+        Image img = Toolkit.getDefaultToolkit().getImage(SplashScreen.class.getResource("/images/mdiscis-logo-icon.png"));
         setIconImage(img);
         
         //Close this window if the user hits exit.
