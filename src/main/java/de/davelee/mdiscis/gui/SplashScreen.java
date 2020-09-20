@@ -6,9 +6,6 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.davelee.mdiscis.config.GUIConfig;
 
 /**
@@ -23,11 +20,6 @@ public class SplashScreen extends JFrame {
 	private static final long serialVersionUID = 1199055213432005930L;
 	
 	private static final String FONT_NAME = "Arial";
-	private static final String MOUSE_MESSAGE = "Mouse entered - no action";
-
-	private ImageDisplay logoDisplay;
-	
-	private static final Logger LOG = LoggerFactory.getLogger(SplashScreen.class);
     
     /**
      * Create a new splash screen.
@@ -58,7 +50,7 @@ public class SplashScreen extends JFrame {
         //Construct logo panel to add to the centre panel.
         JPanel logoPanel = new JPanel();
         logoPanel.setBackground(Color.WHITE);
-        logoDisplay = new ImageDisplay("images/mdiscis-logo.png", 0, 0);
+        ImageDisplay logoDisplay = new ImageDisplay("images/mdiscis-logo.png", 0, 0);
         logoDisplay.setSize(794,493);
         logoDisplay.setBackground(Color.WHITE);
         logoPanel.add(logoDisplay);
