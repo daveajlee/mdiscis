@@ -123,32 +123,22 @@ public class MDISCISGUI extends JFrame {
         //Create previous track button.
         previousTracksButton = new JButton(guiConfig.getPreviousTrackButtonText());
         previousTracksButton.setEnabled(page != 1); 
-        previousTracksButton.addActionListener( new ActionListener() {
-            public void actionPerformed ( ActionEvent e ) {
-                processPreviousTrackButton((Integer) discBox.getSelectedItem());
-            }
-        });
+        previousTracksButton.addActionListener(e -> processPreviousTrackButton((Integer) discBox.getSelectedItem()));
         buttonPanel.add(previousTracksButton);
         buttonPanel.add(Box.createRigidArea(new Dimension(5,0)));
         //Create next track button.
         nextTracksButton = new JButton(guiConfig.getNextTrackButtonText());
         nextTracksButton.setEnabled(discStore.getNumDiscs() > 0 && discStore.getDisc((Integer) discBox.getSelectedItem()).getNumTracks() > (page*guiConfig.getNumDisplayTracks() ));
-        nextTracksButton.addActionListener( new ActionListener() {
-            public void actionPerformed ( ActionEvent e ) {
-            	page+=1;
-                processNextTrackButton(page, (Integer) discBox.getSelectedItem());
-            }
+        nextTracksButton.addActionListener(e -> {
+            page+=1;
+            processNextTrackButton(page, (Integer) discBox.getSelectedItem());
         });
         buttonPanel.add(nextTracksButton);
         buttonPanel.add(Box.createRigidArea(new Dimension(20,0)));
         //Create add track button.
         addTracksButton = new JButton(guiConfig.getAddTrackButtonText());
         addTracksButton.setEnabled(discStore.getNumDiscs() > 0);
-        addTracksButton.addActionListener( new ActionListener() {
-            public void actionPerformed ( ActionEvent e ) {
-                showAddDialog(guiConfig.getAddTalkText());
-            }
-        });
+        addTracksButton.addActionListener(e -> showAddDialog(guiConfig.getAddTalkText()));
         buttonPanel.add(addTracksButton);
         //Add button panel to south panel.
         southPanel.add(buttonPanel, BorderLayout.NORTH);
@@ -166,7 +156,7 @@ public class MDISCISGUI extends JFrame {
         Toolkit tools = Toolkit.getDefaultToolkit();
         Dimension screenDim = tools.getScreenSize();
         Dimension displayDim = new Dimension(750,600);
-        this.setLocation ( (int) (screenDim.width/2)-(displayDim.width/2), (int) (screenDim.height/2)-(displayDim.height/2));
+        this.setLocation (  (screenDim.width/2)-(displayDim.width/2), (screenDim.height/2)-(displayDim.height/2));
 
     }
     
@@ -222,17 +212,15 @@ public class MDISCISGUI extends JFrame {
         JPanel discControlPanel = new JPanel(new GridBagLayout());
         JLabel discLabel = new JLabel(guiConfig.getDiscLabelText());
         discLabel.setFont(new Font(FONT_NAME, Font.BOLD, 14));
-        discModel = new DefaultComboBoxModel<Integer>();
+        discModel = new DefaultComboBoxModel<>();
         for ( int i = 0; i < discStore.getNumDiscs(); i++ ) {
             discModel.addElement(discStore.getDiscNumber(i));
         }
-        discBox = new JComboBox<Integer>(discModel);
+        discBox = new JComboBox<>(discModel);
         discBox.setFont(new Font(FONT_NAME, Font.PLAIN, 14));
-        discBox.addItemListener( new ItemListener() {
-            public void itemStateChanged ( ItemEvent e ) {
-            	if ( discBox.getSelectedItem() != null ) { 
-            		processNextTrackButton(1, (Integer) discBox.getSelectedItem());
-            	}
+        discBox.addItemListener(e -> {
+            if ( discBox.getSelectedItem() != null ) {
+                processNextTrackButton(1, (Integer) discBox.getSelectedItem());
             }
         });
         //Add label and box + then spacer.
@@ -242,30 +230,18 @@ public class MDISCISGUI extends JFrame {
         //Now add a clear disc button.
         clearDiscButton = new JButton(guiConfig.getClearDiscButtonText()); 
         clearDiscButton.setEnabled(discStore.getNumDiscs() > 0); 
-        clearDiscButton.addActionListener(new ActionListener() {
-            public void actionPerformed ( ActionEvent e ) {
-                clearDisc((Integer) discBox.getSelectedItem());
-            }
-        });
+        clearDiscButton.addActionListener(e -> clearDisc((Integer) discBox.getSelectedItem()));
         discControlPanel.add(clearDiscButton);
         discControlPanel.add(Box.createRigidArea(new Dimension(5,0)));
         //Now create the delete disc button.
         deleteDiscButton = new JButton(guiConfig.getDeleteDiscButtonText());
         deleteDiscButton.setEnabled(discStore.getNumDiscs() > 0); 
-        deleteDiscButton.addActionListener(new ActionListener() {
-            public void actionPerformed ( ActionEvent e ) {
-                deleteDisc((Integer) discBox.getSelectedItem());
-            }
-        });
+        deleteDiscButton.addActionListener(e -> deleteDisc((Integer) discBox.getSelectedItem()));
         discControlPanel.add(deleteDiscButton);
         discControlPanel.add(Box.createRigidArea(new Dimension(25,0)));
         //Now create add another disc button.
         JButton addDiscButton = new JButton(guiConfig.getAddDiscButtonText());
-        addDiscButton.addActionListener(new ActionListener() {
-            public void actionPerformed ( ActionEvent e ) {
-                addAnotherDisc();
-            }
-        });
+        addDiscButton.addActionListener(e -> addAnotherDisc());
         discControlPanel.add(addDiscButton);
         discControlPanel.add(Box.createRigidArea(new Dimension(0,10)));
         return discControlPanel;
@@ -283,21 +259,15 @@ public class MDISCISGUI extends JFrame {
         JMenuItem menuItem;
 
         menuItem = new JMenuItem(menuConfig.getNewText());
-        menuItem.addActionListener (new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                MDISCISGUI.this.newFile(JOptionPane.showOptionDialog(MDISCISGUI.this, guiConfig.getNewDialogMessage(), guiConfig.getNewDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[] { guiConfig.getYesOptionText(), guiConfig.getNoOptionText() }, guiConfig.getNoOptionText()));
-            }
-        });
+        menuItem.addActionListener (e -> MDISCISGUI.this.newFile(JOptionPane.showOptionDialog(MDISCISGUI.this, guiConfig.getNewDialogMessage(), guiConfig.getNewDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[] { guiConfig.getYesOptionText(), guiConfig.getNoOptionText() }, guiConfig.getNoOptionText())));
         fileMenu.add(menuItem);
 
         menuItem = new JMenuItem(menuConfig.getLoadText());
-        menuItem.addActionListener (new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	int result = showOptionDialog(guiConfig.getLoadDialogMessage(), guiConfig.getLoadDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if ( result == JOptionPane.YES_OPTION ) {
-                	JFileChooser fileChooser = MDISCISGUI.this.showOpenFileDialog();
-                	MDISCISGUI.this.loadFile(fileChooser.showOpenDialog(MDISCISGUI.this), fileChooser.getSelectedFile());
-                }
+        menuItem.addActionListener (e -> {
+            int result = showOptionDialog(guiConfig.getLoadDialogMessage(), guiConfig.getLoadDialogTitle(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if ( result == JOptionPane.YES_OPTION ) {
+                JFileChooser fileChooser = MDISCISGUI.this.showOpenFileDialog();
+                MDISCISGUI.this.loadFile(fileChooser.showOpenDialog(MDISCISGUI.this), fileChooser.getSelectedFile());
             }
         });
         fileMenu.add(menuItem);
@@ -305,42 +275,32 @@ public class MDISCISGUI extends JFrame {
         fileMenu.addSeparator();
 
         menuItem = new JMenuItem(menuConfig.getSaveText());
-        menuItem.addActionListener (new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	JFileChooser fileChooser = MDISCISGUI.this.showSaveFileDialog();
-                MDISCISGUI.this.saveFile(fileChooser.showSaveDialog(MDISCISGUI.this), fileChooser.getSelectedFile());
-            }
+        menuItem.addActionListener (e -> {
+            JFileChooser fileChooser = MDISCISGUI.this.showSaveFileDialog();
+            MDISCISGUI.this.saveFile(fileChooser.showSaveDialog(MDISCISGUI.this), fileChooser.getSelectedFile());
         });
         fileMenu.add(menuItem);
 
         fileMenu.addSeparator();
 
         menuItem = new JMenuItem(menuConfig.getExitText());
-        menuItem.addActionListener (new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                exit();
-            }
-        });
+        menuItem.addActionListener (e -> exit());
         fileMenu.add(menuItem);
 
         JMenu helpMenu = new JMenu(menuConfig.getHelpText());
         menuBar.add(helpMenu);
 
         menuItem = new JMenuItem(menuConfig.getContentsText());
-        menuItem.addActionListener (new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                HelpScreen screen = new HelpScreen(helpConfig);
-                screen.displayScreen();
-            }
+        menuItem.addActionListener (e -> {
+            HelpScreen screen = new HelpScreen(helpConfig);
+            screen.displayScreen();
         });
         helpMenu.add(menuItem);
 
         menuItem = new JMenuItem(menuConfig.getAboutText());
-        menuItem.addActionListener (new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                SplashScreen screen = new SplashScreen(true, guiConfig);
-                screen.displayScreen();
-            }
+        menuItem.addActionListener (e -> {
+            SplashScreen screen = new SplashScreen(true, guiConfig);
+            screen.displayScreen();
         });
         helpMenu.add(menuItem);
     }
@@ -368,6 +328,10 @@ public class MDISCISGUI extends JFrame {
         //Initialise button arrays.
         JButton[] editTrackButtons = new JButton[guiConfig.getNumDisplayTracks()];
         JButton[] deleteTrackButtons = new JButton[guiConfig.getNumDisplayTracks()];
+        //Enable the buttons if tracks is greater than 10.
+        if ( discBox.getSelectedItem() != null && discStore.getDisc((Integer) discBox.getSelectedItem()).getNumTracks() > 10 ) {
+            nextTracksButton.setEnabled(true);
+        }
         //Do some test data for the moment.
         for ( int i = 0; i < guiConfig.getNumDisplayTracks(); i++ ) {
             //Create a panel.
@@ -700,5 +664,5 @@ public class MDISCISGUI extends JFrame {
         gui.displayScreen();
         context.close();
     }
-            
+
 }
