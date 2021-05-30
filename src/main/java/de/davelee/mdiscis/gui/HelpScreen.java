@@ -75,9 +75,7 @@ public class HelpScreen extends JFrame {
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 10))); //Spacer.
         
         //Create grid layout - 2 to 1.
-        JPanel helpPanel = new JPanel();
-        helpPanel.setLayout(new BoxLayout( helpPanel, BoxLayout.LINE_AXIS ) );
-        helpPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        JPanel helpPanel = new JPanel(new GridLayout(1,2,5,5));
         
         //Create left hand panel.
         JPanel leftPanel = new JPanel();
@@ -113,7 +111,7 @@ public class HelpScreen extends JFrame {
         
         //Add topics list.
         JPanel topicListPanel = new JPanel(new BorderLayout());
-        topicsModel = new DefaultListModel<String>();
+        topicsModel = new DefaultListModel<>();
         topicsModel.addElement(helpConfig.getWelcomeOptionText()); 
         topicsModel.addElement(helpConfig.getMainScreenOptionText());
         topicsModel.addElement(helpConfig.getNewDiscStoreOptionText()); 
@@ -126,30 +124,28 @@ public class HelpScreen extends JFrame {
         topicsModel.addElement(helpConfig.getEditTrackOptionText());
         topicsModel.addElement(helpConfig.getDeleteTrackOptionText());
 
-        topicsList = new JList<String>(topicsModel);
+        topicsList = new JList<>(topicsModel);
         topicsList.setVisibleRowCount(10);
         topicsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //Default.
         topicsList.setSelectedIndex(0);
         //Action Listener for when a particular help topic is selected.
-        topicsList.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged ( ListSelectionEvent lse ) {
-                //Get selected item.
-                String selectedItem;
-                try {
-                    selectedItem = topicsList.getSelectedValue().toString();
-                } catch ( NullPointerException npe ) {
-                	LOG.warn("No topics in list ", npe);
-                    if ( topicsList.getModel().getSize() > 0 ) {
-                        selectedItem = topicsList.getModel().getElementAt(0).toString();
-                        topicsList.setSelectedValue(selectedItem, true);
-                    } else {
-                        selectedItem = "";
-                    }
+        topicsList.addListSelectionListener(lse -> {
+            //Get selected item.
+            String selectedItem;
+            try {
+                selectedItem = topicsList.getSelectedValue();
+            } catch ( NullPointerException npe ) {
+                LOG.warn("No topics in list ", npe);
+                if ( topicsList.getModel().getSize() > 0 ) {
+                    selectedItem = topicsList.getModel().getElementAt(0);
+                    topicsList.setSelectedValue(selectedItem, true);
+                } else {
+                    selectedItem = "";
                 }
-                //If loading content fails, then stack trace and dispose.
-                loadContent(selectedItem);
             }
+            //If loading content fails, then stack trace and dispose.
+            loadContent(selectedItem);
         });
         JScrollPane topicsPane = new JScrollPane(topicsList);
         topicListPanel.add(topicsPane, BorderLayout.CENTER);
@@ -209,7 +205,7 @@ public class HelpScreen extends JFrame {
      * This method is usually called by the constructor.
      */
     public void initialiseContent ( ) {
-    	contentUrls = new HashMap<String, String>();
+    	contentUrls = new HashMap<>();
     	contentUrls.put(helpConfig.getWelcomeOptionText(), helpConfig.getWelcomeOptionPage());
     	contentUrls.put(helpConfig.getMainScreenOptionText(), helpConfig.getMainScreenOptionPage());
     	contentUrls.put(helpConfig.getNewDiscStoreOptionText(), helpConfig.getNewDiscStoreOptionPage());
@@ -242,15 +238,15 @@ public class HelpScreen extends JFrame {
      */
     public void updateList ( String text ) {
         //Create temp model.
-        DefaultListModel<String> tempModel = new DefaultListModel<String>();
+        DefaultListModel<String> tempModel = new DefaultListModel<>();
         //If text is blank then set tempModel to fullModel.
         if ( "".equalsIgnoreCase(text) ) {
             tempModel = topicsModel;
         } else {
         	//Otherwise, add those which have this prefix.
             for ( int i = 0; i < topicsModel.size(); i++ ) {
-                if ( includeString(text, topicsModel.get(i).toString()) ) {
-                    tempModel.addElement(topicsModel.get(i).toString());
+                if ( includeString(text, topicsModel.get(i)) ) {
+                    tempModel.addElement(topicsModel.get(i));
                 }
             }
         }
