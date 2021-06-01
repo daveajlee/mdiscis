@@ -617,6 +617,7 @@ public class MDISCISGUI extends JFrame {
     public void newFile ( final int result ) {
         //Check that the user wants to lose data.
         if ( result == JOptionPane.YES_OPTION ) {
+            discStore = new DiscStore();
             MDISCISGUI gui = new MDISCISGUI(discStore, guiConfig, menuConfig, helpConfig, addDialogConfig);
             gui.displayScreen();
             gui.statusBar.setText(guiConfig.getNewSuccessText());
