@@ -31,7 +31,7 @@ public class DiscStore {
      * Default constructor - initialise variables.
      */
     public DiscStore ( ) {
-        theDiscs = new LinkedList<Disc>();
+        theDiscs = new LinkedList<>();
     }
     
     /**
@@ -70,9 +70,9 @@ public class DiscStore {
      * @return a <code>Disc</code> object.
      */
     public Disc getDisc ( int discNumber ) {
-        for ( int i = 0; i < theDiscs.size(); i++ ) {
-            if ( theDiscs.get(i).getDiscNumber() == discNumber ) {
-                return theDiscs.get(i);
+        for (Disc theDisc : theDiscs) {
+            if (theDisc.getDiscNumber() == discNumber) {
+                return theDisc;
             }
         }
         //Null if not found.
@@ -203,7 +203,7 @@ public class DiscStore {
     	File fileCopy = f;
         //Check it has correct extension!
         if ( !fileCopy.getName().endsWith(".mdi") ) { 
-        	fileCopy = new File(f.getName() + ".mdi"); 
+        	fileCopy = new File(f.getAbsolutePath() + ".mdi");
         }
         //Create DOM instance.
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -217,7 +217,7 @@ public class DiscStore {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(new FileOutputStream(f));
+            StreamResult result = new StreamResult(new FileOutputStream(fileCopy));
             transformer.transform(source, result);
             return true;
         } catch ( Exception e ) {
@@ -236,15 +236,13 @@ public class DiscStore {
         Element discStore = doc.createElement("discstore");
         doc.appendChild(discStore);
         //Create disc elements.
-        for ( int i = 0; i < theDiscs.size(); i++ ) {
-            //Store the disc to improve efficiency.
-            Disc myDisc = theDiscs.get(i);
+        for (Disc myDisc : theDiscs) {
             //First of all, create the disc element.
             Element disc = doc.createElement("disc");
             //Set number as attribute.
             disc.setAttribute("number", "" + myDisc.getDiscNumber());
             //Now go through all of the tracks and add them to this disc.
-            for ( int j = 0; j < myDisc.getNumTracks(); j++ ) {
+            for (int j = 0; j < myDisc.getNumTracks(); j++) {
                 //Again store track to improve efficiency.
                 Track myTrack = myDisc.getTrack(j);
                 //Create element for this track.
@@ -273,7 +271,7 @@ public class DiscStore {
      */
     private boolean createStoreFromFile ( Document document ) {
         //Wipe all discs first of all.
-        theDiscs = new LinkedList<Disc>();
+        theDiscs = new LinkedList<>();
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
             //Create the discs.

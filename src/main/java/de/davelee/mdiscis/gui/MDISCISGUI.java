@@ -329,7 +329,7 @@ public class MDISCISGUI extends JFrame {
         JButton[] editTrackButtons = new JButton[guiConfig.getNumDisplayTracks()];
         JButton[] deleteTrackButtons = new JButton[guiConfig.getNumDisplayTracks()];
         //Enable the buttons if tracks is greater than 10.
-        if ( discBox.getSelectedItem() != null && discStore.getDisc((Integer) discBox.getSelectedItem()).getNumTracks() > 10 ) {
+        if ( discBox.getSelectedItem() != null && nextTracksButton != null && discStore.getDisc((Integer) discBox.getSelectedItem()).getNumTracks() > 10 ) {
             nextTracksButton.setEnabled(true);
         }
         //Do some test data for the moment.
