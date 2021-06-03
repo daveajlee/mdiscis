@@ -4,30 +4,57 @@
 
 	<groupId>de.davelee</groupId>
 	<artifactId>mdiscis</artifactId>
-	<version>2.2.0-BETA-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>mdiscis</name>
-	<url>http://maven.apache.org</url>
+	<name>MDISCIS - MiniDISC Information System</name>
+	<version>2.2.0-BETA-SNAPSHOT</version>
+	<description>MDISCIS is a java program which acts as an information system for Minidiscs.</description>
+	<url>https://www.davelee.de</url>
+	<developers>
+		<developer>
+			<id>1</id>
+			<name>David A J Lee</name>
+			<url>https://www.davelee.de</url>
+		</developer>
+	</developers>
+	<licenses>
+		<license>
+			<name>GNU General Public Licence</name>
+			<url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<slf4j.version>1.7.7</slf4j.version>
+		<slf4j.version>1.7.30</slf4j.version>
 		<log4j.version>2.14.1</log4j.version>
 		<spring.version>5.2.4.RELEASE</spring.version>
+		<junit.version>4.13.2</junit.version>
 	</properties>
 
+	<!-- Git Connection -->
 	<scm>
-		<connection>scm:git:git://dal109txl@bitbucket.org/dal109txl/mdiscis.git</connection>
-		<developerConnection>scm:git:https://dal109txl@bitbucket.org/dal109txl/mdiscis.git</developerConnection>
-		<url>https://dal109txl@bitbucket.org/dal109txl/mdiscis.git</url>
+		<connection>scm:git:https://github.com/daveajlee/mdiscis</connection>
+		<url>https://github.com/daveajlee/mdiscis</url>
+		<tag>HEAD</tag>
 	</scm>
 
+	<!-- GitHub Packages -->
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub daveajlee Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/daveajlee/mdiscis</url>
+		</repository>
+	</distributionManagement>
+
 	<dependencies>
+		<!-- JUnit version -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -69,140 +96,44 @@
 			<artifactId>log4j-slf4j-impl</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-all</artifactId>
-			<version>1.3</version>
-		</dependency>
 	</dependencies>
-
-	<distributionManagement>
-		<repository>
-			<id>deployment</id>
-			<name>Internal Releases</name>
-			<url>http://localhost:9002/repository/maven-releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>deployment</id>
-			<name>Internal Snapshot Releases</name>
-			<url>http://localhost:9002/repository/maven-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
-	<profiles>
-		<profile>
-			<id>analysis</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>cobertura-maven-plugin</artifactId>
-						<version>2.7</version>
-						<configuration>
-							<formats>
-								<format>html</format>
-								<format>xml</format>
-							</formats>
-						</configuration>
-						<executions>
-							<execution>
-								<id>install</id>
-								<phase>install</phase>
-								<goals>
-									<goal>cobertura</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>2.17</version>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>aggregate</id>
-								<phase>install</phase>
-								<goals>
-									<goal>aggregate</goal>
-								</goals>
-							</execution>
-						</executions>
-						<!--<configuration>
-                            <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-                            <docletArtifact>
-                                <groupId>org.umlgraph</groupId>
-                                <artifactId>umlgraph</artifactId>
-                                <version>5.6.6</version>
-                            </docletArtifact>
-                            <additionalparam>-horizontal -attributes -enumconstants
-                                -enumerations -operations -types -visibility -inferrel -inferdep
-                                -hide java.* -inferrel -collpackages java.util.*</additionalparam>
-                            <show>public</show>
-                        </configuration>-->
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-pmd-plugin</artifactId>
-						<version>3.6</version>
-						<executions>
-							<execution>
-								<id>install</id>
-								<phase>install</phase>
-								<goals>
-									<goal>pmd</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>findbugs-maven-plugin</artifactId>
-						<version>3.0.4</version>
-						<configuration>
-							<xmlOutput>true</xmlOutput>
-						</configuration>
-						<executions>
-							<execution>
-								<id>install</id>
-								<phase>install</phase>
-								<goals>
-									<goal>findbugs</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-checkstyle-plugin</artifactId>
-						<version>2.17</version>
-						<executions>
-							<execution>
-								<id>install</id>
-								<phase>install</phase>
-								<goals>
-									<goal>checkstyle</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>11</source>
+					<target>11</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
