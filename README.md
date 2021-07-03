@@ -2,6 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/08a75b0abb064c78863218778917c385)](https://app.codacy.com/manual/dave_33/mdiscis?utm_source=github.com&utm_medium=referral&utm_content=daveajlee/mdiscis&utm_campaign=Badge_Grade_Dashboard)
 
+![example workflow](https://github.com/daveajlee/mdiscis/actions/workflows/maven.yml/badge.svg)
 
 MDISCIS is a java program which acts as an information system for Minidiscs. Minidiscs do not allow artists and titles to be saved as track information. As a consequence, I developed MDISCIS in January 2003 as a solution to this problem. It acts as an information system for Minidiscs. The program has since then been regularly updated for new Java versions up to and including Java 11. MDISCIS is an open source project but is no longer in active development.
 
