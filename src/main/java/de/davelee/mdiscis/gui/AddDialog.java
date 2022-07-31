@@ -27,21 +27,60 @@ public class AddDialog extends JDialog {
 	private static final long serialVersionUID = -8397731490351720561L;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(DiscStore.class);
-	
-	private JComboBox<Integer> discBox;
+
+    /**
+     * Drop-down list of discs available to choose from.
+     */
+    private JComboBox<Integer> discBox;
+    /**
+     * Spinner to choose the start track.
+     */
     private JSpinner startTrackSpinner;
+    /**
+     * Spinner to choose the end track.
+     */
     private JSpinner endTrackSpinner;
+    /**
+     * Text field for the subject.
+     */
     private JTextField subjectField;
+    /**
+     * Text field for the speaker.
+     */
     private JTextField speakerField;
+    /**
+     * Text field for the talk title.
+     */
     private JTextField talkTitleField;
+    /**
+     * The spinner to choose the day of the month.
+     */
     private JSpinner dayDateSpinner;
+    /**
+     * The spinner to choose the month.
+     */
     private JSpinner monthDateSpinner;
+    /**
+     * The spinner to choose the year.
+     */
     private JSpinner yearDateSpinner;
 
+    /**
+     * Checkbox to choose if track has already been recorded
+     */
     private JCheckBox talkRecordedOption;
 
+    /**
+     * Storage object with all current discs.
+     */
     private DiscStore discStore;
+    /**
+     * Class representing the GUI which is displayed to the user.
+     */
     private MDISCISGUI gui;
+    /**
+     * Configuration class for the Add Dialog with translated texts.
+     */
     private AddDialogConfig addDialogConfig;
 
     /**

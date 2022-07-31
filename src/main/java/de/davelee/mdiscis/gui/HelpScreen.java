@@ -32,12 +32,30 @@ public class HelpScreen extends JFrame {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(HelpScreen.class);
 
+    /**
+     * Text field to search for topics.
+     */
     private JTextField searchField;
+    /**
+     * List of topics to choose from as a normal list.
+     */
     private JList<String> topicsList;
+    /**
+     * Model representing the list of topics.
+     */
     private DefaultListModel<String> topicsModel;
+    /**
+     * Pane to display HTML content.
+     */
     private JEditorPane displayPane;
-    
+
+    /**
+     * Map of Topics to URLs.
+     */
     private Map<String, String> contentUrls;
+    /**
+     * Configuration object with translated texts.
+     */
     private HelpConfig helpConfig;
     
     /**

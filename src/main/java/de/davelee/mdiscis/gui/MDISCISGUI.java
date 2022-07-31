@@ -31,28 +31,74 @@ public class MDISCISGUI extends JFrame {
 	private static final long serialVersionUID = -1685964927592081737L;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(MDISCISGUI.class);
-	
-	private DiscStore discStore;
+
+    /**
+     * Storage object of all discs available
+     */
+    private DiscStore discStore;
+    /**
+     * Status bar to show comments to the user
+     */
     private JLabel statusBar;
+    /**
+     * Model containing list of discs available
+     */
     private DefaultComboBoxModel<Integer> discModel;
+    /**
+     * Drop-down list to choose a disc.
+     */
     private JComboBox<Integer> discBox;
+    /**
+     * Button to clear a disc.
+     */
     private JButton clearDiscButton;
+    /**
+     * Button to delete a disc.
+     */
     private JButton deleteDiscButton;
+    /**
+     * Panel to show dialogs.
+     */
     private JPanel dialogPanel;
+    /**
+     * Panel to show content.
+     */
     private JPanel contentsPanel;
+    /**
+     * Button to display previous tracks.
+     */
     private JButton previousTracksButton;
+    /**
+     * Button to display next tracks.
+     */
     private JButton nextTracksButton;
+    /**
+     * Button to add tracks.
+     */
     private JButton addTracksButton;
 
     private static final String FONT_NAME = "Arial";
 
-    //This is the page of tracks that we are showing.
+    /**
+     * This is the page of tracks that we are showing.
+     */
     private int page = 1;
-    
-    //Config objects.
+
+    /**
+     * Config object for general GUI.
+     */
     private GUIConfig guiConfig;
+    /**
+     * Config object for menu.
+     */
     private MenuConfig menuConfig;
+    /**
+     * Config object for help.
+     */
     private HelpConfig helpConfig;
+    /**
+     * Configuration with translated texts for Add Dialog.
+     */
     private AddDialogConfig addDialogConfig;
 
     /**
