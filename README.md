@@ -11,7 +11,7 @@ MDISCIS is an application for indexing Minidiscs. Minidiscs do not allow artists
 
 You need the Java 11 Runtime Enviroment (or later) installed on your computer. If you are not sure which version of Java you have, run “java -version” from the command prompt (Windows) or from a terminal (Linux/Mac). You can download the latest version of the Java Runtime Environment <a href="http://java.sun.com/">here</a>.
 
-*   Windows/Linux/Mac: <a href="https://github-registry-files.githubusercontent.com/248596452/b26cf100-c57d-11eb-8554-dcea56993dad?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20210604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210604T194818Z&X-Amz-Expires=300&X-Amz-Signature=605e140ff7a17e74a56533895c967e6625860c8ec161d5bf3fa255b954fa365c&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=248596452&response-content-disposition=filename%3Dmdiscis-2.2.0.jar&response-content-type=application%2Foctet-stream">JAR File</a> (Download the file to a directory of your choice). After installation, open a console or terminal and navigate to the chosen folder. Once in this directory, run java -jar “mdiscis-2.4.0.jar”  MDISCIS contains an on-line help system to answer queries and provide further help during use of MDISCIS.
+*   Windows/Linux/Mac: <a href="https://github.com/daveajlee/mdiscis/packages/829607)">JAR File</a> (Download the file to a directory of your choice). After installation, open a console or terminal and navigate to the chosen folder. Once in this directory, run java -jar “mdiscis-2.4.0.jar”  MDISCIS contains an on-line help system to answer queries and provide further help during use of MDISCIS.
 
 ### Checkout and Contribute ###
 
