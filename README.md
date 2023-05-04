@@ -1,14 +1,11 @@
-# README #
+<p align="center">
+<img src="https://github.com/daveajlee/daveajlee.github.io/blob/master/common/assets/img/portfolio/mdisic-logo-white.png" alt="MDISCIS" width="300" height="300">
+</p>
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/08a75b0abb064c78863218778917c385)](https://app.codacy.com/manual/dave_33/mdiscis?utm_source=github.com&utm_medium=referral&utm_content=daveajlee/mdiscis&utm_campaign=Badge_Grade_Dashboard)
+<p align=center><a href="https://app.codacy.com/manual/dave_33/mdiscis?utm_source=github.com&utm_medium=referral&utm_content=daveajlee/mdiscis&utm_campaign=Badge_Grade_Dashboard"><img src="https://api.codacy.com/project/badge/Grade/08a75b0abb064c78863218778917c385" alt="Codacy Badge"> </a>
+</p>
 
-![example workflow](https://github.com/daveajlee/mdiscis/actions/workflows/maven.yml/badge.svg)
-
-MDISCIS is a java program which acts as an information system for Minidiscs. Minidiscs do not allow artists and titles to be saved as track information. As a consequence, I developed MDISCIS in January 2003 as a solution to this problem. It acts as an information system for Minidiscs. The program has since then been regularly updated for new Java versions up to and including Java 11. MDISCIS is an open source project but is no longer in active development.
-
-## Repository contains current version and source code of MDISCIS ##
-
-*   This repository contains the current version of MDISCIS and the current source code in Java.
+MDISCIS is an application for indexing Minidiscs. Minidiscs do not allow artists and titles to be saved as track information. As a consequence, I developed MDISCIS in January 2003 as a solution to this problem. It acts as an information system for Minidiscs. The program has since then been regularly updated for new Java versions up to and including Java 11. MDISCIS is an open source project but is no longer in active development.
 
 ### How to run MDISCIS without checking out the code base ###
 
@@ -26,13 +23,3 @@ This repository contains the current version of MDISCIS and the current source c
 *   No database configuration is currently used.
 *   JUnit tests can be run either individually or collectively in the IDE or through maven.
 *   Releases can be built through Maven - this should happen only after permission from the Repo Owner!
-
-## Contribution guidelines ##
-
-*   Before developing a feature please discuss your ideas with the Repo Owner.
-*   Functional Tests should be written through JUnit and ensure a code coverage of at least 70%.
-*   Code review should take place before a release is built and involve the Repo Owner and the Contributor.
-
-## Contact Person ##
-
-*   Dave Lee (Repo Owner)
