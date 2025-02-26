@@ -9,7 +9,7 @@ MDISCIS is an application for indexing Minidiscs. Minidiscs do not allow artists
 
 ### How to run MDISCIS without checking out the code base ###
 
-You need the Java 11 Runtime Enviroment (or later) installed on your computer. If you are not sure which version of Java you have, run “java -version” from the command prompt (Windows) or from a terminal (Linux/Mac). You can download the latest version of the Java Runtime Environment <a href="http://java.sun.com/">here</a>.
+You need the Java 17 Runtime Enviroment (or later) installed on your computer. If you are not sure which version of Java you have, run “java -version” from the command prompt (Windows) or from a terminal (Linux/Mac). You can download the latest version of the Java Runtime Environment <a href="http://java.sun.com/">here</a>.
 
 *   Windows/Linux/Mac: <a href="https://github.com/daveajlee/mdiscis/packages/829607)">JAR File</a> (Download the file to a directory of your choice). After installation, open a console or terminal and navigate to the chosen folder. Once in this directory, run java -jar “mdiscis-2.4.0.jar”  MDISCIS contains an on-line help system to answer queries and provide further help during use of MDISCIS.
 
