@@ -17,7 +17,7 @@ You need the Java 11 Runtime Enviroment (or later) installed on your computer. I
 
 This repository contains the current version of MDISCIS and the current source code in Java:
 
-*   Clone the git branch and import the project in your favourite IDE.
+*   Clone the git branch and import the project in an IDE.
 *   The current main class is MDISCISGUI.
 *   Dependencies are managed through the pom.xml file and Apache Maven.
 *   No database configuration is currently used.
