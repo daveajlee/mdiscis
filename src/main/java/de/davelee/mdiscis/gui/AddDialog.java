@@ -148,7 +148,7 @@ public class AddDialog extends JDialog {
         	Calendar now = Calendar.getInstance();
             dayDateSpinner = new JSpinner(new SpinnerNumberModel(now.get(Calendar.DAY_OF_MONTH),1,31,1));
             monthDateSpinner = new JSpinner(new SpinnerNumberModel(now.get(Calendar.MONTH) + 1,1,12,1));
-            yearDateSpinner = new JSpinner(new SpinnerNumberModel(now.get(Calendar.YEAR),2003,2023,1));
+            yearDateSpinner = new JSpinner(new SpinnerNumberModel(now.get(Calendar.YEAR),2003,2043,1));
         }
         JSpinner.NumberEditor yearDisplayer = new JSpinner.NumberEditor(yearDateSpinner,"0000");
         yearDateSpinner.setEditor(yearDisplayer);
