@@ -138,7 +138,7 @@ public class AddDialog extends JDialog {
         	//Initialise day, month and year to supplied date.
         	dayDateSpinner = new JSpinner(new SpinnerNumberModel(talk.getDate().getDayOfMonth(),1,31,1));
         	monthDateSpinner = new JSpinner(new SpinnerNumberModel(talk.getDate().getMonthValue(),1,12,1));
-        	yearDateSpinner = new JSpinner(new SpinnerNumberModel(talk.getDate().getYear(),2003,2023,1));
+        	yearDateSpinner = new JSpinner(new SpinnerNumberModel(talk.getDate().getYear(),2003,2043,1));
         	talkRecordedOption.setSelected(talk.isRecorded());
         } else {
         	subjectField = new JTextField("", 30);
