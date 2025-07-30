@@ -1,8 +1,8 @@
-<p align="center">
-<img src="https://github.com/daveajlee/daveajlee.github.io/blob/master/common/assets/img/portfolio/mdisic-logo-white.png" alt="MDISCIS" width="300" height="300">
+<p style="text-align:center;">
+<img src="https://www.davelee.de/common/assets/img/portfolio/mdiscis-logo.png" alt="MDISCIS" width="300" height="300">
 </p>
 
-<p align=center><a href="https://app.codacy.com/manual/dave_33/mdiscis?utm_source=github.com&utm_medium=referral&utm_content=daveajlee/mdiscis&utm_campaign=Badge_Grade_Dashboard"><img src="https://api.codacy.com/project/badge/Grade/08a75b0abb064c78863218778917c385" alt="Codacy Badge"> </a>
+<p style="text-align:center;"><a href="https://app.codacy.com/manual/dave_33/mdiscis?utm_source=github.com&utm_medium=referral&utm_content=daveajlee/mdiscis&utm_campaign=Badge_Grade_Dashboard"><img src="https://api.codacy.com/project/badge/Grade/08a75b0abb064c78863218778917c385" alt="Codacy Badge"> </a>
 </p>
 
 MDISCIS is an application for indexing Minidiscs. Minidiscs do not allow artists and titles to be saved as track information. As a consequence, I developed MDISCIS in January 2003 as a solution to this problem. It acts as an information system for Minidiscs. The program has since then been regularly updated for new Java versions up to and including Java 11. MDISCIS is an open source project but is no longer in active development.
