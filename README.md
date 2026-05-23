@@ -2,7 +2,7 @@
 <img src="https://www.davelee.de/common/assets/img/portfolio/mdiscis-white.webp" alt="MDISCIS" width="300" height="300">
 </p>
 
-<p>Recordable MDISCIS have been discontinued since February 2025. Therefore MDISCIS (Minidisc Indexing System) has been retired. The repository remains available for archive purposes but is no longer maintained.</p>
+<b>Recordable Minidics have been discontinued since February 2025. Therefore this repository MDISCIS (Minidisc Indexing System) has been retired. The repository remains available for archive purposes but is no longer maintained.</b>
 
 <p align="center"><a href="https://app.codacy.com/manual/dave_33/mdiscis?utm_source=github.com&utm_medium=referral&utm_content=daveajlee/mdiscis&utm_campaign=Badge_Grade_Dashboard"><img src="https://api.codacy.com/project/badge/Grade/08a75b0abb064c78863218778917c385" alt="Codacy Badge"> </a>
 </p>
